@@ -1,0 +1,217 @@
+<div class="content-head">
+  <span>编辑住户</span>
+  <i class="pull-right fa fa-remove fa-2x m-r-sm m-t-xs"
+     style="cursor: pointer"
+     ng-click="editVm.cancel()">
+  </i>
+</div>
+
+<form class="w-content-main create-form clearfix"
+      name="createVillageForm"
+      novalidate>
+  <div class="row"
+       ng-class="{true: 'm-b-lg', false: 'm-b-md'}[!createVillageForm.communityName.$valid&& (createVillageForm.communityName.$dirty || createVillageForm.submitted)]"
+       style="position: relative;">
+    <label class="w-label-control" style="width: 60px;">小区名称:
+    </label>
+    <div class="pull-left m-r-lg">
+      <input type="text"
+             class="w-xl p-h-xs m-r-xs w-form-control"
+             ng-model="createVm.model.communityName"
+             name="communityName"
+             ng-maxlength="20"
+             required
+      >
+    </div>
+    <div style="position: absolute;bottom: -20px;left: 72px;font-size: 12px;"
+         ng-if="createVillageForm.communityName.$dirty||createVillageForm.submitted">
+       <span class="form-error" ng-show="createVillageForm.communityName.$error.required">
+          公告标题不能为空
+        </span>
+       <span class="form-error" ng-show="createVillageForm.communityName.$error.maxlength">
+          公告标题不能超过20字
+        </span>
+    </div>
+  </div>
+
+  <div class="row"
+       style="position: relative;"
+       ng-class="{true: 'm-b-lg', false: 'm-b-md'}[!createVillageForm.areaPartition.$valid&& (createVillageForm.areaPartition.$dirty || createVillageForm.submitted)]">
+    <label class="w-label-control" style="width: 60px;">所属区域:
+    </label>
+    <div class="pull-left m-r-lg w-xl">
+      <select ui-select2
+              name="areaPartition"
+              ng-model="createVm.model.areaPartitionId"
+              data-placeholder="请选择所属区域"
+              required>
+        <option value=""></option>
+        <option ng-repeat="item in createVm.arrayList" ng-value="item.id">{{item.name}}</option>
+      </select>
+    </div>
+    <div style="position: absolute;bottom: -20px;left: 72px;font-size: 12px;"
+         ng-if="createVm.model.areaPartitionId && (createVillageForm.areaPartition.$dirty||createVillageForm.submitted)">
+      <span class="form-error" ng-show="createVillageForm.areaPartition.$error.required">
+        所属区域不能为空
+      </span>
+    </div>
+  </div>
+
+  <div class="row"
+       style="position: relative;"
+       ng-class="{true: 'm-b-lg', false: 'm-b-md'}[!createVillageForm.estateName.$valid&& (createVillageForm.estateName.$dirty || createVillageForm.submitted)]">
+    <label class="w-label-control" style="width: 60px;">所属物业:</label>
+    <div class="pull-left m-r-lg">
+      <input type="text"
+             ng-maxlength="20"
+             class="w-xl p-h-xs m-r-xs w-form-control"
+             ng-model="createVm.model.estateName"
+             name="estateName"
+             required
+      >
+    </div>
+    <div style="position: absolute;bottom: -20px;left: 72px;font-size: 12px;"
+         ng-if="createVillageForm.estateName.$dirty||createVillageForm.submitted">
+      <span class="form-error" ng-show="createVillageForm.estateName.$error.required">
+        物业名称不能为空
+      </span>
+      <span class="form-error" ng-show="createVillageForm.estateName.$error.maxlength">
+        物业名称不能超过20字
+      </span>
+    </div>
+  </div>
+
+  <div class="row"
+       style="position: relative;"
+       ng-class="{true: 'm-b-lg', false: 'm-b-md'}[!createVillageForm.estateTel.$valid&& (createVillageForm.estateTel.$dirty || createVillageForm.submitted)]">
+    <label class="w-label-control" style="width: 60px;">物业电话:</label>
+    <div class="pull-left m-r-lg">
+      <input type="text"
+             class="w-xl p-h-xs m-r-xs w-form-control"
+             ng-model="createVm.model.estateTel"
+             name="estateTel"
+             ng-pattern="/(^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$)|(^((\(\d{3}\))|(\d{3}\-))?(1[358]\d{9})$)/"
+             required
+      >
+    </div>
+    <div style="position: absolute;bottom: -20px;left: 72px;font-size: 12px;"
+         ng-if="createVillageForm.estateTel.$dirty||createVillageForm.submitted">
+      <span class="form-error" ng-show="createVillageForm.estateTel.$error.required">
+        物业电话不能为空
+      </span>
+      <span class="form-error" ng-show="createVillageForm.estateTel.$error.pattern">
+        物业电话格式不正确
+      </span>
+    </div>
+  </div>
+
+  <div class="row"
+       style="position: relative;"
+       ng-class="{true: 'm-b-lg', false: 'm-b-md'}[!createVillageForm.operationTel.$valid&& (createVillageForm.operationTel.$dirty || createVillageForm.submitted)]">
+    <label class="w-label-control" style="width: 60px;">运维电话:</label>
+    <div class="pull-left m-r-lg">
+      <input type="text"
+             class="w-xl p-h-xs m-r-xs w-form-control"
+             ng-model="createVm.model.operationTel"
+             name="operationTel"
+             ng-pattern="/(^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$)|(^((\(\d{3}\))|(\d{3}\-))?(1[3578]\d{9})$)/"
+             required
+      >
+    </div>
+    <div style="position: absolute;bottom: -20px;left: 72px;font-size: 12px;"
+         ng-if="createVillageForm.operationTel.$dirty||createVillageForm.submitted">
+      <span class="form-error" ng-show="createVillageForm.operationTel.$error.required">
+        运维电话不能为空
+      </span>
+      <span class="form-error" ng-show="createVillageForm.operationTel.$error.pattern">
+        运维电话格式不正确
+      </span>
+    </div>
+  </div>
+
+  <div class="row"
+       style="position: relative;"
+       ng-class="{true: 'm-b-lg', false: 'm-b-md'}[!createVillageForm.consumerTel.$valid&& (createVillageForm.consumerTel.$dirty || createVillageForm.submitted)]">
+    <label class="w-label-control" style="width: 60px;">客服热线:</label>
+    <div class="pull-left m-r-lg">
+      <input type="text"
+             class="w-xl p-h-xs m-r-xs w-form-control"
+             ng-model="createVm.model.consumerTel"
+             name="consumerTel"
+             ng-pattern="/(^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$)|(^((\(\d{3}\))|(\d{3}\-))?(1[3578]\d{9})$)/"
+             required
+      >
+    </div>
+    <div style="position: absolute;bottom: -20px;left: 72px;font-size: 12px;"
+         ng-if="createVillageForm.consumerTel.$dirty||createVillageForm.submitted">
+      <span class="form-error" ng-show="createVillageForm.consumerTel.$error.required">
+        客服热线不能为空
+      </span>
+      <span class="form-error" ng-show="createVillageForm.consumerTel.$error.pattern">
+        客服热线格式不正确
+      </span>
+    </div>
+  </div>
+
+  <div class="row"
+       style="position: relative;"
+       ng-class="{true: 'm-b-lg', false: 'm-b-md'}[!createVillageForm.userName.$valid&& (createVillageForm.userName.$dirty || createVillageForm.submitted)]">
+    <label class="w-label-control" style="width: 60px;">小区账号:</label>
+    <div class="pull-left m-r-lg">
+      <input type="text"
+             class="w-xl p-h-xs m-r-xs w-form-control"
+             ng-model="createVm.model.userName"
+             name="userName"
+             required
+      >
+    </div>
+    <div style="position: absolute;bottom: -20px;left: 72px;font-size: 12px;"
+         ng-if="createVillageForm.userName.$dirty||createVillageForm.submitted">
+      <span class="form-error" ng-show="createVillageForm.userName.$error.required">
+        小区账号不能为空
+      </span>
+    </div>
+  </div>
+
+  <div class="row"
+       style="position: relative;"
+       ng-class="{true: 'm-b-lg', false: 'm-b-md'}[!createVillageForm.password.$valid&& (createVillageForm.password.$dirty || createVillageForm.submitted)]">
+    <label class="w-label-control" style="width: 60px;">小区密码:</label>
+    <div class="pull-left m-r-lg">
+      <input type="text"
+             class="w-xl p-h-xs m-r-xs w-form-control"
+             ng-model="createVm.model.password"
+             name="password"
+             ng-pattern="/^\w{2,17}$/"
+             required
+      >
+    </div>
+    <div style="position: absolute;bottom: -20px;left: 72px;font-size: 12px;"
+         ng-if="createVillageForm.password.$dirty||createVillageForm.submitted">
+      <span class="form-error" ng-show="createVillageForm.password.$error.required">
+        小区密码不能为空
+      </span>
+      <span class="form-error" ng-show="createVillageForm.password.$error.pattern">
+        小区密码长度在3~18之间，只能包含字母、数字和下划线
+      </span>
+    </div>
+  </div>
+
+  <div class="row m-b-lg m-t-lg text-center">
+    <button class="btn btn-sm btn-primary p-h-lg m-r-md"
+            ng-click="createVm.createVillage(createVm.model)">
+      提&nbsp;交
+    </button>
+    <button class="btn btn-sm btn-stroke btn-primary p-h-lg"
+            ng-click="createVm.cancel()">
+      取&nbsp;消
+    </button>
+  </div>
+</form>
+
+<style>
+  .w-content-main {
+    padding-top: 18px;
+    padding-left: 23px;
+  }
+</style>

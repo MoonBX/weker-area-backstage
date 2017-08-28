@@ -1,0 +1,177 @@
+<div class="content-head">
+  <span>梦想小镇派发</span>
+  <i class="pull-right fa fa-remove fa-2x m-r-sm m-t-xs"
+     style="cursor: pointer"
+     ng-click="appearVm.cancel()">
+  </i>
+</div>
+<form class="c-detail-form create-form clearfix"
+      name="createVillageForm"
+      novalidate>
+  <div class="wrap-box clearfix flex-row m-b-md">
+    <div>
+      <label class="w-label-control m-r-md" style="width: 60px;">分区:</label>
+    </div>
+    <div class="middle flex-column m-r-lg">
+      <div class="m-b-sm" ng-repeat="item in appearVm.devicePartitionList">
+        <button class="btn btn-sm btn-primary btn-stroke"
+                ng-class="{true: 'active'}[item.active]"
+                ng-click="appearVm.getDeviceTask(item.communityPartitionId, $index)">
+          {{item.communityPartitionName}}
+        </button>
+        <label class="m-l-lg">
+          围墙机数：{{item.wallMachineNum}}台
+          &nbsp;&nbsp;&nbsp;
+          单元机数：{{item.unitMachineNum}}台
+        </label>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="wrap-box clearfix flex-row m-b-xs">
+    <div>
+      <label class="w-label-control m-r-md" style="width: 60px;">派发人员:</label>
+    </div>
+    <div class="middle flex-column m-r-lg">
+      <div class="machine-item m-b-sm" ng-repeat="item in appearVm.taskMemberExistList">
+        <input type="text" class="w-form-control w-md m-r-sm pull-left" ng-model="item.userName">
+        <label class="w-label-control m-r-lg pull-left">
+          <a href="javascript:;" ng-click="appearVm.deleteExistTaskMember(item.workTaskId, $index)">删除</a>
+        </label>
+      </div>
+      <div class="machine-item">
+        <input type="text" class="w-form-control w-md m-r-sm pull-left" ng-model="appearVm.taskMemberName">
+      </div>
+    </div>
+  </div>
+  <div class="wrap-box clearfix flex-row m-b-md">
+    <label class="w-label-control m-r-md" style="width: 60px;"></label>
+    <label class="w-label-control m-r-lg">
+      <a href="javascript:;" ng-click="appearVm.addTaskTempMember()">增加派发人员</a>
+    </label>
+  </div>
+
+  <div class="row text-center" ng-if="!appearVm.machineToggle">
+    <button class="btn btn-sm btn-primary p-h-lg m-r-md"
+            ng-click="appearVm.cancel()">
+      确&nbsp;定
+    </button>
+    <button class="btn btn-sm btn-stroke btn-primary p-h-lg"
+            ng-click="appearVm.cancel()">
+      取&nbsp;消
+    </button>
+  </div>
+
+
+  <div class="wrap-box clearfix flex-row m-b-xs wall-machine" ng-if="appearVm.machineToggle">
+    <div>
+      <label class="w-label-control m-r-md" style="width: 60px;">围墙机:</label>
+    </div>
+    <div class="middle flex-column m-r-lg">
+      <div class="machine-item m-b-sm" ng-repeat="item in appearVm.wallMachineExistList">
+        <input type="text"
+               class="w-form-control w-md m-r-sm pull-left"
+               ng-model="item.location">
+        <label class="w-label-control m-r-lg pull-left">
+          <a href="javascript:;"
+             ng-click="appearVm.deleteExistWallMachine(item.id, $index)">
+            删除
+          </a>
+        </label>
+      </div>
+      <div class="machine-item">
+        <input type="text"
+               class="w-form-control w-md m-r-sm pull-left"
+               ng-model="appearVm.wallMachineName">
+      </div>
+    </div>
+  </div>
+  <div class="wrap-box clearfix flex-row m-b-xs" ng-if="appearVm.machineToggle">
+    <label class="w-label-control m-r-md" style="width: 60px;"></label>
+    <label class="w-label-control m-r-lg">
+      <a href="javascript:;" ng-click="appearVm.addWallMachine()">增加围墙机</a>
+    </label>
+  </div>
+
+  <div class="wrap-box clearfix flex-row m-b-lg" ng-if="appearVm.machineToggle">
+    <label class="w-label-control m-r-md" style="width: 60px;">
+      单元机:
+    </label>
+
+    <div style="width: 560px;">
+
+      <table class="table table-striped wk-table m-r-sm pull-left"
+             style="width: 400px;" id="unitTable">
+        <thead>
+        <th>
+          <input type="checkbox" ng-click="appearVm.selectAll()" ng-checked="appearVm.checkAllToggle">
+        </th>
+        <th>单元信息</th>
+        <th>1F</th>
+        <th>2F</th>
+        <th>3F</th>
+        </thead>
+        <tr ng-repeat="item in appearVm.unitListGroup">
+          <td>
+            <input type="checkbox" ng-checked="appearVm.checkAllToggle" ng-click="appearVm.selectCurrent(item)">
+          </td>
+          <td>{{item.unitName}}</td>
+          <td>{{item.data[0].location}}</td>
+          <td ng-if="item.data[1].location == '2F'">
+            {{item.data[1].location}}
+          </td>
+          <td ng-if="item.data[1].location != '2F'">
+            X
+          </td>
+          <td ng-if="item.data[1].location == '3F' ||
+                     item.data[2].location == '3F'">
+            {{item.data[2].location}}
+          </td>
+          <td ng-if="item.data[1].location != '3F' &&
+                     item.data[2].location != '3F'">
+            X
+          </td>
+        </tr>
+      </table>
+
+      <div>
+        <label class="w-label-control m-r-sm">
+          <button class="btn btn-primary btn-sm" ng-click="appearVm.try_adding_unit('2F')">增加2F</button>
+        </label>
+        <label class="w-label-control m-r-sm">
+          <button class="btn btn-primary btn-sm" ng-click="appearVm.try_adding_unit('3F')">增加3F</button>
+        </label>
+        <label class="w-label-control m-r-sm">
+          <button class="btn btn-primary btn-sm" ng-click="appearVm.try_delete_unit('2F')">删除2F</button>
+        </label>
+        <label class="w-label-control m-r-sm">
+          <button class="btn btn-primary btn-sm" ng-click="appearVm.try_delete_unit('3F')">删除3F</button>
+        </label>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="row text-center" ng-if="appearVm.machineToggle">
+    <button class="btn btn-sm btn-primary p-h-lg m-r-md"
+            ng-click="appearVm.cancel()">
+      确&nbsp;定
+    </button>
+    <button class="btn btn-sm btn-stroke btn-primary p-h-lg"
+            ng-click="appearVm.cancel()">
+      取&nbsp;消
+    </button>
+  </div>
+</form>
+<style>
+  .modal-content{
+    width: 680px;
+  }
+</style>

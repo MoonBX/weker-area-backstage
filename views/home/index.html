@@ -1,0 +1,162 @@
+<div class="position-right" style="min-width: 1200px;">
+  <div class="m-t-lg m-r-md m-l-md m-b-md">
+    <div class="outline-banner card-shadow">
+      <div class="left">
+        <div class="address">{{homeVm.areaDeviceList.areaName}}</div>
+      </div>
+      <div class="middle">
+        <ul class="count-list">
+          <li>
+            <div class="divide primary"></div>
+            <div class="title">设备总数</div>
+            <div class="count">{{homeVm.areaDeviceList.deviceSum}}</div>
+          </li>
+          <li>
+            <div class="divide warning"></div>
+            <div class="title">不在线设备数</div>
+            <div class="count">{{homeVm.areaDeviceList.unlineNum}}</div>
+          </li>
+        </ul>
+      </div>
+      <div class="right">
+        <div class="title">设备在线</div>
+        <div class="count">
+          <uib-progressbar value="homeVm.areaDeviceList.onlineRatio"></uib-progressbar>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="m-h-md">
+    <div class="area-group">
+      <!--<div class="parent" v-for="(row, i) in listTemp">-->
+        <!--<div class="new" v-for="(cell, j) in row">-->
+      <div class="box" ng-repeat="item in homeVm.areaPartitionList">
+        <div class="item card-shadow" ng-repeat="item_c in item">
+          <div class="address">{{item_c.areaName}}</div>
+          <ul class="count-list">
+            <li>
+              <div class="divide primary"></div>
+              <div class="title">设备总数</div>
+              <div class="count">{{item_c.deviceSum}}</div>
+            </li>
+            <li>
+              <div class="divide warning"></div>
+              <div class="title">不在线设备数</div>
+              <div class="count">{{item_c.unlineNum}}</div>
+            </li>
+          </ul>
+          <div class="online">
+            <div class="title m-b-xs">设备在线
+              <span class="m-l-md">{{item_c.onlineRatio}}</span>
+            </div>
+            <div class="count"><uib-progressbar value="item_c.onlineRatio_fl"></uib-progressbar></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .outline-banner{
+    width: 100%;
+    height: 148px;
+    padding-top: 30px;
+    padding-left: 26px;
+    background-color: #fff;
+    background: url("../../images/home_bg.png") no-repeat center center;
+  }
+  .outline-banner .left {
+    float: left;
+    margin-right: 120px;
+  }
+  .outline-banner .left .address, .area-group .item .address{
+    color: #1C1C1C;
+    font-size: 20px;
+    font-weight: 900;
+  }
+  .outline-banner .left .address{
+    margin-top: 30px;
+  }
+  .outline-banner .middle .count-list, .area-group .count-list{
+    list-style: none;
+    margin-top: 10px;
+  }
+  .outline-banner .middle .count-list li, .area-group .count-list li{
+    float: left;
+    width: 106px;
+    height: 36px;
+  }
+  @media screen and (min-width: 1500px) {
+    .area-group .count-list li{
+      margin-right: 50px;
+    }
+  }
+  .area-group .count-list{
+    padding: 0;
+    overflow: hidden;
+    height: 72px;
+    margin-top: 25px;
+  }
+  .outline-banner .middle .count-list li{
+    margin-right: 67px;
+    padding-left: 10px;
+  }
+
+  .outline-banner .middle li .title,  .area-group .count-list li .title{
+    font-size: 15px;
+    color: #999999;
+    margin-top: -5px;
+  }
+  .outline-banner .middle li .count, .area-group .count-list li .count{
+    font-size: 26px;
+    font-weight: 600;
+  }
+  .outline-banner .middle li .divide, .area-group .count-list li .divide{
+    width: 30px;
+    margin-bottom: 12px;
+  }
+  .divide.primary{
+    border-bottom: 4px solid #4E85DE;
+  }
+  .divide.warning{
+    border-bottom: 4px solid #DE4E4E;
+  }
+  .outline-banner .right{
+    float: left;
+    width: 258px;
+    margin-left: 20px;
+  }
+  .outline-banner .right .title{
+    margin-top: 10px;
+    font-size: 15px;
+    margin-bottom: 22px;
+    color: #999;
+  }
+  .area-group .online{
+    margin-top: 26px;
+  }
+  .outline-banner .right .progress, .area-group .progress{
+    height: 6px;
+  }
+  .card-shadow{
+    box-shadow: 0 2px 6px 0 rgba(157, 155, 157, 0.3);
+  }
+  .box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .box .item:nth-child(1){
+    margin-left: 0;
+  }
+  .box .item{
+    flex-grow: 0;
+    width: 32%;
+    height: 234px;
+    background: #fff;
+    margin-left: 2%;
+    padding: 30px;
+  }
+</style>

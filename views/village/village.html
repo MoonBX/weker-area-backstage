@@ -1,0 +1,103 @@
+<div class="position-right">
+  <div class="panel m-v-lg m-h-sm">
+    <div class="panel-body">
+
+      <div class="g-table-banner p-v-lg p-h-md b-b">
+
+        <div class="tb-flex">
+          <div class="item m-b-md">
+            <label class="w-label-control">小区名称: </label>
+            <input type="text"
+                   ng-model="villageVm.selectList.name"
+                   class="form-control w-md pull-left m-r-lg"
+                   placeholder="请填写小区名称">
+          </div>
+          <div class="item m-b-md">
+            <label class="w-label-control">所属区域: </label>
+            <div class="w-sm pull-left m-r-lg">
+              <select ui-select2
+                      name="areaPartition"
+                      ng-model="villageVm.selectList.areaPartitionId"
+                      data-placeholder="请选择所属区域"
+                      required>
+                <option value=""></option>
+                <option ng-repeat="item in villageVm.arrayList" ng-value="item.id">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="item m-b-md">
+            <label class="w-label-control">物业名称: </label>
+            <input type="text"
+                   ng-model="villageVm.selectList.estateName"
+                   class="form-control w-md pull-left m-r-lg"
+                   placeholder="请填写物业名称">
+          </div>
+        </div>
+        <div class="row text-center">
+          <my-filter-button get-search="villageVm.getSearch(selectList, getList)"
+                            clear-session="villageVm.clearSession()"
+                            select-list="villageVm.selectList"
+                            get-list="villageVm.getCommunity">
+          </my-filter-button>
+        </div>
+
+      </div>
+
+      <div class="g-table-content m-t-md p-h-md">
+        <div class="prop-button-group pull-right m-b-sm">
+          <button class="btn btn-sm btn-primary m-r-sm"
+                  ng-click="villageVm.openModal('create','createCtl as createVm')">
+            添加小区
+          </button>
+        </div>
+
+        <table class="table table-striped wk-table">
+          <thead>
+          <th>所属区域</th>
+          <th>小区名称</th>
+          <th>物业名称</th>
+          <th>物业电话</th>
+          <th>创建时间</th>
+          <th>总户数</th>
+          <th>操作</th>
+          </thead>
+          <tr ng-repeat="item in villageVm.communityList">
+            <td>{{item.areaName}}</td>
+            <td>{{item.communityName}}</td>
+            <td>{{item.estateName}}</td>
+            <td>{{item.estateTel}}</td>
+            <td>{{item.gmtCreated | date: 'yyyy-MM-dd'}}</td>
+            <td>{{item.count}}</td>
+            <td>
+              <a href="javascript:;" class="m-r-xs"
+                 ng-click="villageVm.openModal('create','createCtl as createVm', item)">
+                修改
+              </a>
+              <a href="javascript:;" class="m-r-xs"
+                 ng-click="villageVm.openModal('room','roomCtl as roomVm', item)">
+                房号
+              </a>
+              <a href="javascript:;"
+                 ng-click="villageVm.openModal('appear','appearCtl as appearVm', item)">
+                派发
+              </a>
+            </td>
+          </tr>
+        </table>
+
+      </div>
+      <my-pagination
+        pages="villageVm.pages"
+        page-active="page.active"
+        is-first-page="villageVm.isFirstPage"
+        is-last-page="villageVm.isLastPage"
+        pages-num="villageVm.pagesNum"
+        pages-total="villageVm.pagesTotal"
+        page-skip="pageSkip"
+        select-page="villageVm.selectPage(pageTag, pageNo)">
+      </my-pagination>
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>

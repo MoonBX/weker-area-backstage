@@ -1,0 +1,82 @@
+<div class="g-table-banner p-v-lg p-h-md b-b">
+  <div class="tb-flex">
+    <div class="item m-b-sm">
+      <label class="w-label-control">小区名称:</label>
+      <input type="text"
+             class="form-control w-sm pull-left m-r-md"
+             ng-model="removeVm.selectList.name">
+    </div>
+
+    <div class="item m-b-md">
+      <label class="w-label-control">时间范围: </label>
+      <input type="text"
+             ng-model="removeVm.selectList.startTime"
+             class="form-control w-sm pull-left m-r-xs bg-date"
+             data-date-format="yyyy-MM-dd"
+             data-date-type="number"
+             data-min-date="02/10/86"
+             data-max-date="today"
+             data-autoclose="1"
+             bs-datepicker
+             placeholder="请选择起始时间"
+      />
+      <label class="pull-left datepicker-split">—</label>
+      <input type="text"
+             ng-model="removeVm.selectList.endTime"
+             class="form-control w-sm pull-left m-r-lg bg-date"
+             data-date-format="yyyy-MM-dd"
+             data-date-type="number"
+             data-min-date="{{removeVm.selectList.startTime}}"
+             data-max-date="today"
+             data-autoclose="1"
+             bs-datepicker
+             placeholder="请选择结束时间"
+      />
+    </div>
+  </div>
+
+  <div class="row text-center">
+    <my-filter-button get-search="removeVm.getSearch(selectList, getList)"
+                      clear-session="removeVm.clearSession()"
+                      select-list="removeVm.selectList"
+                      get-list="removeVm.getAlarm">
+    </my-filter-button>
+  </div>
+</div>
+
+<div class="g-table-content m-t-md p-h-md">
+  <table class="table table-striped wk-table">
+    <thead>
+    <th>小区名称</th>
+    <th>单元信息</th>
+    <th>门口编号</th>
+    <th>设备类型</th>
+    <th>报警时间</th>
+    <th>缩略图</th>
+    </thead>
+    <tr ng-repeat="item in removeVm.removeList">
+      <td>{{item.communityName}}</td>
+      <td>{{item.blockName}}</td>
+      <td>{{item.location}}</td>
+      <td>{{item.deviceType_cn}}</td>
+      <td>{{item.alartTime | date: "yyyy-MM-dd hh:mm"}}</td>
+      <td>
+        <div>
+          <img ng-src="{{item.snapshot}}" alt="..." style="width: 88px;">
+        </div>
+      </td>
+    </tr>
+  </table>
+  </div>
+<my-pagination
+  pages="removeVm.pages"
+  page-active="page.active"
+  is-first-page="removeVm.isFirstPage"
+  is-last-page="removeVm.isLastPage"
+  pages-num="removeVm.pagesNum"
+  pages-total="removeVm.pagesTotal"
+  page-skip="pageSkip"
+  select-page="removeVm.selectPage(pageTag, pageNo)">
+</my-pagination>
+
+<div class="clearfix"></div>

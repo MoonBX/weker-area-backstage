@@ -1,0 +1,53 @@
+<div class="position-right">
+  <div class="panel m-v-lg m-h-sm">
+    <div class="panel-body">
+
+      <div class="g-table-banner p-v-lg p-h-md b-b">
+        <div class="tb-flex">
+          <div class="item m-b-sm">
+            <label class="w-label-control">小区名称:</label>
+            <input type="text"
+                   class="form-control w-sm pull-left m-r-md"
+                   ng-model="propertyVm.selectList.title">
+          </div>
+        </div>
+
+        <div class="row text-center">
+          <my-filter-button>
+          </my-filter-button>
+        </div>
+      </div>
+
+      <div class="g-table-content m-t-md p-h-md">
+        <table class="table table-striped wk-table">
+          <thead>
+          <th>小区名称</th>
+          <th>住户地址</th>
+          <th>住户姓名</th>
+          <th>手机号码</th>
+          <th>住户身份</th>
+          <th>发送日期</th>
+          <th>内容</th>
+          <th>操作</th>
+          </thead>
+          <tr>
+            <td>梦想小镇</td>
+            <td>红柿苑-10-1-0302</td>
+            <td>刘雯</td>
+            <td>15757118202</td>
+            <td>家人</td>
+            <td>2017-10-21</td>
+            <td>拉拉队了卡里的克拉克似的付出是卡...</td>
+            <td>
+              <a href="javascript:;"
+                 ng-click="suggestVm.openModal('detail','detailCtl as detailVm')">
+                详情
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

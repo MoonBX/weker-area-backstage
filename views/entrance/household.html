@@ -1,0 +1,114 @@
+<div class="g-table-banner p-v-lg p-h-md b-b">
+  <div class="tb-flex">
+    <div class="item m-b-sm">
+      <label class="w-label-control">小区名称:</label>
+      <input type="text"
+             class="form-control w-sm pull-left m-r-md"
+             ng-model="householdVm.selectList.communityName">
+    </div>
+
+    <div class="item m-b-sm">
+      <label class="w-label-control">住户姓名:</label>
+      <input type="text"
+             class="form-control w-sm pull-left m-r-md"
+             ng-model="householdVm.selectList.name">
+    </div>
+
+    <div class="item m-b-sm">
+      <label class="w-label-control">手机号码:</label>
+      <input type="text"
+             class="form-control w-sm pull-left m-r-md"
+             ng-model="householdVm.selectList.mobile">
+    </div>
+
+    <div class="item m-b-sm">
+      <label class="w-label-control">卡号:</label>
+      <input type="text"
+             class="form-control w-sm pull-left m-r-md"
+             ng-model="householdVm.selectList.cardTypeName">
+    </div>
+
+    <div class="item m-b-md">
+      <label class="w-label-control">住户身份: </label>
+      <div class="w-sm pull-left m-r-lg">
+        <my-select model="householdVm.selectList.userType"
+                   placeholder="请选择所属区域"
+                   opt-list="['业主', '家人', '租客']">
+        </my-select>
+      </div>
+    </div>
+
+    <div class="item m-b-md">
+      <label class="w-label-control">住户房号: </label>
+      <my-cascade partition-id="householdVm.selectList.partitionId"
+                  block-id="householdVm.selectList.blockId"
+                  unit-id="householdVm.selectList.unitId"
+                  get-blocks="householdVm.getBlocks(partitionId)"
+                  get-units="householdVm.getUnits(blockId)"
+                  partitions="householdVm.block.partitions"
+                  blocks="householdVm.block.blocks"
+                  units="householdVm.block.units">
+      </my-cascade>
+    </div>
+
+    <div class="item m-b-sm">
+      <label class="w-label-control">住户状态: </label>
+      <div class="w-sm pull-left m-r-lg">
+        <my-select model="householdVm.selectList.status"
+                   placeholder="请选择公告状态"
+                   opt-list="['正常', '过期']">
+        </my-select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row text-center">
+    <my-filter-button get-search="householdVm.getSearch(selectList, getList)"
+                      clear-session="householdVm.clearSession()"
+                      select-list="householdVm.selectList"
+                      get-list="householdVm.getResident">
+    </my-filter-button>
+  </div>
+</div>
+<div class="g-table-content m-t-md p-h-md">
+  <table class="table table-striped wk-table">
+    <thead>
+    <th>小区名称</th>
+    <th>单元信息</th>
+    <th>住户姓名</th>
+    <th>手机号码</th>
+    <th width="25%">卡号</th>
+    <th>住户身份</th>
+    <th>住户状态</th>
+    <th>操作</th>
+    </thead>
+    <tr ng-repeat="item in householdVm.householdList">
+      <td>{{item.communityName}}</td>
+      <td>{{item.partitionName}}-{{item.blockName}}-{{item.unitName}}-{{item.roomNo}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.mobile}}</td>
+      <td>{{item.cardTypeName}}</td>
+      <td>{{item.userType_cn}}</td>
+      <td>{{item.status_cn}}</td>
+      <td>
+        <a href="javascript:;"
+           ng-click="householdVm.openModal('h-detail','hDetailCtl as hDetailVm', item)">
+          详情
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<my-pagination
+  pages="householdVm.pages"
+  page-active="page.active"
+  is-first-page="householdVm.isFirstPage"
+  is-last-page="householdVm.isLastPage"
+  pages-num="householdVm.pagesNum"
+  pages-total="householdVm.pagesTotal"
+  page-skip="pageSkip"
+  select-page="householdVm.selectPage(pageTag, pageNo)">
+</my-pagination>
+
+<div class="clearfix"></div>

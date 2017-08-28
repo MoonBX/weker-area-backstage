@@ -1,0 +1,8 @@
+.project
+bower_components/
+node_modules/
+*.swp
+.idea/
+build/
+stub/
+.DS_Store

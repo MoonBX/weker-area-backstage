@@ -1,0 +1,40 @@
+<div class="content-head">
+  <span>详情</span>
+  <i class="pull-right fa fa-remove fa-2x m-r-sm m-t-xs"
+     style="cursor: pointer"
+     ng-click="detailVm.cancel()">
+  </i>
+</div>
+<form class="w-content-main h-detail-form clearfix"
+      name="deviceDetailForm"
+      novalidate>
+  <div class="main-info">
+    <div class="row m-b-sm">
+      <span class="title">{{detailVm.model.communityName}} - {{detailVm.model.blockName}} - {{detailVm.model.location}}</span>
+      <span class="phone">{{detailVm.model.areaName}}</span>
+      <span class="state badge bg-success">{{detailVm.model.status_cn}}</span>
+    </div>
+  </div>
+  <div class="other-info">
+    <div class="row m-b-xs">
+      <span class="title">设备类型:</span>
+      <span class="value" style="margin-right: 110px">{{detailVm.model.type_cn}}</span>
+      <span class="title">锁具类型:</span>
+      <span class="value">{{detailVm.model.lockType_cn}}</span>
+    </div>
+    <div class="row m-b-xs">
+      <span class="title">安装信息:</span>
+      <span class="value" style="margin-right: 82px">{{detailVm.model.gmtCreated | date: "yyyy-MM-dd"}}</span>
+      <span class="title">用户人数:</span>
+      <span class="value">{{detailVm.model.amount}}人</span>
+    </div>
+    <div class="row m-b-xs">
+      <span class="title">设备SN:</span>
+      <span class="value">{{detailVm.model.sn}}</span>
+    </div>
+    <div class="row m-b-xs">
+      <span class="title">版本信息:</span>
+      <span class="value">{{detailVm.model.apkVersion}}</span>
+    </div>
+  </div>
+</form>

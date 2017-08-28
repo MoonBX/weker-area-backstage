@@ -1,0 +1,188 @@
+<div class="content-head" style="width: 780px;">
+  <span>添加房号</span>
+  <i class="pull-right fa fa-remove fa-2x m-r-sm m-t-xs"
+     style="cursor: pointer"
+     ng-click="roomVm.cancel()">
+  </i>
+</div>
+
+<form class="w-content-main room-form modal-split clearfix"
+      name="createRoomForm"
+      novalidate>
+  <div class="left p-md" style="overflow-y: scroll;">
+    <div class="m-b-sm b-b" style="padding-bottom: 10px">
+      <input type="text"
+             class="w-form-control"
+             ng-model="dataAdd"
+             placeholder="{{roomVm.placeholder}}"
+             ng-disabled="!roomVm.treeAddToggle"
+             style="display: inline-block; width: 150px;">
+      <button class="btn btn-primary btn-sm"
+              ng-click="roomVm.try_adding_a_branch(dataAdd)"
+              style="display: inline-block;margin-top: -1px;">
+        增加
+      </button>
+    </div>
+    <div class="m-b-sm b-b" style="padding-bottom: 10px">
+      <input type="text" placeholder="起始幢"
+             class="w-form-control" ng-model="start"
+             ng-disabled="!roomVm.twoInputToggle"
+             style="display: inline-block; width: 69px;"> -
+      <input type="text" placeholder="结束幢"
+             class="w-form-control" ng-model="end"
+             ng-disabled="!roomVm.twoInputToggle"
+             style="display: inline-block; width: 68px;">
+      <button class="btn btn-primary btn-sm"
+              ng-click="roomVm.try_adding_a_branch(start,end)"
+              style="display: inline-block;position: relative">
+        增加
+      </button>
+    </div>
+    <div class="m-b-sm b-b" style="padding-bottom: 10px">
+      <input type="text"
+             class="w-form-control"
+             ng-model="dataDelete"
+             disabled
+             style="display: inline-block; width: 150px;">
+      <button class="btn btn-danger btn-sm"
+              ng-click="roomVm.try_delete_a_branch(dataDelete)">
+        删除
+      </button>
+    </div>
+
+
+    <abn-tree tree-data="my_data"
+              tree-control="my_tree"
+              on-select="roomVm.getData(branch)"
+              icon-leaf         = "fa fa-file"
+              icon-expand       = "fa fa-plus"
+              icon-collapse     = "fa fa-minus"></abn-tree>
+  </div>
+  <div class="right p-md">
+    <div class="row m-b-md">
+      <label class="w-label-control" style="font-weight: 900;">增加方式: &nbsp;&nbsp;&nbsp;批量增加房号</label>
+    </div>
+
+    <div style="position: relative;">
+      <div class="m-b-md">
+        <label class="w-label-control" style="width: 60px;">起始楼层:</label>
+        <div class="pull-left m-r-lg">
+          <input type="text"
+                 ng-maxlength="20"
+                 ng-model="roomVm.list.startNo"
+                 class="w-md p-h-xs m-r-xs w-form-control"
+                 name="title"
+                 ng-disabled="!roomVm.roomMultiAdd"
+                 placeholder="示例: 1"
+                 required
+          >
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="m-b-md">
+        <label class="w-label-control" style="width: 60px;">结束楼层:</label>
+        <div class="pull-left m-r-lg">
+          <input type="text"
+                 ng-maxlength="20"
+                 ng-model="roomVm.list.endNo"
+                 class="w-md p-h-xs m-r-xs w-form-control"
+                 name="title"
+                 ng-disabled="!roomVm.roomMultiAdd"
+                 placeholder="示例: 10"
+                 required
+          >
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="m-b-md">
+        <label class="w-label-control" style="width: 60px;">每层几户:</label>
+        <div class="pull-left m-r-lg">
+          <input type="text"
+                 ng-maxlength="20"
+                 ng-model="roomVm.list.num"
+                 class="w-md p-h-xs m-r-xs w-form-control"
+                 name="title"
+                 ng-disabled="!roomVm.roomMultiAdd"
+                 placeholder="示例: 3"
+                 required
+          >
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="m-b-md">
+        <label class="w-label-control" style="width: 60px;">起始房号:</label>
+        <div class="pull-left m-r-lg">
+          <input type="text"
+                 ng-maxlength="20"
+                 ng-model="roomVm.list.code"
+                 class="w-md p-h-xs m-r-xs w-form-control"
+                 name="title"
+                 ng-disabled="!roomVm.roomMultiAdd"
+                 placeholder="示例: 0101"
+                 required>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="tip">
+        <div class="m-b-sm">温馨提示:</div>
+        <div>1、批量新增房间，若已存在对应房间名称，则系统将自动略过该房间不进行新增。</div>
+        <div>2、补零：楼层数、房号若小于10，则系统将自动在左边补一个”0”。</div>
+        <div>3、添加成功后，系统中自动生成的房间名称 = 楼层数 + 房号。</div>
+        <div>4、系统中的房间名称为4位数。</div>
+      </div>
+    </div>
+
+    <div class="row m-b-lg text-center" style="position: absolute;bottom: 20px;width: 80%">
+      <button class="btn btn-sm btn-primary p-h-lg m-r-md"
+              ng-click="roomVm.try_get_some_roomNo(roomVm.list)">
+        提&nbsp;交
+      </button>
+      <button class="btn btn-sm btn-stroke btn-primary p-h-lg"
+              ng-click="roomVm.cancel()">
+        取&nbsp;消
+      </button>
+    </div>
+
+  </div>
+</form>
+<style>
+  .modal-split{
+    width: 780px;
+    background: #F9FAFD;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 10px;
+    height: 530px;
+  }
+  .modal-split .left{
+    width: 32%;
+    float: left;
+    border-right:1px solid #d8d8d8;
+    height:100%;
+  }
+  .modal-split .right{
+    width: 68%;
+    float: left;
+    background: #fff;
+    border-bottom-right-radius: 10px;
+    height:100%;
+  }
+  span.indented.tree-label {
+    margin-left: 10px;
+  }
+
+  span.ivh-treeview-checkbox-wrapper {
+    position: relative;
+    top: -1px;
+  }
+  .room-form .tip{
+    position: absolute;
+    font-size: 12px;
+    width: 160px;
+    top: -30px;
+    right: 0;
+  }
+</style>

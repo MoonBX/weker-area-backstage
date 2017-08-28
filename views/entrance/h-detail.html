@@ -1,0 +1,56 @@
+<div class="content-head">
+  <span>详情</span>
+  <i class="pull-right fa fa-remove fa-2x m-r-sm m-t-xs"
+     style="cursor: pointer"
+     ng-click="hDetailVm.cancel()">
+  </i>
+</div>
+
+<form class="w-content-main h-detail-form clearfix"
+      name="householdDetailForm"
+      novalidate>
+  <div class="main-info">
+    <div class="row m-b-sm">
+      <span class="title">{{hDetailVm.model.name}}</span>
+      <span class="phone">{{hDetailVm.model.mobile}}</span>
+      <span class="state badge bg-success">{{hDetailVm.model.status_cn}}</span>
+    </div>
+    <div class="row m-b-sm">
+      <span class="address">{{hDetailVm.model.partitionName}}-{{hDetailVm.model.blockName}}-{{hDetailVm.model.unitName}}-{{hDetailVm.model.roomNo}}</span>
+    </div>
+  </div>
+  <div class="other-info">
+    <div class="row m-b-xs">
+      <span class="title">住户身份:</span>
+      <span class="value">{{hDetailVm.model.userType_cn}}</span>
+    </div>
+    <div class="row m-b-xs">
+      <span class="title">身份证号:</span>
+      <span class="value">{{hDetailVm.model.idCard}}</span>
+    </div>
+    <div class="row m-b-xs">
+      <span class="title">有效期限:</span>
+      <span class="value">{{hDetailVm.model.effectiveStartTime}} 至 {{hDetailVm.model.effectiveEndTime}}</span>
+    </div>
+    <div class="row m-b-xs">
+      <span class="title">卡类型:</span>
+      <span class="value">{{hDetailVm.model.name}}</span>
+    </div>
+    <div class="row m-b-xs">
+      <span class="title">卡号1:</span>
+      <span class="value">3242423424443</span>
+      <span class="title">卡号2:</span>
+      <span class="value">3242423424443</span>
+    </div>
+    <div class="row m-b-xs">
+      <span class="title">卡号3:</span>
+      <span class="value">3242423424443</span>
+      <span class="title">卡号3:</span>
+      <span class="value">3242423424443</span>
+    </div>
+  </div>
+</form>
+
+<style>
+
+</style>

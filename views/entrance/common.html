@@ -1,0 +1,103 @@
+<div class="g-table-banner p-v-lg p-h-md b-b">
+  <div class="tb-flex">
+    <div class="item m-b-sm">
+      <label class="w-label-control">小区名称:</label>
+      <input type="text"
+             class="form-control w-sm pull-left m-r-md"
+             ng-model="commonVm.selectList.communityName">
+    </div>
+
+    <div class="item m-b-sm">
+      <label class="w-label-control">住户姓名:</label>
+      <input type="text"
+             class="form-control w-sm pull-left m-r-md"
+             ng-model="commonVm.selectList.userName">
+    </div>
+
+    <div class="item m-b-sm">
+      <label class="w-label-control">手机号码:</label>
+      <input type="text"
+             class="form-control w-sm pull-left m-r-md"
+             ng-model="commonVm.selectList.mobile">
+    </div>
+
+    <div class="item m-b-sm">
+      <label class="w-label-control">卡号:</label>
+      <input type="text"
+             class="form-control w-sm pull-left m-r-md"
+             ng-model="commonVm.selectList.cardNo">
+    </div>
+
+    <div class="item m-b-md">
+      <label class="w-label-control">人员身份: </label>
+      <div class="w-sm pull-left m-r-lg">
+        <my-select model="commonVm.selectList.deviceType"
+                   placeholder="请选择人员身份"
+                   opt-list="['物业人员', '外部人员']">
+        </my-select>
+      </div>
+    </div>
+
+    <div class="item m-b-sm">
+      <label class="w-label-control">卡片状态: </label>
+      <div class="w-sm pull-left m-r-lg">
+        <my-select model="commonVm.selectList.status"
+                   placeholder="请选择卡片状态"
+                   opt-list="['正常', '过期']">
+        </my-select>
+      </div>
+    </div>
+  </div>
+  <div class="row text-center">
+    <my-filter-button get-search="commonVm.getSearch(selectList, getList)"
+                      clear-session="commonVm.clearSession()"
+                      select-list="commonVm.selectList"
+                      get-list="commonVm.getPublicCard">
+    </my-filter-button>
+  </div>
+
+</div>
+<div class="g-table-content m-t-md p-h-md">
+  <table class="table table-striped wk-table">
+    <thead>
+    <th>小区名称</th>
+    <th>人员姓名</th>
+    <th>人员身份</th>
+    <th>手机号码</th>
+    <th>卡类型</th>
+    <th>卡号</th>
+    <th>有效期</th>
+    <th>卡片状态</th>
+    <th>操作</th>
+    </thead>
+    <tr ng-repeat="item in commonVm.commonList">
+      <td>{{item.communityName}}</td>
+      <td>{{item.userName}}</td>
+      <td>{{item.userStatus_cn}}</td>
+      <td>{{item.mobile}}</td>
+      <td>{{item.cardType_cn}}</td>
+      <td>{{item.cardNo}}</td>
+      <td>{{item.startTime | date: 'yyyy-MM-dd'}} 至 {{item.endTime | date: 'yyyy-MM-dd'}}</td>
+      <td>{{item.status_cn}}</td>
+      <td>
+        <a href="javascript:;"
+           ng-click="commonVm.openModal('c-detail','cDetailCtl as cDetailVm')">
+          详情
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<my-pagination
+  pages="commonVm.pages"
+  page-active="page.active"
+  is-first-page="commonVm.isFirstPage"
+  is-last-page="commonVm.isLastPage"
+  pages-num="commonVm.pagesNum"
+  pages-total="commonVm.pagesTotal"
+  page-skip="pageSkip"
+  select-page="commonVm.selectPage(pageTag, pageNo)">
+</my-pagination>
+
+<div class="clearfix"></div>
