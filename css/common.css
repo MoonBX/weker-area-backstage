@@ -65,7 +65,7 @@ nav ul.nav li li a {
 .nav>li>a:hover, .nav.bg-inherit>li>a:hover,
 .nav>li>a:focus, .nav.bg-inherit>li>a:focus, .nav>li.active>a,
 .nav.bg-inherit>li.active>a {
-  background-color: #e3e5e7;
+  background-color: #fff;
   /*color: #23b2ee;*/
 }
 .bg-dark .nav>li:hover,

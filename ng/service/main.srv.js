@@ -79,11 +79,32 @@ function mainSrv($q, $http, httpSrv){
       return defer.promise;
     },
 
-    getPartitions: function(){
+    getCommunity: function(){
       var defer = $q.defer();
       $http({
         method: 'GET',
-        url: server + '/community/block/partitions',
+        url: server + '/community/query',
+        headers: {
+          'token': localStorage.wekerAreaToken,
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      })
+        .success(function(data){
+          console.log(data);
+          defer.resolve(data);
+        })
+        .error(function(error){
+          console.log(error);
+          defer.reject(error);
+        });
+      return defer.promise;
+    },
+
+    getPartitions: function(communityId){
+      var defer = $q.defer();
+      $http({
+        method: 'GET',
+        url: server + '/community/partition/list/'+communityId,
         headers: {
           'token': localStorage.wekerToken,
           'Content-Type': 'application/json;charset=UTF-8'
@@ -103,7 +124,7 @@ function mainSrv($q, $http, httpSrv){
       var defer = $q.defer();
       $http({
         method: 'GET',
-        url: server + '/community/block/'+partitionId+'/blocks',
+        url: server + '/community/block/list/'+partitionId,
         headers: {
           'token': localStorage.wekerToken,
           'Content-Type': 'application/json;charset=UTF-8'
@@ -123,7 +144,26 @@ function mainSrv($q, $http, httpSrv){
       var defer = $q.defer();
       $http({
         method: 'GET',
-        url: server + '/community/block/' + blockId + '/units',
+        url: server + '/community/unit/list/'+blockId,
+        headers: {
+          'token': localStorage.wekerToken,
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      })
+        .success(function (data) {
+          defer.resolve(data);
+        })
+        .error(function(data){
+          defer.reject();
+          console.log(data);
+        });
+      return defer.promise;
+    },
+    getRoomNo: function(unitId){
+      var defer = $q.defer();
+      $http({
+        method: 'GET',
+        url: server + '/community/unit/roomNo/list/'+unitId,
         headers: {
           'token': localStorage.wekerToken,
           'Content-Type': 'application/json;charset=UTF-8'
@@ -183,15 +223,6 @@ function mainSrv($q, $http, httpSrv){
       }
       var str = JSON.stringify(newobj);
       sessionStorage.filterList = str;
-      if(obj.unitId){
-        obj.partitionId = "";
-        obj.blockId = "";
-      }else if(!obj.unitId&&obj.blockId){
-        obj.partitionId = "";
-      }else if(!obj.unitId&&!obj.blockId&&obj.partitionId){
-        console.log('in');
-      }
-
       cb(1, obj);
     }
   };

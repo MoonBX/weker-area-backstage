@@ -17,6 +17,7 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
   vm.openModal = openModal;
   vm.pageNo = parseInt($location.search().id);
   vm.selectList = {};
+  vm.block={};
 
   function openModal(template, controller, item) {
     $modal.open({
@@ -33,6 +34,47 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
     })
   }
 
+  getCommunity();
+  function getCommunity(){
+    mainSrv.getCommunity().then(function(res){
+      console.log(res);
+      vm.block.communities = res.data;
+    })
+  }
+  vm.getPartitions = getPartitions;
+  function getPartitions(communityId){
+    console.log(communityId);
+    mainSrv.getPartitions(communityId).then(function(res){
+      console.log(res);
+      vm.block.partitions = res.data;
+    })
+  }
+
+  vm.getBlocks = getBlocks;
+  function getBlocks(partitionId){
+    console.log(partitionId);
+    mainSrv.getBlocks(partitionId).then(function(res){
+      console.log(res);
+      vm.block.blocks = res.data;
+    })
+  }
+
+  vm.getUnits = getUnits;
+  function getUnits(blockId){
+    console.log(blockId);
+    mainSrv.getUnits(blockId).then(function(res){
+      console.log(res);
+      vm.block.units = res.data;
+    })
+  }
+  vm.getRooms = getRooms;
+  function getRooms(unitId){
+    mainSrv.getRoomNo(unitId).then(function(res){
+      console.log(res);
+      vm.block.rooms = res.data;
+    })
+  }
+
   checkFilter();
   function checkFilter() {
     if (!sessionStorage.filterList) {
@@ -41,14 +83,13 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
       var obj = JSON.parse(sessionStorage.filterList);
       vm.selectList = obj;
       console.log(vm.selectList);
+      getPartitions(obj.communityId);
+      getBlocks(obj.partitionId);
+      getUnits(obj.blockId);
+      getRooms(obj.unitId);
       getResident(vm.pageNo, vm.selectList);
       $location.search('id', vm.pageNo);
     }
-  }
-
-  vm.getPartitions = getPartitions;
-  function getPartitions(){
-
   }
 
   vm.getSearch = getSearch;

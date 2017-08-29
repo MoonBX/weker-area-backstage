@@ -171,650 +171,53 @@ function config($stateProvider, $urlRouterProvider, $httpProvider, toastrConfig)
     })
 
 }
-(function() {
-  var module,
-    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
-
-  module = angular.module('angularBootstrapNavTree', []);
-
-  module.directive('abnTree', [
-    '$timeout', function($timeout) {
-      return {
-        restrict: 'E',
-        template:
-        "<ul class=\"nav nav-list nav-pills nav-stacked abn-tree\">" +
-        "<li ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\"" +
-        "ng-animate=\"'abn-tree-animate'\" " +
-        "ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'') + ' ' +row.classes.join(' ')\" " +
-        "class=\"abn-tree-row\">" +
-        "<div ng-click=\"user_clicks_branch(row.branch)\">" +
-        "<i ng-class=\"row.tree_icon\" " +
-        "ng-click=\"row.branch.expanded = !row.branch.expanded\" " +
-        "class=\"indented tree-icon\"> " +
-        "</i>" +
-        "<input type='checkbox' ng-model='apple' ng-change='user_check(row.branch)' checked>" +
-        "<span class=\"indented tree-label\">{{ row.label }} </span>" +
-        "</div>" +
-        "</li>" +
-        "</ul>",
-        replace: true,
-        scope: {
-          treeData: '=',
-          onSelect: '&',
-          initialSelection: '@',
-          treeControl: '='
-        },
-        link: function(scope, element, attrs) {
-          var error, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
-          error = function(s) {
-            console.log('ERROR:' + s);
-            debugger;
-            return void 0;
-          };
-          if (attrs.iconExpand == null) {
-            attrs.iconExpand = 'icon-plus  glyphicon glyphicon-plus  fa fa-plus';
-          }
-          if (attrs.iconCollapse == null) {
-            attrs.iconCollapse = 'icon-minus glyphicon glyphicon-minus fa fa-minus';
-          }
-          if (attrs.iconLeaf == null) {
-            attrs.iconLeaf = 'icon-file  glyphicon glyphicon-file  fa fa-file';
-          }
-          if (attrs.expandLevel == null) {
-            attrs.expandLevel = '3';
-          }
-          expand_level = parseInt(attrs.expandLevel, 10);
-          if (!scope.treeData) {
-            alert('no treeData defined for the tree!');
-            return;
-          }
-          if (scope.treeData.length == null) {
-            if (treeData.label != null) {
-              scope.treeData = [treeData];
-            } else {
-              alert('treeData should be an array of root branches');
-              return;
-            }
-          }
-          for_each_branch = function(f) {
-            var do_f, root_branch, _i, _len, _ref, _results;
-            do_f = function(branch, level) {
-              var child, _i, _len, _ref, _results;
-              f(branch, level);
-              if (branch.children != null) {
-                _ref = branch.children;
-                _results = [];
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                  child = _ref[_i];
-                  _results.push(do_f(child, level + 1));
-                }
-                return _results;
-              }
-            };
-            _ref = scope.treeData;
-            _results = [];
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              root_branch = _ref[_i];
-              _results.push(do_f(root_branch, 1));
-            }
-            return _results;
-          };
-          selected_branch = null;
-          select_branch = function(branch) {
-            if (!branch) {
-              if (selected_branch != null) {
-                selected_branch.selected = false;
-              }
-              selected_branch = null;
-              return;
-            }
-            if (branch !== selected_branch) {
-              if (selected_branch != null) {
-                selected_branch.selected = false;
-              }
-              branch.selected = true;
-              selected_branch = branch;
-              expand_all_parents(branch);
-              if (branch.onSelect != null) {
-                return $timeout(function() {
-                  return branch.onSelect(branch);
-                });
-              } else {
-                if (scope.onSelect != null) {
-                  return $timeout(function() {
-                    return scope.onSelect({
-                      branch: branch
-                    });
-                  });
-                }
-              }
-            }
-          };
-          scope.user_clicks_branch = function(branch) {
-            if (branch !== selected_branch) {
-              return select_branch(branch);
-            }
-          };
-          scope.user_check = function(branch){
-            console.log(this.row.branch);
-            console.log(element);
-            console.log(branch);
-          };
-          get_parent = function(child) {
-            var parent;
-            parent = void 0;
-            if (child.parent_uid) {
-              for_each_branch(function(b) {
-                if (b.uid === child.parent_uid) {
-                  return parent = b;
-                }
-              });
-            }
-            return parent;
-          };
-          for_all_ancestors = function(child, fn) {
-            var parent;
-            parent = get_parent(child);
-            if (parent != null) {
-              fn(parent);
-              return for_all_ancestors(parent, fn);
-            }
-          };
-          expand_all_parents = function(child) {
-            return for_all_ancestors(child, function(b) {
-              return b.expanded = true;
-            });
-          };
-          scope.tree_rows = [];
-          on_treeData_change = function() {
-            var add_branch_to_list, root_branch, _i, _len, _ref, _results;
-            for_each_branch(function(b, level) {
-              if (!b.uid) {
-                return b.uid = "" + Math.random();
-              }
-            });
-            for_each_branch(function(b) {
-              var child, _i, _len, _ref, _results;
-              if (angular.isArray(b.children)) {
-                _ref = b.children;
-                _results = [];
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                  child = _ref[_i];
-                  _results.push(child.parent_uid = b.uid);
-                }
-                return _results;
-              }
-            });
-            scope.tree_rows = [];
-            for_each_branch(function(branch) {
-              var child, f;
-              if (branch.children) {
-                if (branch.children.length > 0) {
-                  f = function(e) {
-                    if (typeof e === 'string') {
-                      return {
-                        label: e,
-                        children: []
-                      };
-                    } else {
-                      return e;
-                    }
-                  };
-                  return branch.children = (function() {
-                    var _i, _len, _ref, _results;
-                    _ref = branch.children;
-                    _results = [];
-                    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                      child = _ref[_i];
-                      _results.push(f(child));
-                    }
-                    return _results;
-                  })();
-                }
-              } else {
-                return branch.children = [];
-              }
-            });
-            add_branch_to_list = function(level, branch, visible) {
-              var child, child_visible, tree_icon, _i, _len, _ref, _results;
-              if (branch.expanded == null) {
-                branch.expanded = false;
-              }
-              if (branch.classes == null) {
-                branch.classes = [];
-              }
-              if (!branch.noLeaf && (!branch.children || branch.children.length === 0)) {
-                tree_icon = attrs.iconLeaf;
-                if (__indexOf.call(branch.classes, "leaf") < 0) {
-                  branch.classes.push("leaf");
-                }
-              } else {
-                if (branch.expanded) {
-                  tree_icon = attrs.iconCollapse;
-                } else {
-                  tree_icon = attrs.iconExpand;
-                }
-              }
-              scope.tree_rows.push({
-                level: level,
-                branch: branch,
-                label: branch.label,
-                classes: branch.classes,
-                tree_icon: tree_icon,
-                visible: visible
-              });
-              if (branch.children != null) {
-                _ref = branch.children;
-                _results = [];
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                  child = _ref[_i];
-                  child_visible = visible && branch.expanded;
-                  _results.push(add_branch_to_list(level + 1, child, child_visible));
-                }
-                return _results;
-              }
-            };
-            _ref = scope.treeData;
-            _results = [];
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              root_branch = _ref[_i];
-              _results.push(add_branch_to_list(1, root_branch, true));
-            }
-            return _results;
-          };
-          scope.$watch('treeData', on_treeData_change, true);
-          if (attrs.initialSelection != null) {
-            for_each_branch(function(b) {
-              if (b.label === attrs.initialSelection) {
-                return $timeout(function() {
-                  return select_branch(b);
-                });
-              }
-            });
-          }
-          n = scope.treeData.length;
-          for_each_branch(function(b, level) {
-            b.level = level;
-            return b.expanded = b.level < expand_level;
-          });
-          if (scope.treeControl != null) {
-            if (angular.isObject(scope.treeControl)) {
-              tree = scope.treeControl;
-              tree.expand_all = function() {
-                return for_each_branch(function(b, level) {
-                  return b.expanded = true;
-                });
-              };
-              tree.collapse_all = function() {
-                return for_each_branch(function(b, level) {
-                  return b.expanded = false;
-
-                });
-              };
-              tree.get_first_branch = function() {
-                n = scope.treeData.length;
-                if (n > 0) {
-                  return scope.treeData[0];
-                }
-              };
-              tree.select_first_branch = function() {
-                var b;
-                b = tree.get_first_branch();
-                return tree.select_branch(b);
-              };
-              tree.get_selected_branch = function() {
-                return selected_branch;
-              };
-              tree.get_parent_branch = function(b) {
-                return get_parent(b);
-              };
-              tree.select_branch = function(b) {
-                select_branch(b);
-                return b;
-              };
-              tree.get_children = function(b) {
-                return b.children;
-              };
-              tree.select_parent_branch = function(b) {
-                var p;
-                if (b == null) {
-                  b = tree.get_selected_branch();
-                }
-                if (b != null) {
-                  p = tree.get_parent_branch(b);
-                  if (p != null) {
-                    tree.select_branch(p);
-                    return p;
-                  }
-                }
-              };
-              tree.add_branch = function(parent, new_branch) {
-                if (parent != null) {
-                  parent.children.push(new_branch);
-                  parent.expanded = true;
-                } else {
-                  scope.treeData.push(new_branch);
-                }
-                return new_branch;
-              };
-              tree.add_root_branch = function(new_branch) {
-                tree.add_branch(null, new_branch);
-                return new_branch;
-              };
-              tree.expand_branch = function(b) {
-                if (b == null) {
-                  b = tree.get_selected_branch();
-                }
-                if (b != null) {
-                  b.expanded = true;
-                  return b;
-                }
-              };
-              tree.collapse_branch = function(b) {
-                if (b == null) {
-                  b = selected_branch;
-                }
-                if (b != null) {
-                  b.expanded = false;
-                  return b;
-                }
-              };
-              tree.get_siblings = function(b) {
-                var p, siblings;
-                if (b == null) {
-                  b = selected_branch;
-                }
-                if (b != null) {
-                  p = tree.get_parent_branch(b);
-                  if (p) {
-                    siblings = p.children;
-                  } else {
-                    siblings = scope.treeData;
-                  }
-                  return siblings;
-                }
-              };
-              tree.get_next_sibling = function(b) {
-                var i, siblings;
-                if (b == null) {
-                  b = selected_branch;
-                }
-                if (b != null) {
-                  siblings = tree.get_siblings(b);
-                  n = siblings.length;
-                  i = siblings.indexOf(b);
-                  if (i < n) {
-                    return siblings[i + 1];
-                  }
-                }
-              };
-              tree.get_prev_sibling = function(b) {
-                var i, siblings;
-                if (b == null) {
-                  b = selected_branch;
-                }
-                siblings = tree.get_siblings(b);
-                n = siblings.length;
-                i = siblings.indexOf(b);
-                if (i > 0) {
-                  return siblings[i - 1];
-                }
-              };
-              tree.select_next_sibling = function(b) {
-                var next;
-                if (b == null) {
-                  b = selected_branch;
-                }
-                if (b != null) {
-                  next = tree.get_next_sibling(b);
-                  if (next != null) {
-                    return tree.select_branch(next);
-                  }
-                }
-              };
-              tree.select_prev_sibling = function(b) {
-                var prev;
-                if (b == null) {
-                  b = selected_branch;
-                }
-                if (b != null) {
-                  prev = tree.get_prev_sibling(b);
-                  if (prev != null) {
-                    return tree.select_branch(prev);
-                  }
-                }
-              };
-              tree.get_first_child = function(b) {
-                var _ref;
-                if (b == null) {
-                  b = selected_branch;
-                }
-                if (b != null) {
-                  if (((_ref = b.children) != null ? _ref.length : void 0) > 0) {
-                    return b.children[0];
-                  }
-                }
-              };
-              tree.get_closest_ancestor_next_sibling = function(b) {
-                var next, parent;
-                next = tree.get_next_sibling(b);
-                if (next != null) {
-                  return next;
-                } else {
-                  parent = tree.get_parent_branch(b);
-                  return tree.get_closest_ancestor_next_sibling(parent);
-                }
-              };
-              tree.get_next_branch = function(b) {
-                var next;
-                if (b == null) {
-                  b = selected_branch;
-                }
-                if (b != null) {
-                  next = tree.get_first_child(b);
-                  if (next != null) {
-                    return next;
-                  } else {
-                    next = tree.get_closest_ancestor_next_sibling(b);
-                    return next;
-                  }
-                }
-              };
-              tree.select_next_branch = function(b) {
-                var next;
-                if (b == null) {
-                  b = selected_branch;
-                }
-                if (b != null) {
-                  next = tree.get_next_branch(b);
-                  if (next != null) {
-                    tree.select_branch(next);
-                    return next;
-                  }
-                }
-              };
-              tree.last_descendant = function(b) {
-                var last_child;
-                if (b == null) {
-                  debugger;
-                }
-                n = b.children.length;
-                if (n === 0) {
-                  return b;
-                } else {
-                  last_child = b.children[n - 1];
-                  return tree.last_descendant(last_child);
-                }
-              };
-              tree.get_prev_branch = function(b) {
-                var parent, prev_sibling;
-                if (b == null) {
-                  b = selected_branch;
-                }
-                if (b != null) {
-                  prev_sibling = tree.get_prev_sibling(b);
-                  if (prev_sibling != null) {
-                    return tree.last_descendant(prev_sibling);
-                  } else {
-                    parent = tree.get_parent_branch(b);
-                    return parent;
-                  }
-                }
-              };
-
-              return tree.select_prev_branch = function(b) {
-                var prev;
-                if (b == null) {
-                  b = selected_branch;
-                }
-                if (b != null) {
-                  prev = tree.get_prev_branch(b);
-                  if (prev != null) {
-                    tree.select_branch(prev);
-                    return prev;
-                  }
-                }
-              };
-            }
-          }
-        }
-      };
-    }
-  ]);
-
-}).call(this);
-
-'use strict';
-angular.module("ngLocale", [], ["$provide", function($provide) {
-  var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
-  $provide.value("$locale", {
-    "DATETIME_FORMATS": {
-      "AMPMS": [
-        "\u4e0a\u5348",
-        "\u4e0b\u5348"
-      ],
-      "DAY": [
-        "\u661f\u671f\u65e5",
-        "\u661f\u671f\u4e00",
-        "\u661f\u671f\u4e8c",
-        "\u661f\u671f\u4e09",
-        "\u661f\u671f\u56db",
-        "\u661f\u671f\u4e94",
-        "\u661f\u671f\u516d"
-      ],
-      "ERANAMES": [
-        "\u516c\u5143\u524d",
-        "\u516c\u5143"
-      ],
-      "ERAS": [
-        "\u516c\u5143\u524d",
-        "\u516c\u5143"
-      ],
-      "FIRSTDAYOFWEEK": 6,
-      "MONTH": [
-        "\u4e00\u6708",
-        "\u4e8c\u6708",
-        "\u4e09\u6708",
-        "\u56db\u6708",
-        "\u4e94\u6708",
-        "\u516d\u6708",
-        "\u4e03\u6708",
-        "\u516b\u6708",
-        "\u4e5d\u6708",
-        "\u5341\u6708",
-        "\u5341\u4e00\u6708",
-        "\u5341\u4e8c\u6708"
-      ],
-      "SHORTDAY": [
-        "\u5468\u65e5",
-        "\u5468\u4e00",
-        "\u5468\u4e8c",
-        "\u5468\u4e09",
-        "\u5468\u56db",
-        "\u5468\u4e94",
-        "\u5468\u516d"
-      ],
-      "SHORTMONTH": [
-        "1\u6708",
-        "2\u6708",
-        "3\u6708",
-        "4\u6708",
-        "5\u6708",
-        "6\u6708",
-        "7\u6708",
-        "8\u6708",
-        "9\u6708",
-        "10\u6708",
-        "11\u6708",
-        "12\u6708"
-      ],
-      "WEEKENDRANGE": [
-        5,
-        6
-      ],
-      "fullDate": "y\u5e74M\u6708d\u65e5EEEE",
-      "longDate": "y\u5e74M\u6708d\u65e5",
-      "medium": "y\u5e74M\u6708d\u65e5 ah:mm:ss",
-      "mediumDate": "y\u5e74M\u6708d\u65e5",
-      "mediumTime": "ah:mm:ss",
-      "short": "yy/M/d ah:mm",
-      "shortDate": "yy/M/d",
-      "shortTime": "ah:mm"
-    },
-    "NUMBER_FORMATS": {
-      "CURRENCY_SYM": "\u00a5",
-      "DECIMAL_SEP": ".",
-      "GROUP_SEP": ",",
-      "PATTERNS": [
-        {
-          "gSize": 3,
-          "lgSize": 3,
-          "maxFrac": 3,
-          "minFrac": 0,
-          "minInt": 1,
-          "negPre": "-",
-          "negSuf": "",
-          "posPre": "",
-          "posSuf": ""
-        },
-        {
-          "gSize": 3,
-          "lgSize": 3,
-          "maxFrac": 2,
-          "minFrac": 2,
-          "minInt": 1,
-          "negPre": "\u00a4\u00a0-",
-          "negSuf": "",
-          "posPre": "\u00a4\u00a0",
-          "posSuf": ""
-        }
-      ]
-    },
-    "id": "zh-cn",
-    "pluralCat": function(n, opt_precision) {  return PLURAL_CATEGORY.OTHER;}
-  });
-}]);
-!function(e,i,r){"use strict";function t(){for(var e=[],i="0123456789abcdef",r=0;36>r;r++)e[r]=i.substr(Math.floor(16*Math.random()),1);e[14]="4",e[19]=i.substr(3&e[19]|8,1),e[8]=e[13]=e[18]=e[23]="-";var t=e.join("");return t}function a(){return{restrict:"E",transclude:!0,scope:{onReady:"&",slidesPerView:"=",slidesPerColumn:"=",spaceBetween:"=",parallax:"=",parallaxTransition:"@",paginationIsActive:"=",paginationClickable:"=",showNavButtons:"=",showScrollBar:"=",loop:"=",autoplay:"=",initialSlide:"=",containerCls:"@",wrapperCls:"@",paginationCls:"@",slideCls:"@",direction:"@",swiper:"=",overrideParameters:"="},controller:["$scope","$element","$timeout",function(e,r,a){var n=t();e.swiper_uuid=n;var s={slidesPerView:e.slidesPerView||1,slidesPerColumn:e.slidesPerColumn||1,spaceBetween:e.spaceBetween||0,direction:e.direction||"horizontal",loop:e.loop||!1,initialSlide:e.initialSlide||0,showNavButtons:!1};i.isUndefined(e.autoplay)||"number"!=typeof e.autoplay||(s=i.extend({},s,{autoplay:e.autoplay})),e.paginationIsActive===!0&&(s=i.extend({},s,{paginationClickable:e.paginationClickable||!0,pagination:"#paginator-"+e.swiper_uuid})),e.showNavButtons===!0&&(s.nextButton="#nextButton-"+e.swiper_uuid,s.prevButton="#prevButton-"+e.swiper_uuid),e.showScrollBar===!0&&(s.scrollbar="#scrollBar-"+e.swiper_uuid),e.overrideParameters&&(s=i.extend({},s,e.overrideParameters)),a(function(){var t=null;i.isObject(e.swiper)?(e.swiper=new Swiper(r[0].firstChild,s),t=e.swiper):t=new Swiper(r[0].firstChild,s),i.isUndefined(e.onReady)||e.onReady({swiper:t})})}],link:function(e,r){var t=e.swiper_uuid,a="paginator-"+t,n="prevButton-"+t,s="nextButton-"+t,l="scrollBar-"+t,o=r[0];i.element(o.querySelector(".swiper-pagination")).attr("id",a),i.element(o.querySelector(".swiper-button-next")).attr("id",s),i.element(o.querySelector(".swiper-button-prev")).attr("id",n),i.element(r[0].querySelector(".swiper-scrollbar")).attr("id",l)},template:'<div class="swiper-container {{containerCls}}"><div class="parallax-bg" data-swiper-parallax="{{parallaxTransition}}" ng-show="parallax"></div><div class="swiper-wrapper {{wrapperCls}}" ng-transclude></div><div class="swiper-pagination {{paginationCls}}"></div><div class="swiper-button-next" ng-show="showNavButtons"></div><div class="swiper-button-prev" ng-show="showNavButtons"></div><div class="swiper-scrollbar" ng-show="showScrollBar"></div></div>'}}function n(){return{restrict:"E",require:"^ksSwiperContainer",transclude:!0,scope:{sliderCls:"@"},template:'<div class="swiper-slide {{sliderCls}}" ng-transclude></div>',replace:!0}}i.module("ksSwiper",[]).directive("ksSwiperContainer",a).directive("ksSwiperSlide",n)}(window,angular,void 0);
 /**
  * Created by zhongyuqiang on 2017/7/21.
  */
 angular.module('directive.cascade', [])
-  .directive('myCascade', myCascade);
+  .directive('myCascadeFive', myCascadeFive)
+  .directive('myCascadeFour', myCascadeFour);
 
-function myCascade(){
+function myCascadeFive(){
   return {
     restrict: 'E',
     scope: {
+      communityId: '=',
       partitionId: '=',
       blockId: '=',
       unitId: '=',
+      roomId: '=',
+      getPartitions: '&',
       getBlocks: '&',
       getUnits: '&',
+      getRooms: '&',
+      communities: '=',
+      partitions: '=',
+      blocks: '=',
+      units: '=',
+      rooms: '='
+    },
+    template: '<div class="pull-left w-sm m-r-sm"><select ui-select2 ng-model="communityId" data-placeholder="小区" ng-change="getPartitions({communityId: communityId})"> <option value=""></option><option ng-value="item.communityId" ng-repeat="item in communities"> {{item.communityName}} </option> </select></div> <div class="pull-left w-sm m-r-sm"><select ui-select2 ng-model="partitionId" data-placeholder="分区" ng-change="getBlocks({partitionId: partitionId})"> <option value=""></option><option ng-value="item.communityPartitionId" ng-repeat="item in partitions"> {{item.communityPartitionName}} </option> </select> </div><div class="pull-left w-xs m-r-sm" > <select ui-select2 name="louyu" ng-model="blockId" data-placeholder="楼宇" ng-change="getUnits({blockId: blockId})"> <option value=""></option> <option ng-value="item.communityBlockId" ng-repeat="item in blocks"> {{item.communityBlockName}} </option> </select> </div><div class="pull-left w-xs m-r-sm"> <select ui-select2 name="danyuan" ng-model="unitId" data-placeholder="单元" ng-change="getRooms({unitId: unitId})"> <option value=""></option> <option ng-value="item.id" ng-repeat="item in units"> {{item.name}}座 </option> </select> </div><div class="pull-left w-xs m-r-lg"> <select ui-select2 name="fanghao" ng-model="roomNoId" data-placeholder="房号"> <option value=""></option> <option ng-value="item.id" ng-repeat="item in rooms"> {{item.name}} </option> </select> </div>'
+  }
+}
+
+function myCascadeFour(){
+  return {
+    restrict: 'E',
+    scope: {
+      communityId: '=',
+      partitionId: '=',
+      blockId: '=',
+      unitId: '=',
+      getCommunity: '&',
+      getBlocks: '&',
+      getUnits: '&',
+      communities: '=',
       partitions: '=',
       blocks: '=',
       units: '='
     },
-    template: '<div class="pull-left w-sm m-r-sm"> <select ui-select2 ng-model="partitionId" data-placeholder="分区" ng-change="getBlocks({partitionId: partitionId})"> <option value=""></option><option ng-value="item.id" ng-repeat="item in partitions"> {{item.name}} </option> </select> </div><div class="pull-left w-xs m-r-sm" > <select ui-select2 name="louyu" ng-model="blockId" data-placeholder="楼宇" ng-change="getUnits({blockId: blockId})"> <option value=""></option> <option ng-value="item.id" ng-repeat="item in blocks"> {{item.name}}幢 </option> </select> </div><div class="pull-left w-xs m-r-lg"> <select ui-select2 name="danyuan" ng-model="unitId" data-placeholder="单元"> <option value=""></option> <option ng-value="item.id" ng-repeat="item in units"> {{item.name}}座 </option> </select> </div>'
+    template: '<div class="pull-left w-sm m-r-sm"><select ui-select2 ng-model="communityId" data-placeholder="小区" ng-change="getPartitions({communityId: communityId})"> <option value=""></option><option ng-value="item.id" ng-repeat="item in communities"> {{item.name}} </option> </select></div> <div class="pull-left w-sm m-r-sm"> <select ui-select2 ng-model="partitionId" data-placeholder="分区" ng-change="getBlocks({partitionId: partitionId})"> <option value=""></option><option ng-value="item.id" ng-repeat="item in partitions"> {{item.name}} </option> </select> </div><div class="pull-left w-xs m-r-sm" > <select ui-select2 name="louyu" ng-model="blockId" data-placeholder="楼宇" ng-change="getUnits({blockId: blockId})"> <option value=""></option> <option ng-value="item.id" ng-repeat="item in blocks"> {{item.name}}幢 </option> </select> </div><div class="pull-left w-xs m-r-lg"> <select ui-select2 name="danyuan" ng-model="unitId" data-placeholder="单元"> <option value=""></option> <option ng-value="item.id" ng-repeat="item in units"> {{item.name}}座 </option> </select> </div>'
   }
 }
 /**
@@ -1046,8 +449,10 @@ function entranceCtl(){
 function householdCtl($modal,$location,$state, doorSrv,mainSrv){
   var vm = this;
   vm.openModal = openModal;
+  vm.getPartitions = getPartitions;
   vm.pageNo = parseInt($location.search().id);
   vm.selectList = {};
+  vm.block={};
 
   function openModal(template, controller, item) {
     $modal.open({
@@ -1064,6 +469,33 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
     })
   }
 
+
+  function getPartitions(communityId){
+    console.log(communityId);
+    mainSrv.getPartitions(communityId).then(function(res){
+      console.log(res);
+      vm.block.partitions = res.data;
+    })
+  }
+
+  vm.getBlocks = getBlocks;
+  function getBlocks(partitionId){
+    console.log(partitionId);
+    mainSrv.getBlocks(partitionId).then(function(res){
+      console.log(res);
+      vm.block.blocks = res.data;
+    })
+  }
+
+  vm.getUnits = getUnits;
+  function getUnits(blockId){
+    console.log(blockId);
+    mainSrv.getUnits(blockId).then(function(res){
+      console.log(res);
+      vm.block.blocks = res.data;
+    })
+  }
+
   checkFilter();
   function checkFilter() {
     if (!sessionStorage.filterList) {
@@ -1075,6 +507,13 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
       getResident(vm.pageNo, vm.selectList);
       $location.search('id', vm.pageNo);
     }
+  }
+  getCommunity();
+  function getCommunity(){
+    mainSrv.getCommunity().then(function(res){
+      console.log(res);
+      vm.block.communities = res.data;
+    })
   }
 
   vm.getSearch = getSearch;
@@ -1602,6 +1041,8 @@ angular.module('mainMdl', [])
 
 function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoadingBar, mainSrv, toastr){
   var mainVm = this;
+
+  console.log(localStorage);
 
   mainVm.asideArr = [
     {title: '首页', icon: 'fa-home', sref: 'home', path: 'index', isActive: true},
@@ -2482,7 +1923,7 @@ function roomCtl($scope, $rootScope, villageSrv, $modalInstance, items, toastr) 
     $modalInstance.dismiss('cancel');
   }
 
-  function try_adding_a_branch(model) {
+  function try_adding_a_branch(model, end) {
     var b;
     var obj = {};
     b = tree.get_selected_branch();
@@ -2505,41 +1946,61 @@ function roomCtl($scope, $rootScope, villageSrv, $modalInstance, items, toastr) 
 
       })
     } else if (b.level == 2) {
-      console.log('add level 3');
+      var blockModel = model;
       obj.communityId = vm.model.communityId;
       obj.partitionId = b.id;
-      obj.blockName = model + '幢';
+      obj.blockName = blockModel + '幢';
       console.log('level 3: ', obj);
-      villageSrv.addBlock(obj).then(function (res) {
-        console.log('添加楼幢成功: ', res);
-        if (res.success) {
-          return tree.add_branch(b, {
-            label: obj.blockName,
-            level: 3,
-            id: res.data.id
-          });
-        } else {
-          toastr.info(res.message);
-        }
-      })
+      console.log(blockModel, parseInt(model), parseInt(end));
+
+      if(end){
+        if(parseInt(model) == parseInt(end)+1) return;
+        villageSrv.addBlock(obj).then(function (res) {
+          console.log('添加楼幢成功: ', res);
+          if (res.success) {
+            return tree.add_branch(b, {
+              label: obj.blockName,
+              level: 3,
+              id: res.data.id
+            });
+          } else {
+            toastr.info(res.message);
+          }
+        }).then(function(){
+          try_adding_a_branch(parseInt(blockModel) + 1, parseInt(end));
+        })
+      }else{
+        villageSrv.addBlock(obj).then(function (res) {
+          console.log('添加楼幢成功: ', res);
+          if (res.success) {
+            return tree.add_branch(b, {
+              label: obj.blockName,
+              level: 3,
+              id: res.data.id
+            });
+          } else {
+            toastr.info(res.message);
+          }
+        })
+      }
     } else if (b.level == 3) {
-      console.log('add level 4');
-      obj.unitName = model + '单元';
-      obj.blockId = b.id;
-      obj.blockName = b.label;
-      console.log('level 4: ', obj);
-      villageSrv.addUnit(obj).then(function (res) {
-        console.log('添加单元成功: ', res);
-        if (res.success) {
-          return tree.add_branch(b, {
-            label: obj.unitName,
-            level: 4,
-            id: res.data.id
-          });
-        } else {
-          toastr.info(res.message);
-        }
-      })
+        console.log('add level 4');
+        obj.unitName = model + '单元';
+        obj.blockId = b.id;
+        obj.blockName = b.label;
+        console.log('level 4: ', obj);
+        villageSrv.addUnit(obj).then(function (res) {
+          console.log('添加单元成功: ', res);
+          if (res.success) {
+            return tree.add_branch(b, {
+              label: obj.unitName,
+              level: 4,
+              id: res.data.id
+            });
+          } else {
+            toastr.info(res.message);
+          }
+        })
     } else if (b.level == 4) {
       console.log('add level 5');
       obj.communityId = vm.model.communityId;
@@ -2551,7 +2012,7 @@ function roomCtl($scope, $rootScope, villageSrv, $modalInstance, items, toastr) 
         if (res.success) {
           return tree.add_branch(b, {
             label: obj.code,
-            level: 5,
+            level: 5
           });
         } else {
           toastr.info(res.message);
@@ -2573,7 +2034,7 @@ function roomCtl($scope, $rootScope, villageSrv, $modalInstance, items, toastr) 
 
   function try_adding_some_branch(start, end) {
     for (var i = start; i <= end; i++) {
-      vm.try_adding_a_branch(i);
+      vm.try_adding_a_branch(i, end);
     }
   };
 
@@ -2789,11 +2250,64 @@ function roomCtl($scope, $rootScope, villageSrv, $modalInstance, items, toastr) 
         vm.placeholder = '';
     }
     if (!b.children.length) {
+      console.log('b.level: ', b.level);
       if (b.level == 2) {
-        getBlock(b, b.id);
+        //getBlock(b, b.id);
+        var arr = [];
+        villageSrv.getBlock(b.id).then(function (res) {
+          console.log('获取楼幢: ', res);
+          if (res.data) {
+            for (var i = 0; i < res.data.length; i++) {
+              arr.push({
+                id: res.data[i].communityBlockId,
+                label: res.data[i].communityBlockName,
+                level: 3,
+                children: []
+              });
+            }
+          }
+        }).then(function(){
+          for (var j = 0; j < arr.length; j++) {
+            (function(j){
+              villageSrv.getUnit(arr[j].id).then(function(res){
+                if(res.data.length){
+                  for(var k=0;k<res.data.length;k++){
+                    arr[j].children.push({
+                      id: res.data[k].unitId,
+                      label: res.data[k].unitName,
+                      level: 4
+                    });
+                  }
+                }
+              })
+            }(j))
+          }
+          b.children = arr;
+          console.log($scope.my_data);
+        })
       } else if (b.level == 3) {
         console.log('getData level 3:');
-        getUnit(b, b.id);
+        //getUnit(b, b.id);
+        console.log(b);
+        var arr = b.children;
+        for (var j = 0; j < arr.length; j++) {
+          (function(j){
+            console.log(arr[j]);
+            villageSrv.getRoomNo(arr[j].id).then(function(res){
+              console.log(res);
+              if(res.data.length){
+                console.log(arr[j]);
+                for(var k=0;k<res.data.length;k++){
+                  arr[j].children.push({
+                    id: res.data[k].roomNoId,
+                    label: addPreZero(res.data[k].code),
+                    level: 5
+                  });
+                }
+              }
+            })
+          }(j))
+        }
       } else if (b.level == 4) {
         console.log('getData level 4:');
         getRoomNo(b, b.id);
@@ -3050,9 +2564,9 @@ angular.module('httpApi', [])
 
 httpSrv.$inject = ['$q', '$http'];
 function httpSrv() {
-  var server = "http://114.55.143.170:8085";
+  //var server = "http://114.55.143.170:8085";
   //var server = "http://192.168.23.241:8085";
-  //var server = "http://116.62.39.38:8085";
+  var server = "http://116.62.39.38:8085";
   var list = {
     getHttpRoot: function(){
       return server;
@@ -3196,11 +2710,32 @@ function mainSrv($q, $http, httpSrv){
       return defer.promise;
     },
 
-    getPartitions: function(){
+    getCommunity: function(){
       var defer = $q.defer();
       $http({
         method: 'GET',
-        url: server + '/community/block/partitions',
+        url: server + '/community/query',
+        headers: {
+          'token': localStorage.wekerAreaToken,
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      })
+        .success(function(data){
+          console.log(data);
+          defer.resolve(data);
+        })
+        .error(function(error){
+          console.log(error);
+          defer.reject(error);
+        });
+      return defer.promise;
+    },
+
+    getPartitions: function(communityId){
+      var defer = $q.defer();
+      $http({
+        method: 'GET',
+        url: server + '/community/partition/list/'+communityId,
         headers: {
           'token': localStorage.wekerToken,
           'Content-Type': 'application/json;charset=UTF-8'
@@ -3220,7 +2755,7 @@ function mainSrv($q, $http, httpSrv){
       var defer = $q.defer();
       $http({
         method: 'GET',
-        url: server + '/community/block/'+partitionId+'/blocks',
+        url: server + '/community/block/list/'+partitionId,
         headers: {
           'token': localStorage.wekerToken,
           'Content-Type': 'application/json;charset=UTF-8'
@@ -3240,7 +2775,7 @@ function mainSrv($q, $http, httpSrv){
       var defer = $q.defer();
       $http({
         method: 'GET',
-        url: server + '/community/block/' + blockId + '/units',
+        url: server + '/community/unit/list/'+blockId,
         headers: {
           'token': localStorage.wekerToken,
           'Content-Type': 'application/json;charset=UTF-8'
@@ -3328,6 +2863,7 @@ function villageSrv($q, $http, httpSrv){
 
   var villageList = {
     getCommunity: function(pageNo, limit, obj){
+      console.log(localStorage.wekerAreaToken);
       var defer = $q.defer();
       $http({
         method: 'GET',

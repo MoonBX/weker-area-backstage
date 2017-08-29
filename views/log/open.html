@@ -1,10 +1,22 @@
 <div class="g-table-banner p-v-lg p-h-md b-b">
   <div class="tb-flex">
     <div class="item m-b-sm">
-      <label class="w-label-control">小区名称:</label>
-      <input type="text"
-             class="form-control w-sm pull-left m-r-md"
-             ng-model="openVm.selectList.communityName">
+      <label class="w-label-control">住户房号: </label>
+      <my-cascade-five partition-id="openVm.selectList.partitionId"
+                       block-id="openVm.selectList.blockId"
+                       unit-id="openVm.selectList.unitId"
+                       community-id="openVm.selectList.communityId"
+                       room-id="openVm.selectList.roomNoId"
+                       get-partitions="openVm.getPartitions(communityId)"
+                       get-blocks="openVm.getBlocks(partitionId)"
+                       get-units="openVm.getUnits(blockId)"
+                       get-rooms="openVm.getRooms(unitId)"
+                       communities="openVm.block.communities"
+                       partitions="openVm.block.partitions"
+                       blocks="openVm.block.blocks"
+                       units="openVm.block.units"
+                       rooms="openVm.block.rooms">
+      </my-cascade-five>
     </div>
 
     <div class="item m-b-sm">
@@ -21,7 +33,7 @@
              ng-model="openVm.selectList.mobile">
     </div>
 
-    <div class="item m-b-md">
+    <div class="item m-b-sm">
       <label class="w-label-control">设备类型: </label>
       <div class="w-sm pull-left m-r-lg">
         <my-select model="openVm.selectList.deviceType"
@@ -31,7 +43,7 @@
       </div>
     </div>
 
-    <div class="item m-b-md">
+    <div class="item m-b-sm">
       <label class="w-label-control">日志类型: </label>
       <div class="w-sm pull-left m-r-lg">
         <my-select model="openVm.selectList.type"
@@ -41,20 +53,7 @@
       </div>
     </div>
 
-    <div class="item m-b-md">
-      <label class="w-label-control">住户房号: </label>
-      <my-cascade partition-id="openVm.selectList.partitionId"
-                  block-id="openVm.selectList.blockId"
-                  unit-id="openVm.selectList.unitId"
-                  get-blocks="openVm.getBlocks(partitionId)"
-                  get-units="openVm.getUnits(blockId)"
-                  partitions="openVm.block.partitions"
-                  blocks="openVm.block.blocks"
-                  units="openVm.block.units">
-      </my-cascade>
-    </div>
-
-    <div class="item m-b-md">
+    <div class="item m-b-sm">
       <label class="w-label-control">开门时间: </label>
       <input type="text"
              ng-model="openVm.selectList.st"
@@ -81,7 +80,7 @@
       />
     </div>
 
-    <div class="item m-b-md">
+    <div class="item m-b-sm">
       <label class="w-label-control">卡类型: </label>
       <div class="w-sm pull-left m-r-lg">
         <my-select model="openVm.selectList.cardType"
@@ -92,7 +91,7 @@
     </div>
   </div>
 
-  <div class="row text-center">
+  <div class="row text-center m-t-md">
     <my-filter-button get-search="openVm.getSearch(selectList, getList)"
                       clear-session="openVm.clearSession()"
                       select-list="openVm.selectList"
