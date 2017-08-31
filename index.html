@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="css/common.css">
 </head>
 <body ng-controller="mainCtl as mainVm">
-<div ng-if="mainVm.isLogin">
+<div ng-if="mainVm.isLogin" ng-cloak>
   <header id="header"
           ng-include=" 'views/main/banner.html' "
           class="app-header box-shadow navbar bg-banner"
