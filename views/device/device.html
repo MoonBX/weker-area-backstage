@@ -98,21 +98,26 @@
           <th>操作</th>
           </thead>
           <tr ng-repeat="item in deviceVm.deviceList">
-            <td>{{item.areaName}}</td>
-            <td>{{item.communityName}}</td>
-            <td>{{item.sn}}</td>
-            <td>{{item.type_cn}}</td>
-            <td>{{item.blockName}}</td>
-            <td>{{item.gmtCreated | date: 'yyyy-MM-dd'}}</td>
-            <td>{{item.status_cn}}</td>
-            <td>{{item.amount}}</td>
-            <td>{{item.lockType_cn}}</td>
+            <td>{{item.areaName || '-'}}</td>
+            <td>{{item.communityName || '-'}}</td>
+            <td>{{item.sn || '-'}}</td>
+            <td>{{item.type_cn || '-'}}</td>
+            <td>{{item.blockName || '-'}}</td>
+            <td>{{item.gmtCreated | date: 'yyyy-MM-dd' || '-'}}</td>
+            <td>
+              <span class="state-circle" ng-class="{'circle-red': item.status == '0', 'circle-green': item.status == '1'}"></span>
+              {{item.status_cn || '-'}}
+            </td>
+            <td>{{item.amount || '-'}}</td>
+            <td>{{item.lockType_cn || '-'}}</td>
             <td>
               <a class="m-r-sm" href="javascript:;"
                  ng-click="deviceVm.openModal('detail','dDetailCtl as detailVm', item)">
                 详情
               </a>
-              <a href="javascript:;" ng-click="deviceVm.unbindDevice(item.sn)">解绑</a>
+              <a href="javascript:;" ng-click="deviceVm.openModal('alert','alertCtl as alertVm', item.sn)">
+                解绑
+              </a>
             </td>
           </tr>
         </table>

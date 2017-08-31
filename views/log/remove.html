@@ -55,11 +55,11 @@
     <th>缩略图</th>
     </thead>
     <tr ng-repeat="item in removeVm.removeList">
-      <td>{{item.communityName}}</td>
-      <td>{{item.blockName}}</td>
-      <td>{{item.location}}</td>
-      <td>{{item.deviceType_cn}}</td>
-      <td>{{item.alartTime | date: "yyyy-MM-dd hh:mm"}}</td>
+      <td>{{item.communityName || '-'}}</td>
+      <td>{{item.blockName || '-'}}</td>
+      <td>{{item.location || '-'}}</td>
+      <td>{{item.deviceType_cn || '-'}}</td>
+      <td>{{item.alartTime | date: "yyyy-MM-dd hh:mm" || '-'}}</td>
       <td>
         <div>
           <img ng-src="{{item.snapshot}}" alt="..." style="width: 88px;">

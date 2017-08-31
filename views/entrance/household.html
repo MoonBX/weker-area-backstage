@@ -2,17 +2,6 @@
   <div class="tb-flex">
     <div class="item m-b-sm">
       <label class="w-label-control">住户房号:</label>
-      <!--<div class="pull-left w-sm m-r-sm">-->
-        <!--<button ng-click="householdVm.getPartitions(householdVm.selectList.communityId)">go</button>-->
-        <!--<select ui-select2 ng-model="householdVm.selectList.communityId"-->
-                <!--data-placeholder="小区"-->
-                <!--ng-change="householdVm.getPartitions(householdVm.selectList.communityId)">-->
-          <!--<option value=""></option>-->
-          <!--<option ng-value="item.communityId" ng-repeat="item in householdVm.block.communities">-->
-            <!--{{item.communityName}}-->
-          <!--</option>-->
-        <!--</select>-->
-      <!--</div>-->
       <my-cascade-five partition-id="householdVm.selectList.partitionId"
                        block-id="householdVm.selectList.blockId"
                        unit-id="householdVm.selectList.unitId"
@@ -55,7 +44,7 @@
       <label class="w-label-control">住户身份: </label>
       <div class="w-sm pull-left m-r-lg">
         <my-select model="householdVm.selectList.userType"
-                   placeholder="请选择所属区域"
+                   placeholder="请选择住户身份"
                    opt-list="['业主', '家人', '租客']">
         </my-select>
       </div>
@@ -65,7 +54,7 @@
       <label class="w-label-control">住户状态: </label>
       <div class="w-sm pull-left m-r-lg">
         <my-select model="householdVm.selectList.status"
-                   placeholder="请选择公告状态"
+                   placeholder="请选择住户状态"
                    opt-list="['正常', '过期']">
         </my-select>
       </div>
@@ -93,13 +82,16 @@
     <th>操作</th>
     </thead>
     <tr ng-repeat="item in householdVm.householdList">
-      <td>{{item.communityName}}</td>
+      <td>{{item.communityName || '-'}}</td>
       <td>{{item.partitionName}}-{{item.blockName}}-{{item.unitName}}-{{item.roomNo}}</td>
-      <td>{{item.name}}</td>
-      <td>{{item.mobile}}</td>
-      <td>{{item.cardTypeName}}</td>
-      <td>{{item.userType_cn}}</td>
-      <td>{{item.status_cn}}</td>
+      <td>{{item.name || '-'}}</td>
+      <td>{{item.mobile || '-'}}</td>
+      <td>{{item.cardTypeName || '-'}}</td>
+      <td>{{item.userType_cn || '-'}}</td>
+      <td>
+        <span class="state-circle" ng-class="{'circle-red': item.status == '1', 'circle-green': item.status == '0'}"></span>
+        {{item.status_cn || '-'}}
+      </td>
       <td>
         <a href="javascript:;"
            ng-click="householdVm.openModal('h-detail','hDetailCtl as hDetailVm', item)">

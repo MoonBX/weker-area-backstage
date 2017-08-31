@@ -10,41 +10,46 @@
       name="createRoomForm"
       novalidate>
   <div class="left p-md" style="overflow-y: scroll;">
-    <div class="m-b-sm b-b" style="padding-bottom: 10px">
+    <div class="m-b-sm b-b" style="padding-bottom: 10px; display: flex; justify-content: space-between">
       <input type="text"
              class="w-form-control"
              ng-model="dataAdd"
              placeholder="{{roomVm.placeholder}}"
              ng-disabled="!roomVm.treeAddToggle"
-             style="display: inline-block; width: 150px;">
+             style="width: 70%;">
       <button class="btn btn-primary btn-sm"
               ng-click="roomVm.try_adding_a_branch(dataAdd)"
-              style="display: inline-block;margin-top: -1px;">
+              style="display: inline-block;margin-top: -1px;width: 25%;">
         增加
       </button>
     </div>
-    <div class="m-b-sm b-b" style="padding-bottom: 10px">
-      <input type="text" placeholder="起始幢"
-             class="w-form-control" ng-model="start"
-             ng-disabled="!roomVm.twoInputToggle"
-             style="display: inline-block; width: 69px;"> -
-      <input type="text" placeholder="结束幢"
-             class="w-form-control" ng-model="end"
-             ng-disabled="!roomVm.twoInputToggle"
-             style="display: inline-block; width: 68px;">
+    <div class="m-b-sm b-b" style="padding-bottom: 10px;display: flex; justify-content: space-between">
+      <div style="width: 70%;">
+        <input type="text" placeholder="起始幢"
+               class="w-form-control" ng-model="start"
+               ng-disabled="!roomVm.twoInputToggle"
+               style="width: 45%;">
+        <span style="width: 10%;">-</span>
+        <input type="text" placeholder="结束幢"
+               class="w-form-control" ng-model="end"
+               ng-disabled="!roomVm.twoInputToggle"
+               style="width: 45%;;">
+      </div>
+
       <button class="btn btn-primary btn-sm"
               ng-click="roomVm.try_adding_a_branch(start,end)"
-              style="display: inline-block;position: relative">
+              style="display: inline-block;position: relative;width: 25%;">
         增加
       </button>
     </div>
-    <div class="m-b-sm b-b" style="padding-bottom: 10px">
+    <div class="m-b-sm b-b" style="padding-bottom: 10px;display: flex; justify-content: space-between">
       <input type="text"
              class="w-form-control"
              ng-model="dataDelete"
              disabled
-             style="display: inline-block; width: 150px;">
+             style="width: 70%;">
       <button class="btn btn-danger btn-sm"
+              style="width: 25%;"
               ng-click="roomVm.try_delete_a_branch(dataDelete)">
         删除
       </button>
@@ -150,6 +155,9 @@
   </div>
 </form>
 <style>
+  .modal-dialog{
+    width: 780px;
+  }
   .modal-split{
     width: 780px;
     background: #F9FAFD;

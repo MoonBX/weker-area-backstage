@@ -2,21 +2,18 @@
   <div class="tb-flex">
     <div class="item m-b-sm">
       <label class="w-label-control">住户房号: </label>
-      <my-cascade-five partition-id="openVm.selectList.partitionId"
+      <my-cascade-four partition-id="openVm.selectList.partitionId"
                        block-id="openVm.selectList.blockId"
                        unit-id="openVm.selectList.unitId"
                        community-id="openVm.selectList.communityId"
-                       room-id="openVm.selectList.roomNoId"
                        get-partitions="openVm.getPartitions(communityId)"
                        get-blocks="openVm.getBlocks(partitionId)"
                        get-units="openVm.getUnits(blockId)"
-                       get-rooms="openVm.getRooms(unitId)"
                        communities="openVm.block.communities"
                        partitions="openVm.block.partitions"
                        blocks="openVm.block.blocks"
-                       units="openVm.block.units"
-                       rooms="openVm.block.rooms">
-      </my-cascade-five>
+                       units="openVm.block.units">
+      </my-cascade-four>
     </div>
 
     <div class="item m-b-sm">
@@ -48,7 +45,7 @@
       <div class="w-sm pull-left m-r-lg">
         <my-select model="openVm.selectList.type"
                    placeholder="请选择日志类型"
-                   opt-list="['呼叫', '刷卡', '密码', '手机开门']">
+                   opt-list="['呼叫开门', '刷卡开门', '密码开门', '手机开门']">
         </my-select>
       </div>
     </div>
@@ -103,26 +100,30 @@
 <div class="g-table-content m-t-md p-h-md">
   <table class="table table-striped wk-table">
     <thead>
-    <th>小区名称</th>
-    <th>单元信息</th>
-    <th>设备类型</th>
-    <th>姓名</th>
-    <th>手机号码</th>
-    <th>卡号</th>
-    <th>呼叫时间</th>
-    <th>日志类型</th>
-    <th>缩略图</th>
-    <th>操作</th>
+    <th width="9%">小区名称</th>
+    <th width="9%">单元信息</th>
+    <th width="9%">设备类型</th>
+    <th width="7%">姓名</th>
+    <th width="9%">手机号码</th>
+    <th width="7%">卡号</th>
+    <th width="9%">呼叫时间</th>
+    <th width="9%">通话时长</th>
+    <th width="9%">开门时间</th>
+    <th width="9%">日志类型</th>
+    <th width="7%">缩略图</th>
+    <th width="7%">操作</th>
     </thead>
     <tr ng-repeat="item in openVm.unlockList">
-      <td>{{item.communityName}}</td>
-      <td>{{item.blockName}}</td>
-      <td>{{item.deviceType_cn}}</td>
-      <td>{{item.name}}</td>
-      <td>{{item.mobile}}</td>
-      <td>{{item.cardNo}}</td>
-      <td>{{item.gmtCreated | date: "yyyy-MM-dd hh:mm"}}</td>
-      <td>{{item.type_cn}}</td>
+      <td>{{item.communityName || '-'}}</td>
+      <td>{{item.blockName || '-'}}</td>
+      <td>{{item.deviceType_cn || '-'}}</td>
+      <td>{{item.name || '-'}}</td>
+      <td>{{item.mobile || '-'}}</td>
+      <td>{{item.cardNo || '-'}}</td>
+      <td>{{item.gmtCreated | date: "yyyy-MM-dd hh:mm:ss" || '-'}}</td>
+      <td>{{item.duration || '-'}}</td>
+      <td>{{item.unlockTime | date: "yyyy-MM-dd hh:mm:ss" || '-'}}</td>
+      <td>{{item.type_cn || '-'}}</td>
       <td>
         <div>
           <img ng-src="{{item.snapshot}}" alt="..." style="width: 88px;">

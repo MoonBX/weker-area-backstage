@@ -3,9 +3,10 @@
  */
 angular.module('deviceMdl', [])
   .controller('deviceCtl', deviceCtl)
+  .controller('alertCtl', alertCtl)
   .controller('dDetailCtl', dDetailCtl);
 
-function deviceCtl($modal,$location,$state, deviceSrv,mainSrv, villageSrv, toastr){
+function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $rootScope) {
   var vm = this;
   vm.openModal = openModal;
   vm.pageNo = parseInt($location.search().id);
@@ -46,35 +47,35 @@ function deviceCtl($modal,$location,$state, deviceSrv,mainSrv, villageSrv, toast
   }
 
   getCommunity();
-  function getCommunity(){
-    mainSrv.getCommunity().then(function(res){
+  function getCommunity() {
+    mainSrv.getCommunity().then(function (res) {
       console.log(res);
       vm.block.communities = res.data;
     })
   }
 
   vm.getPartitions = getPartitions;
-  function getPartitions(communityId){
+  function getPartitions(communityId) {
     console.log(communityId);
-    mainSrv.getPartitions(communityId).then(function(res){
+    mainSrv.getPartitions(communityId).then(function (res) {
       console.log(res);
       vm.block.partitions = res.data;
     })
   }
 
   vm.getBlocks = getBlocks;
-  function getBlocks(partitionId){
+  function getBlocks(partitionId) {
     console.log(partitionId);
-    mainSrv.getBlocks(partitionId).then(function(res){
+    mainSrv.getBlocks(partitionId).then(function (res) {
       console.log(res);
       vm.block.blocks = res.data;
     })
   }
 
   vm.getUnits = getUnits;
-  function getUnits(blockId){
+  function getUnits(blockId) {
     console.log(blockId);
-    mainSrv.getUnits(blockId).then(function(res){
+    mainSrv.getUnits(blockId).then(function (res) {
       console.log(res);
       vm.block.units = res.data;
     })
@@ -117,12 +118,12 @@ function deviceCtl($modal,$location,$state, deviceSrv,mainSrv, villageSrv, toast
 
 
   vm.getDevice = getDevice;
-  function getDevice(pageNo, obj){
-    deviceSrv.getDevice(pageNo, 7, obj).then(function(res){
+  function getDevice(pageNo, obj) {
+    deviceSrv.getDevice(pageNo, 7, obj).then(function (res) {
       console.log(res);
 
       vm.pages = [];
-      if(res.success) {
+      if (res.success) {
         for (var i = 0; i < res.data.list.length; i++) {
           switch (res.data.list[i].type) {
             case 0:
@@ -175,21 +176,45 @@ function deviceCtl($modal,$location,$state, deviceSrv,mainSrv, villageSrv, toast
     })
   }
 
+  $rootScope.$on('refresh-device', function ($event) {
+    getDevice(1);
+  })
+}
+
+function alertCtl(items, $modalInstance, $timeout, toastr, $rootScope, deviceSrv) {
+  var vm = this;
+  vm.sn = items;
+  console.log(items);
+
   vm.unbindDevice = unbindDevice;
-  function unbindDevice(sn){
-    deviceSrv.unbindDevice(sn).then(function(res){
-      if(res.success){
+  function unbindDevice() {
+    deviceSrv.unbindDevice(vm.sn).then(function (res) {
+      if (res.success) {
         toastr.info('解绑成功')
-        getDevice(1);
-      }else{
+        $timeout(function(){
+          $rootScope.$broadcast('refresh-device');
+          cancel()
+        }, 500)
+      } else {
         toastr.info(res.message);
       }
     })
   }
+
+  vm.cancel = cancel;
+  function cancel() {
+    $modalInstance.dismiss('cancel');
+  }
+
 }
 
-function dDetailCtl(items){
+function dDetailCtl(items, $modalInstance) {
   var vm = this;
   console.log(items);
   vm.model = items;
+
+  vm.cancel = cancel;
+  function cancel() {
+    $modalInstance.dismiss('cancel');
+  }
 }

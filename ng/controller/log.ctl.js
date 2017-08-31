@@ -142,16 +142,16 @@ function openCtl($modal, $location,$state, logSrv, mainSrv){
           }
           switch (res.data.list[i].type) {
             case 0:
-              res.data.list[i].type_cn = '呼叫';
+              res.data.list[i].type_cn = '呼叫开门';
               break;
             case 1:
-              res.data.list[i].type_cn = '刷卡';
+              res.data.list[i].type_cn = '刷卡开门';
               break;
             case 2:
-              res.data.list[i].type_cn = '密码';
+              res.data.list[i].type_cn = '密码开门';
               break;
             case 3:
-              res.data.list[i].type_cn = 'APP';
+              res.data.list[i].type_cn = '手机开门';
               break;
             default:
               res.data.list[i].type_cn = '';

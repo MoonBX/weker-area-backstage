@@ -34,6 +34,7 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
     })
   }
 
+
   getCommunity();
   function getCommunity(){
     mainSrv.getCommunity().then(function(res){
@@ -217,6 +218,7 @@ function commonCtl($modal,$location,$state, doorSrv,mainSrv){
   }
 
   function getSearch(obj, cb) {
+    console.log(obj);
     mainSrv.getSearch(obj, cb);
     $location.search('id', 1);
   }
@@ -235,8 +237,8 @@ function commonCtl($modal,$location,$state, doorSrv,mainSrv){
   }
 
   vm.getPublicCard = getPublicCard;
-  function getPublicCard(pageNo){
-    doorSrv.getPublicCard(pageNo, 7).then(function(res){
+  function getPublicCard(pageNo, obj){
+    doorSrv.getPublicCard(pageNo, 7, obj).then(function(res){
       console.log(res);
       vm.pages = [];
       if(res.success) {
@@ -307,12 +309,46 @@ function commonCtl($modal,$location,$state, doorSrv,mainSrv){
 
 }
 
-function hDetailCtl(items){
+function hDetailCtl(items, $modalInstance){
   var vm = this;
+  vm.cancel = cancel;
   console.log(items);
-  vm.model = items;
+
+  function cancel() {
+    $modalInstance.dismiss('cancel');
+  }
+
+  if (items) {
+    if(items.cardTypeName){
+      var a = items.cardTypeName.split(' ');
+      a.pop();
+      items.cardTypeNameArr = listTemp(a);
+    }
+    vm.model = items;
+  }
+
+  function listTemp(oldList){
+    var list = oldList;
+    var arrTemp = [];
+    var index = 0;
+    var sectionCount = 2;
+    for(var i=0; i<list.length; i++){
+      index = parseInt(i/sectionCount);
+      if(arrTemp.length <= index){
+        arrTemp.push([]);
+      }
+      arrTemp[index].push(list[i]);
+    }
+    console.log(arrTemp);
+    return arrTemp;
+  }
 }
 
-function cDetailCtl(){
+function cDetailCtl(items, $modalInstance){
   var vm = this;
+  vm.cancel = cancel;
+
+  function cancel() {
+    $modalInstance.dismiss('cancel');
+  }
 }

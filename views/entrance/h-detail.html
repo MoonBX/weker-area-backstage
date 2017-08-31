@@ -36,17 +36,15 @@
       <span class="title">卡类型:</span>
       <span class="value">{{hDetailVm.model.name}}</span>
     </div>
-    <div class="row m-b-xs">
-      <span class="title">卡号1:</span>
-      <span class="value">3242423424443</span>
-      <span class="title">卡号2:</span>
-      <span class="value">3242423424443</span>
+    <div class="row m-b-sm" ng-if="!hDetailVm.model.cardTypeNameArr">
+      <span class="title">卡号:</span>
+      <span class="value"></span>
     </div>
-    <div class="row m-b-xs">
-      <span class="title">卡号3:</span>
-      <span class="value">3242423424443</span>
-      <span class="title">卡号3:</span>
-      <span class="value">3242423424443</span>
+    <div class="row m-b-sm" ng-if="hDetailVm.model.cardTypeNameArr" ng-repeat="item in hDetailVm.model.cardTypeNameArr">
+      <div class="pull-left" ng-repeat="item_c in item">
+        <span class="title">卡号:</span>
+        <span class="value">{{item_c}}</span>
+      </div>
     </div>
   </div>
 </form>

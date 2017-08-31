@@ -9,11 +9,10 @@ angular.module('app', [
   'mgcrea.ngStrap.dropdown',
   'ngAnimate',
   'angular-loading-bar',
-  //'ivh.treeview',
   'angularBootstrapNavTree',
-  //'ksSwiper',
   'toastr',
   'angularFileUpload',
+  // 'ng-sweet-alert',
   'ngSanitize',
   'app.router',
   'mainMdl',
@@ -41,7 +40,7 @@ angular.module('app')
   .config(config);
 
 function initConfig(uiSelect2Config){
-  uiSelect2Config.minimumResultsForSearch = -1;
+   uiSelect2Config.minimumResultsForSearch = -1;
   uiSelect2Config.placeholder = "Placeholder text";
 }
 

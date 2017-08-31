@@ -54,7 +54,7 @@ function villageSrv($q, $http, httpSrv){
       var defer = $q.defer();
       $http({
         method: 'POST',
-        url: server + '/community/add',
+        url: server + '/community/edit',
         data: obj,
         headers: {
           'token': localStorage.wekerAreaToken,

@@ -1,5 +1,5 @@
 <div class="content-head">
-  <span>添加小区</span>
+  <span>{{createVm.title}}</span>
   <i class="pull-right fa fa-remove fa-2x m-r-sm m-t-xs"
      style="cursor: pointer"
      ng-click="createVm.cancel()">
@@ -10,7 +10,7 @@
       name="createVillageForm"
       novalidate>
   <div class="row"
-       ng-class="{true: 'm-b-lg', false: 'm-b-md'}[!createVillageForm.communityName.$valid&& (createVillageForm.communityName.$dirty || createVillageForm.submitted)]"
+       ng-class="{true: 'm-b-lg', false: 'm-b-md'}[!createVillageForm.communityName.$valid && (createVillageForm.communityName.$dirty || createVillageForm.submitted)]"
        style="position: relative;">
     <label class="w-label-control" style="width: 60px;">小区名称:
     </label>
@@ -26,17 +26,16 @@
     <div style="position: absolute;bottom: -20px;left: 72px;font-size: 12px;"
          ng-if="createVillageForm.communityName.$dirty||createVillageForm.submitted">
        <span class="form-error" ng-show="createVillageForm.communityName.$error.required">
-          公告标题不能为空
+          小区标题不能为空
         </span>
        <span class="form-error" ng-show="createVillageForm.communityName.$error.maxlength">
-          公告标题不能超过20字
+          小区标题不能超过20字
         </span>
     </div>
   </div>
 
-  <div class="row"
-       style="position: relative;"
-       ng-class="{true: 'm-b-lg', false: 'm-b-md'}[!createVillageForm.areaPartition.$valid&& (createVillageForm.areaPartition.$dirty || createVillageForm.submitted)]">
+  <div class="row m-b-md"
+       style="position: relative;">
     <label class="w-label-control" style="width: 60px;">所属区域:
     </label>
     <div class="pull-left m-r-lg w-xl">
@@ -48,12 +47,6 @@
         <option value=""></option>
         <option ng-repeat="item in createVm.arrayList" ng-value="item.id">{{item.name}}</option>
       </select>
-    </div>
-    <div style="position: absolute;bottom: -20px;left: 72px;font-size: 12px;"
-         ng-if="createVm.model.areaPartitionId && (createVillageForm.areaPartition.$dirty||createVillageForm.submitted)">
-      <span class="form-error" ng-show="createVillageForm.areaPartition.$error.required">
-        所属区域不能为空
-      </span>
     </div>
   </div>
 
@@ -159,6 +152,7 @@
     <label class="w-label-control" style="width: 60px;">小区账号:</label>
     <div class="pull-left m-r-lg">
       <input type="text"
+             ng-disabled="createVm.isUpdate"
              class="w-xl p-h-xs m-r-xs w-form-control"
              ng-model="createVm.model.userName"
              name="userName"

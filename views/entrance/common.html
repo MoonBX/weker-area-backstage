@@ -71,14 +71,17 @@
     <th>操作</th>
     </thead>
     <tr ng-repeat="item in commonVm.commonList">
-      <td>{{item.communityName}}</td>
-      <td>{{item.userName}}</td>
-      <td>{{item.userStatus_cn}}</td>
-      <td>{{item.mobile}}</td>
-      <td>{{item.cardType_cn}}</td>
-      <td>{{item.cardNo}}</td>
-      <td>{{item.startTime | date: 'yyyy-MM-dd'}} 至 {{item.endTime | date: 'yyyy-MM-dd'}}</td>
-      <td>{{item.status_cn}}</td>
+      <td>{{item.communityName || '-'}}</td>
+      <td>{{item.userName || '-'}}</td>
+      <td>{{item.userStatus_cn || '-'}}</td>
+      <td>{{item.mobile || '-'}}</td>
+      <td>{{item.cardType_cn || '-'}}</td>
+      <td>{{item.cardNo || '-'}}</td>
+      <td>{{item.startTime | date: 'yyyy-MM-dd' || '-'}} 至 {{item.endTime | date: 'yyyy-MM-dd' || '-'}}</td>
+      <td>
+        <span class="state-circle" ng-class="{'circle-red': item.status == '1', 'circle-green': item.status == '0'}"></span>
+        {{item.status_cn || '-'}}
+      </td>
       <td>
         <a href="javascript:;"
            ng-click="commonVm.openModal('c-detail','cDetailCtl as cDetailVm')">
