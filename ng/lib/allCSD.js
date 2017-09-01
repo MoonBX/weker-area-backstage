@@ -196,7 +196,7 @@ function myCascadeFive(){
       units: '=',
       rooms: '='
     },
-    template: '<div class="pull-left w-sm m-r-sm"><select ui-select2 ng-model="communityId" data-placeholder="小区" ng-change="getPartitions({communityId: communityId})"> <option value=""></option><option ng-value="item.communityId" ng-repeat="item in communities"> {{item.communityName}} </option> </select></div> <div class="pull-left w-sm m-r-sm"><select ui-select2 ng-model="partitionId" data-placeholder="分区" ng-change="getBlocks({partitionId: partitionId})"> <option value=""></option><option ng-value="item.communityPartitionId" ng-repeat="item in partitions"> {{item.communityPartitionName}} </option> </select> </div><div class="pull-left w-xs m-r-sm" > <select ui-select2 name="louyu" ng-model="blockId" data-placeholder="楼宇" ng-change="getUnits({blockId: blockId})"> <option value=""></option> <option ng-value="item.communityBlockId" ng-repeat="item in blocks"> {{item.communityBlockName}} </option> </select> </div><div class="pull-left w-xs m-r-sm"> <select ui-select2 name="danyuan" ng-model="unitId" data-placeholder="单元" ng-change="getRooms({unitId: unitId})"> <option value=""></option> <option ng-value="item.unitId" ng-repeat="item in units"> {{item.unitName}} </option> </select> </div><div class="pull-left w-xs m-r-lg"> <select ui-select2 name="fanghao" ng-model="roomId" data-placeholder="房号"> <option value=""></option> <option ng-value="item.roomNoId" ng-repeat="item in rooms"> {{item.code}} </option> </select> </div>'
+    template: '<div class="pull-left w-sm m-r-sm"><select ng-cloak ui-select2 ng-model="communityId" data-placeholder="小区" ng-change="getPartitions({communityId: communityId})"> <option value=""></option><option ng-value="item.communityId" ng-repeat="item in communities"> {{item.communityName}} </option> </select></div> <div class="pull-left w-sm m-r-sm"><select ng-cloak ui-select2 ng-model="partitionId" data-placeholder="分区" ng-change="getBlocks({partitionId: partitionId})"> <option value=""></option><option ng-value="item.communityPartitionId" ng-repeat="item in partitions"> {{item.communityPartitionName}} </option> </select> </div><div class="pull-left w-xs m-r-sm" > <select ng-cloak ui-select2 name="louyu" ng-model="blockId" data-placeholder="楼宇" ng-change="getUnits({blockId: blockId})"> <option value=""></option> <option ng-value="item.communityBlockId" ng-repeat="item in blocks"> {{item.communityBlockName}} </option> </select> </div><div class="pull-left w-xs m-r-sm"> <select ng-cloak ui-select2 name="danyuan" ng-model="unitId" data-placeholder="单元" ng-change="getRooms({unitId: unitId})"> <option value=""></option> <option ng-value="item.unitId" ng-repeat="item in units"> {{item.unitName}} </option> </select> </div><div class="pull-left w-xs m-r-lg"> <select ng-cloak ui-select2 name="fanghao" ng-model="roomId" data-placeholder="房号"> <option value=""></option> <option ng-value="item.roomNoId" ng-repeat="item in rooms"> {{item.code}} </option> </select> </div>'
   }
 }
 
@@ -218,7 +218,7 @@ function myCascadeFour(){
       blocks: '=',
       units: '='
     },
-    template: '<div class="pull-left w-sm m-r-sm"><select ui-select2 ng-model="communityId" data-placeholder="小区" ng-change="getPartitions({communityId: communityId})"> <option value=""></option><option ng-value="item.communityId" ng-repeat="item in communities"> {{item.communityName}} </option> </select></div> <div class="pull-left w-sm m-r-sm"><select ui-select2 ng-model="partitionId" data-placeholder="分区" ng-change="getBlocks({partitionId: partitionId})"> <option value=""></option><option ng-value="item.communityPartitionId" ng-repeat="item in partitions"> {{item.communityPartitionName}} </option> </select> </div><div class="pull-left w-xs m-r-sm" > <select ui-select2 name="louyu" ng-model="blockId" data-placeholder="楼宇" ng-change="getUnits({blockId: blockId})"> <option value=""></option> <option ng-value="item.communityBlockId" ng-repeat="item in blocks"> {{item.communityBlockName}} </option> </select> </div><div class="pull-left w-xs m-r-sm"> <select ui-select2 name="danyuan" ng-model="unitId" data-placeholder="单元" ng-change="getRooms({unitId: unitId})"> <option value=""></option> <option ng-value="item.unitId" ng-repeat="item in units"> {{item.unitName}} </option> </select> </div>'
+    template: '<div class="pull-left w-sm m-r-sm"><select ng-cloak ui-select2 ng-model="communityId" data-placeholder="小区" ng-change="getPartitions({communityId: communityId})"> <option value=""></option><option ng-value="item.communityId" ng-repeat="item in communities"> {{item.communityName}} </option> </select></div> <div class="pull-left w-sm m-r-sm"><select ng-cloak ui-select2 ng-model="partitionId" data-placeholder="分区" ng-change="getBlocks({partitionId: partitionId})"> <option value=""></option><option ng-value="item.communityPartitionId" ng-repeat="item in partitions"> {{item.communityPartitionName}} </option> </select> </div><div class="pull-left w-xs m-r-sm" > <select ui-select2 ng-cloak name="louyu" ng-model="blockId" data-placeholder="楼宇" ng-change="getUnits({blockId: blockId})"> <option value=""></option> <option ng-value="item.communityBlockId" ng-repeat="item in blocks"> {{item.communityBlockName}} </option> </select> </div><div class="pull-left w-xs m-r-sm"> <select ng-cloak ui-select2 name="danyuan" ng-model="unitId" data-placeholder="单元" ng-change="getRooms({unitId: unitId})"> <option value=""></option> <option ng-value="item.unitId" ng-repeat="item in units"> {{item.unitName}} </option> </select> </div>'
   }
 }
 /**
@@ -275,7 +275,7 @@ function mySelect(){
       model: '=',
       placeholder: '@'
     },
-    template: '<select ui-select2 ng-model="model" data-placeholder="{{placeholder}}"> <option value=""></option> <option ng-repeat="item in optList" ng-value="$index">{{item}}</select>'
+    template: '<select ng-cloak ui-select2 ng-model="model" data-placeholder="{{placeholder}}"> <option value=""></option> <option ng-repeat="item in optList" ng-value="$index">{{item}}</select>'
   }
 }
 /**
@@ -399,7 +399,7 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
 
   vm.getDevice = getDevice;
   function getDevice(pageNo, obj) {
-    deviceSrv.getDevice(pageNo, 7, obj).then(function (res) {
+    deviceSrv.getDevice(pageNo, 9, obj).then(function (res) {
       console.log(res);
 
       vm.pages = [];
@@ -437,9 +437,9 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
           }
         }
         vm.deviceList = res.data.list;
-        vm.pagesNum = Math.ceil(res.data.total / 7);
+        vm.pagesNum = Math.ceil(res.data.total / 9);
         vm.pagesTotal = res.data.total;
-        var pagesSplit = 7;
+        var pagesSplit = 9;
 
         if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
           vm.isFirstPage = true;
@@ -623,7 +623,7 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
 
   vm.getResident = getResident;
   function getResident(pageNo, obj){
-    doorSrv.getResident(pageNo, 7, obj).then(function(res){
+    doorSrv.getResident(pageNo, 9, obj).then(function(res){
       console.log(res);
       vm.pages = [];
 
@@ -631,7 +631,7 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
         for(var i=0; i<res.data.list.length; i++){
           switch (res.data.list[i].userType) {
             case 0:
-              res.data.list[i].userType_cn = '业主';
+              res.data.list[i].userType_cn = '户主';
               break;
             case 1:
               res.data.list[i].userType_cn = '家人';
@@ -654,9 +654,9 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
           }
         }
         vm.householdList = res.data.list;
-        vm.pagesNum = Math.ceil(res.data.total / 7);
+        vm.pagesNum = Math.ceil(res.data.total / 9);
         vm.pagesTotal = res.data.total;
-        var pagesSplit = 7;
+        var pagesSplit = 9;
 
         if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
           vm.isFirstPage = true;
@@ -738,7 +738,7 @@ function commonCtl($modal,$location,$state, doorSrv,mainSrv){
 
   vm.getPublicCard = getPublicCard;
   function getPublicCard(pageNo, obj){
-    doorSrv.getPublicCard(pageNo, 7, obj).then(function(res){
+    doorSrv.getPublicCard(pageNo, 9, obj).then(function(res){
       console.log(res);
       vm.pages = [];
       if(res.success) {
@@ -788,9 +788,9 @@ function commonCtl($modal,$location,$state, doorSrv,mainSrv){
           }
         }
         vm.commonList = res.data.list;
-        vm.pagesNum = Math.ceil(res.data.total / 7);
+        vm.pagesNum = Math.ceil(res.data.total / 9);
         vm.pagesTotal = res.data.total;
-        var pagesSplit = 7;
+        var pagesSplit = 9;
 
         if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
           vm.isFirstPage = true;
@@ -1038,7 +1038,7 @@ function openCtl($modal, $location,$state, logSrv, mainSrv){
 
   vm.getUnlock = getUnlock;
   function getUnlock(pageNo, obj){
-    logSrv.getUnlock(pageNo, 7, obj).then(function(res){
+    logSrv.getUnlock(pageNo, 9, obj).then(function(res){
       console.log(res);
 
       vm.pages = [];
@@ -1072,9 +1072,9 @@ function openCtl($modal, $location,$state, logSrv, mainSrv){
           }
         }
         vm.unlockList = res.data.list;
-        vm.pagesNum = Math.ceil(res.data.total / 7);
+        vm.pagesNum = Math.ceil(res.data.total / 9);
         vm.pagesTotal = res.data.total;
-        var pagesSplit = 7;
+        var pagesSplit = 9;
 
         if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
           vm.isFirstPage = true;
@@ -1145,7 +1145,7 @@ function removeCtl($location,$state, logSrv,mainSrv){
 
   vm.getAlarm = getAlarm;
   function getAlarm(pageNo, obj){
-    logSrv.getAlarm(pageNo, 7, obj).then(function(res){
+    logSrv.getAlarm(pageNo, 9, obj).then(function(res){
       console.log(res);
 
       vm.pages = [];
@@ -1164,9 +1164,9 @@ function removeCtl($location,$state, logSrv,mainSrv){
           }
         }
         vm.removeList = res.data.list;
-        vm.pagesNum = Math.ceil(res.data.total / 7);
+        vm.pagesNum = Math.ceil(res.data.total / 9);
         vm.pagesTotal = res.data.total;
-        var pagesSplit = 7;
+        var pagesSplit = 9;
 
         if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
           vm.isFirstPage = true;
@@ -1185,8 +1185,13 @@ function removeCtl($location,$state, logSrv,mainSrv){
   }
 }
 
-function oDetailCtl(items){
+function oDetailCtl(items, $modalInstance){
   var vm = this;
+
+  vm.cancel = cancel;
+  function cancel() {
+    $modalInstance.dismiss('cancel');
+  }
 
   console.log(items);
   vm.model = items;
@@ -1427,7 +1432,7 @@ function villageCtl($modal, $rootScope, $location, $state, villageSrv, mainSrv) 
     villageSrv.getArea().then(function (res) {
       console.log(res);
       vm.arrayList = res.data;
-    
+
     })
   }
 
@@ -1484,13 +1489,23 @@ function villageCtl($modal, $rootScope, $location, $state, villageSrv, mainSrv) 
   }
 
   function getCommunity(pageNo, obj) {
-    villageSrv.getCommunity(pageNo, 7, obj).then(function (res) {
+    villageSrv.getCommunity(pageNo, 9, obj).then(function (res) {
       console.log('获取小区列表: ', res);
       vm.pages = [];
       vm.communityList = res.data.list;
-      vm.pagesNum = Math.ceil(res.data.total / 7);
+      vm.pagesNum = Math.ceil(res.data.total / 9);
       vm.pagesTotal = res.data.total;
-      var pagesSplit = 7;
+      var pagesSplit = 9;
+
+      console.log(vm.communityList)
+      for(var i=0; i<vm.communityList.length; i++){
+        if(vm.communityList[i].userName){
+          vm.communityList[i].userNameArr = vm.communityList[i].userName.split('/');
+        }
+        console.log(vm.communityList[i].userNameArr)
+      }
+
+      console.log(vm.communityList)
 
       if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
         vm.isFirstPage = true;
@@ -1528,6 +1543,7 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
     vm.model.estateName = items.estateName;
     vm.model.estateTel = items.estateTel;
     vm.model = {
+      communityId: items.communityId,
       userName: items.account,
       areaPartitionId: items.areaPartitionId,
       estateName: items.estateName,
@@ -1536,7 +1552,7 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
       consumerTel: items.consumerTel,
       password: '',
       communityName: items.communityName
-    }
+    };
     vm.createVillage = updateVillage;
   } else {
     vm.title = '添加小区';
@@ -1567,12 +1583,12 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
         console.log(res);
         if (res.success) {
           toastr.info('创建成功');
-          $timeout(function(){
+          $timeout(function () {
             $rootScope.$broadcast('refresh-village');
             cancel();
           }, 500);
         } else {
-           toastr.info(res.message);
+          toastr.info(res.message);
         }
       })
     } else {
@@ -1587,7 +1603,7 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
         console.log(res);
         if (res.success) {
           toastr.info('修改成功');
-          $timeout(function(){
+          $timeout(function () {
             $rootScope.$broadcast('refresh-village');
             cancel();
           }, 500);
@@ -1742,11 +1758,11 @@ function appearCtl(villageSrv, $modalInstance, $filter, $timeout, items, toastr)
   vm.selectAll = selectAll;
   function selectAll() {
     vm.checkAllToggle = !vm.checkAllToggle;
-    if(vm.checkAllToggle){
+    if (vm.checkAllToggle) {
       for (var i = 0; i < vm.unitListGroup.length; i++) {
         vm.unitListGroup[i].select = true;
       }
-    }else{
+    } else {
       for (var i = 0; i < vm.unitListGroup.length; i++) {
         vm.unitListGroup[i].select = false;
       }
@@ -1758,12 +1774,12 @@ function appearCtl(villageSrv, $modalInstance, $filter, $timeout, items, toastr)
     obj.select = true;
   }
 
-  function checkSelectCurrent(){
-    if(vm.checkAllToggle){
+  function checkSelectCurrent() {
+    if (vm.checkAllToggle) {
       for (var i = 0; i < vm.unitListGroup.length; i++) {
         vm.unitListGroup[i].select = true;
       }
-    }else{
+    } else {
       for (var i = 0; i < vm.unitListGroup.length; i++) {
         vm.unitListGroup[i].select = false;
       }
@@ -1779,7 +1795,7 @@ function appearCtl(villageSrv, $modalInstance, $filter, $timeout, items, toastr)
     for (var i = 0; i < vm.unitListGroup.length; i++) {
       if (vm.unitListGroup[i].select == true) {
         var locationIsExist = findArray(vm.unitListGroup[i].data, {location: location});
-        if(locationIsExist == -1){
+        if (locationIsExist == -1) {
           objArr.push({
             blockId: vm.unitListGroup[i].data[0].blockId,
             location: location,
@@ -1794,7 +1810,7 @@ function appearCtl(villageSrv, $modalInstance, $filter, $timeout, items, toastr)
     }
     obj.list = objArr;
     console.log(obj);
-    if(obj.list.length){
+    if (obj.list.length) {
       villageSrv.createDeviceTask(obj).then(function (res) {
         if (res.success) {
           getDeviceTask(vm.partitionId, vm.taskIndex);
@@ -1804,28 +1820,28 @@ function appearCtl(villageSrv, $modalInstance, $filter, $timeout, items, toastr)
           toastr.info(res.message);
         }
       })
-    }else{
+    } else {
       toastr.info('请先勾选单元信息')
     }
 
   }
 
   vm.try_delete_unit = try_delete_unit;
-  function try_delete_unit(location){
+  function try_delete_unit(location) {
     var obj = {};
     var objArr = [];
     //checkSelectCurrent();
     for (var i = 0; i < vm.unitListGroup.length; i++) {
       if (vm.unitListGroup[i].select == true) {
         var locationIsExist = findArray(vm.unitListGroup[i].data, {location: location});
-        if(locationIsExist != -1){
+        if (locationIsExist != -1) {
           objArr.push(vm.unitListGroup[i].data[locationIsExist].id);
         }
       }
     }
     console.log(objArr);
     obj.ids = objArr;
-    if(obj.ids.length){
+    if (obj.ids.length) {
       console.log(obj);
       villageSrv.deleteMultiDeviceTask(obj).then(function (res) {
         if (res.success) {
@@ -1836,7 +1852,7 @@ function appearCtl(villageSrv, $modalInstance, $filter, $timeout, items, toastr)
           toastr.info(res.message);
         }
       })
-    }else{
+    } else {
       toastr.info('请先勾选单元信息')
     }
 
@@ -1844,21 +1860,21 @@ function appearCtl(villageSrv, $modalInstance, $filter, $timeout, items, toastr)
 
   function findArray(array, feature) {
     var all = true;
-    for(var index in array){
+    for (var index in array) {
       var cur = array[index];
-      if(feature instanceof Object){
+      if (feature instanceof Object) {
         var allRight = true;
-        for(var key in feature){
+        for (var key in feature) {
           var value = feature[key];
-          if(cur[key] == value && !all) return index;
-          if(all && cur[key] != value){
+          if (cur[key] == value && !all) return index;
+          if (all && cur[key] != value) {
             allRight = false;
             break;
           }
         }
-        if(allRight) return index;
-      }else{
-        if(cur == feature){
+        if (allRight) return index;
+      } else {
+        if (cur == feature) {
           return index;
         }
       }
@@ -1869,12 +1885,12 @@ function appearCtl(villageSrv, $modalInstance, $filter, $timeout, items, toastr)
   //增加围墙机
   vm.addWallMachine = addWallMachine;
   function addWallMachine() {
-    if(checkTextTemp(vm.wallMachineName)==-1){
+    if (checkTextTemp(vm.wallMachineName) == -1) {
       toastr.info('围墙机字数不能超过10个字')
-    }else{
+    } else {
       var objArr = {};
       objArr.list = [];
-      if(vm.wallMachineName){
+      if (vm.wallMachineName) {
         var postObj = {
           location: vm.wallMachineName,
           deviceType: 0,
@@ -1962,7 +1978,7 @@ function appearCtl(villageSrv, $modalInstance, $filter, $timeout, items, toastr)
           }
         })
       }
-    }else {
+    } else {
       console.log('请填写正确的手机号码');
     }
   }
@@ -1973,8 +1989,8 @@ function appearCtl(villageSrv, $modalInstance, $filter, $timeout, items, toastr)
     return flag;
   }
 
-  function checkTextTemp(text){
-    if(text.length>10){
+  function checkTextTemp(text) {
+    if (text.length > 10) {
       return -1;
     }
   }
@@ -2120,24 +2136,36 @@ function roomCtl($scope, $rootScope, villageSrv, $modalInstance, items, toastr) 
     $modalInstance.dismiss('cancel');
   }
 
-  function check_add_branch_input(){
-    if($scope.dataAdd.length>11){
-      $scope.dataAdd = $scope.dataAdd.substr(0,10);
+  function check_add_branch_input() {
+    if ($scope.dataAdd.length > 11) {
+      $scope.dataAdd = $scope.dataAdd.substr(0, 10);
     }
   }
 
-  function checkTextTemp(text){
-    if(text.length>10){
+  function checkTextTemp(text) {
+    if (text.length > 10) {
       return -1;
+    }
+  }
+
+  function check_four_number(number){
+    var numReg = /^\d{4}$/;
+    if(numReg.test(number)){
+      return 1;
+    }else{
+      return -1
     }
   }
 
   function try_adding_a_branch(model, end) {
     var b;
     var obj = {};
-    if(checkTextTemp(model) == -1){
+    if (checkTextTemp(model) == -1) {
       toastr.info('请输入10个字符之内')
-    }else{
+    } else if(!model){
+      toastr.info('内容不能为空')
+    }
+    else {
       b = tree.get_selected_branch();
       if (b.level == 1) {
         console.log('add level 2');
@@ -2165,8 +2193,8 @@ function roomCtl($scope, $rootScope, villageSrv, $modalInstance, items, toastr) 
         console.log('level 3: ', obj);
         console.log(blockModel, parseInt(model), parseInt(end));
 
-        if(end){
-          if(parseInt(model) == parseInt(end)+1) return;
+        if (end) {
+          if (parseInt(model) == parseInt(end) + 1) return;
           villageSrv.addBlock(obj).then(function (res) {
             console.log('添加楼幢成功: ', res);
             if (res.success) {
@@ -2178,10 +2206,10 @@ function roomCtl($scope, $rootScope, villageSrv, $modalInstance, items, toastr) 
             } else {
               toastr.info(res.message);
             }
-          }).then(function(){
+          }).then(function () {
             try_adding_a_branch(parseInt(blockModel) + 1, parseInt(end));
           })
-        }else{
+        } else {
           villageSrv.addBlock(obj).then(function (res) {
             console.log('添加楼幢成功: ', res);
             if (res.success) {
@@ -2215,22 +2243,27 @@ function roomCtl($scope, $rootScope, villageSrv, $modalInstance, items, toastr) 
         })
       } else if (b.level == 4) {
         console.log('add level 5');
-        obj.communityId = vm.model.communityId;
-        obj.unitId = b.id;
-        obj.code = addPreZero(model);
-        console.log(obj.code);
-        villageSrv.addRoomNo(obj).then(function (res) {
-          console.log('添加房号成功: ', res);
-          if (res.success) {
-            return tree.add_branch(b, {
-              label: obj.code,
-              id: res.data.id,
-              level: 5
-            });
-          } else {
-            toastr.info(res.message);
-          }
-        })
+        if(check_four_number(model) != -1){
+          obj.communityId = vm.model.communityId;
+          obj.unitId = b.id;
+          obj.code = addPreZero(model);
+          console.log(obj.code);
+          villageSrv.addRoomNo(obj).then(function (res) {
+            console.log('添加房号成功: ', res);
+            if (res.success) {
+              return tree.add_branch(b, {
+                label: obj.code,
+                id: res.data.id,
+                level: 5
+              });
+            } else {
+              toastr.info(res.message);
+            }
+          })
+        }else{
+          toastr.info('房号应为4位数字');
+        }
+
       }
     }
   };
@@ -2732,7 +2765,7 @@ angular.module('httpApi', [])
 httpSrv.$inject = ['$q', '$http'];
 function httpSrv() {
   var server = "http://114.55.143.170:8085";
-  // var server = "http://192.168.23.241:8085";
+   //var server = "http://192.168.23.241:8085";
   // var server = "http://116.62.39.38:8085";
   var list = {
     getHttpRoot: function(){
@@ -3084,7 +3117,7 @@ function villageSrv($q, $http, httpSrv){
       var defer = $q.defer();
       $http({
         method: 'POST',
-        url: server + '/community/add',
+        url: server + '/community/edit',
         data: obj,
         headers: {
           'token': localStorage.wekerAreaToken,
