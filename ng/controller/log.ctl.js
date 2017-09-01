@@ -124,7 +124,7 @@ function openCtl($modal, $location,$state, logSrv, mainSrv){
 
   vm.getUnlock = getUnlock;
   function getUnlock(pageNo, obj){
-    logSrv.getUnlock(pageNo, 7, obj).then(function(res){
+    logSrv.getUnlock(pageNo, 9, obj).then(function(res){
       console.log(res);
 
       vm.pages = [];
@@ -158,9 +158,9 @@ function openCtl($modal, $location,$state, logSrv, mainSrv){
           }
         }
         vm.unlockList = res.data.list;
-        vm.pagesNum = Math.ceil(res.data.total / 7);
+        vm.pagesNum = Math.ceil(res.data.total / 9);
         vm.pagesTotal = res.data.total;
-        var pagesSplit = 7;
+        var pagesSplit = 9;
 
         if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
           vm.isFirstPage = true;
@@ -231,7 +231,7 @@ function removeCtl($location,$state, logSrv,mainSrv){
 
   vm.getAlarm = getAlarm;
   function getAlarm(pageNo, obj){
-    logSrv.getAlarm(pageNo, 7, obj).then(function(res){
+    logSrv.getAlarm(pageNo, 9, obj).then(function(res){
       console.log(res);
 
       vm.pages = [];
@@ -250,9 +250,9 @@ function removeCtl($location,$state, logSrv,mainSrv){
           }
         }
         vm.removeList = res.data.list;
-        vm.pagesNum = Math.ceil(res.data.total / 7);
+        vm.pagesNum = Math.ceil(res.data.total / 9);
         vm.pagesTotal = res.data.total;
-        var pagesSplit = 7;
+        var pagesSplit = 9;
 
         if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
           vm.isFirstPage = true;
@@ -271,8 +271,13 @@ function removeCtl($location,$state, logSrv,mainSrv){
   }
 }
 
-function oDetailCtl(items){
+function oDetailCtl(items, $modalInstance){
   var vm = this;
+
+  vm.cancel = cancel;
+  function cancel() {
+    $modalInstance.dismiss('cancel');
+  }
 
   console.log(items);
   vm.model = items;

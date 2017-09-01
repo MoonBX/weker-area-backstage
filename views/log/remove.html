@@ -67,8 +67,13 @@
       </td>
     </tr>
   </table>
-  </div>
+</div>
+<div class="m-t-lg text-center"
+     ng-if="!removeVm.removeList.length">
+  暂无数据
+</div>
 <my-pagination
+  ng-if="removeVm.removeList.length"
   pages="removeVm.pages"
   page-active="page.active"
   is-first-page="removeVm.isFirstPage"

@@ -45,7 +45,7 @@
       <div class="w-sm pull-left m-r-lg">
         <my-select model="householdVm.selectList.userType"
                    placeholder="请选择住户身份"
-                   opt-list="['业主', '家人', '租客']">
+                   opt-list="['户主', '家人', '租客']">
         </my-select>
       </div>
     </div>
@@ -76,7 +76,7 @@
     <th>单元信息</th>
     <th>住户姓名</th>
     <th>手机号码</th>
-    <th width="25%">卡号</th>
+    <th width="20%">卡号</th>
     <th>住户身份</th>
     <th>住户状态</th>
     <th>操作</th>
@@ -88,21 +88,31 @@
       <td>{{item.mobile || '-'}}</td>
       <td>{{item.cardTypeName || '-'}}</td>
       <td>{{item.userType_cn || '-'}}</td>
-      <td>
+      <td ng-if="item.effectiveType != null">
         <span class="state-circle" ng-class="{'circle-red': item.status == '1', 'circle-green': item.status == '0'}"></span>
         {{item.status_cn || '-'}}
       </td>
-      <td>
+      <td ng-if="item.effectiveType == null">
+        无门禁
+      </td>
+      <td ng-if="item.effectiveType != null">
         <a href="javascript:;"
            ng-click="householdVm.openModal('h-detail','hDetailCtl as hDetailVm', item)">
-          详情
-        </a>
+        详情
+      </a>
+      </td>
+      <td ng-if="item.effectiveType == null">
+        <span style="cursor: pointer">详情</span>
       </td>
     </tr>
   </table>
 </div>
-
+<div class="m-t-lg text-center"
+     ng-if="!householdVm.householdList.length">
+  暂无数据
+</div>
 <my-pagination
+  ng-if="householdVm.householdList.length"
   pages="householdVm.pages"
   page-active="page.active"
   is-first-page="householdVm.isFirstPage"

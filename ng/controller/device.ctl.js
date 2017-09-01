@@ -119,7 +119,7 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
 
   vm.getDevice = getDevice;
   function getDevice(pageNo, obj) {
-    deviceSrv.getDevice(pageNo, 7, obj).then(function (res) {
+    deviceSrv.getDevice(pageNo, 9, obj).then(function (res) {
       console.log(res);
 
       vm.pages = [];
@@ -157,9 +157,9 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
           }
         }
         vm.deviceList = res.data.list;
-        vm.pagesNum = Math.ceil(res.data.total / 7);
+        vm.pagesNum = Math.ceil(res.data.total / 9);
         vm.pagesTotal = res.data.total;
-        var pagesSplit = 7;
+        var pagesSplit = 9;
 
         if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
           vm.isFirstPage = true;

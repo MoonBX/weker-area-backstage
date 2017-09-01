@@ -12,6 +12,6 @@ function mySelect(){
       model: '=',
       placeholder: '@'
     },
-    template: '<select ui-select2 ng-model="model" data-placeholder="{{placeholder}}"> <option value=""></option> <option ng-repeat="item in optList" ng-value="$index">{{item}}</select>'
+    template: '<select ng-cloak ui-select2 ng-model="model" data-placeholder="{{placeholder}}"> <option value=""></option> <option ng-repeat="item in optList" ng-value="$index">{{item}}</select>'
   }
 }

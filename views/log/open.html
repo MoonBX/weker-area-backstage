@@ -77,15 +77,6 @@
       />
     </div>
 
-    <div class="item m-b-sm">
-      <label class="w-label-control">卡类型: </label>
-      <div class="w-sm pull-left m-r-lg">
-        <my-select model="openVm.selectList.cardType"
-                   placeholder="请选择卡类型"
-                   opt-list="['无', 'IC卡', 'ID卡']">
-        </my-select>
-      </div>
-    </div>
   </div>
 
   <div class="row text-center m-t-md">
@@ -138,8 +129,12 @@
     </tr>
   </table>
 </div>
-
+<div class="m-t-lg text-center"
+     ng-if="!openVm.unlockList.length">
+  暂无数据
+</div>
 <my-pagination
+  ng-if="openVm.unlockList.length"
   pages="openVm.pages"
   page-active="page.active"
   is-first-page="openVm.isFirstPage"

@@ -13,7 +13,7 @@
     <div class="row m-b-sm">
       <span class="title">{{hDetailVm.model.name}}</span>
       <span class="phone">{{hDetailVm.model.mobile}}</span>
-      <span class="state badge bg-success">{{hDetailVm.model.status_cn}}</span>
+      <span class="state badge" ng-class="{'bg-success': hDetailVm.model.status == 0, 'bg-danger': hDetailVm.model.status == 1}">{{hDetailVm.model.status_cn}}</span>
     </div>
     <div class="row m-b-sm">
       <span class="address">{{hDetailVm.model.partitionName}}-{{hDetailVm.model.blockName}}-{{hDetailVm.model.unitName}}-{{hDetailVm.model.roomNo}}</span>
@@ -30,7 +30,12 @@
     </div>
     <div class="row m-b-xs">
       <span class="title">有效期限:</span>
-      <span class="value">{{hDetailVm.model.effectiveStartTime}} 至 {{hDetailVm.model.effectiveEndTime}}</span>
+      <span ng-if="hDetailVm.model.effectiveType == 0" class="value">永久</span>
+      <span ng-if="hDetailVm.model.effectiveType != 0 &&
+                   hDetailVm.model.effectiveType != null" class="value">
+        {{hDetailVm.model.effectiveStartTime}} 至 {{hDetailVm.model.effectiveEndTime}}
+      </span>
+      <span ng-if="hDetailVm.model.effectiveType == null" class="value">无门禁</span>
     </div>
     <div class="row m-b-xs">
       <span class="title">卡类型:</span>

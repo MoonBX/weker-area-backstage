@@ -122,8 +122,12 @@
           </tr>
         </table>
       </div>
-
+      <div class="m-t-lg text-center"
+           ng-if="!deviceVm.deviceList.length">
+        暂无数据
+      </div>
       <my-pagination
+        ng-if="deviceVm.deviceList.length"
         pages="deviceVm.pages"
         page-active="page.active"
         is-first-page="deviceVm.isFirstPage"

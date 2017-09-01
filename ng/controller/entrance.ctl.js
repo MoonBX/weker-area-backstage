@@ -123,7 +123,7 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
 
   vm.getResident = getResident;
   function getResident(pageNo, obj){
-    doorSrv.getResident(pageNo, 7, obj).then(function(res){
+    doorSrv.getResident(pageNo, 9, obj).then(function(res){
       console.log(res);
       vm.pages = [];
 
@@ -131,7 +131,7 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
         for(var i=0; i<res.data.list.length; i++){
           switch (res.data.list[i].userType) {
             case 0:
-              res.data.list[i].userType_cn = '业主';
+              res.data.list[i].userType_cn = '户主';
               break;
             case 1:
               res.data.list[i].userType_cn = '家人';
@@ -154,9 +154,9 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
           }
         }
         vm.householdList = res.data.list;
-        vm.pagesNum = Math.ceil(res.data.total / 7);
+        vm.pagesNum = Math.ceil(res.data.total / 9);
         vm.pagesTotal = res.data.total;
-        var pagesSplit = 7;
+        var pagesSplit = 9;
 
         if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
           vm.isFirstPage = true;
@@ -238,7 +238,7 @@ function commonCtl($modal,$location,$state, doorSrv,mainSrv){
 
   vm.getPublicCard = getPublicCard;
   function getPublicCard(pageNo, obj){
-    doorSrv.getPublicCard(pageNo, 7, obj).then(function(res){
+    doorSrv.getPublicCard(pageNo, 9, obj).then(function(res){
       console.log(res);
       vm.pages = [];
       if(res.success) {
@@ -288,9 +288,9 @@ function commonCtl($modal,$location,$state, doorSrv,mainSrv){
           }
         }
         vm.commonList = res.data.list;
-        vm.pagesNum = Math.ceil(res.data.total / 7);
+        vm.pagesNum = Math.ceil(res.data.total / 9);
         vm.pagesTotal = res.data.total;
-        var pagesSplit = 7;
+        var pagesSplit = 9;
 
         if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
           vm.isFirstPage = true;
