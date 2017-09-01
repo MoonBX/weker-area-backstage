@@ -56,7 +56,6 @@ function villageCtl($modal, $rootScope, $location, $state, villageSrv, mainSrv, 
     }
   }
 
-
   vm.getSearch = getSearch;
   vm.clearSession = clearSession;
   function clearSession() {
@@ -145,13 +144,14 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
       estateTel: items.estateTel,
       operationTel: items.operationTel,
       consumerTel: items.consumerTel,
-      password: '●●●●●●',
+      password: '******',
       communityName: items.communityName
     };
     vm.createVillage = updateVillage;
     vm.passBlur = passBlurUpdate;
     getArea();
   } else {
+    vm.isUpdate = false;
     vm.title = '添加小区';
     vm.model.password = '123456';
     vm.createVillage = createVillage;
@@ -168,11 +168,16 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
   }
 
   function passBlurCreate(){
-    vm.model.password = '123456';
+    if(!vm.model.password){
+      vm.model.password = '123456';
+    }
   }
 
   function passBlurUpdate(){
-    vm.model.password = '●●●●●●';
+    if(!vm.model.password){
+      vm.model.password = '******';
+    }
+
   }
 
   vm.cancel = cancel;
@@ -213,8 +218,11 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
   }
 
   function updateVillage(obj) {
+    console.log(obj.password);
     if ($scope.createVillageForm.$valid) {
-      console.log(obj);
+      if(obj.password == "******"){
+        obj.password = "";
+      }
       villageSrv.editCommunity(obj).then(function (res) {
         console.log(res);
         if (res.success) {
@@ -390,23 +398,10 @@ function appearCtl(villageSrv, $modalInstance, $filter, $timeout, items, toastr)
     obj.select = true;
   }
 
-  function checkSelectCurrent() {
-    if (vm.checkAllToggle) {
-      for (var i = 0; i < vm.unitListGroup.length; i++) {
-        vm.unitListGroup[i].select = true;
-      }
-    } else {
-      for (var i = 0; i < vm.unitListGroup.length; i++) {
-        vm.unitListGroup[i].select = false;
-      }
-    }
-  }
-
   vm.try_adding_unit = try_adding_unit;
   function try_adding_unit(location) {
     var obj = {};
     var objArr = [];
-    //checkSelectCurrent();
     console.log(vm.unitListGroup);
     for (var i = 0; i < vm.unitListGroup.length; i++) {
       if (vm.unitListGroup[i].select == true) {
@@ -446,7 +441,6 @@ function appearCtl(villageSrv, $modalInstance, $filter, $timeout, items, toastr)
   function try_delete_unit(location) {
     var obj = {};
     var objArr = [];
-    //checkSelectCurrent();
     for (var i = 0; i < vm.unitListGroup.length; i++) {
       if (vm.unitListGroup[i].select == true) {
         var locationIsExist = findArray(vm.unitListGroup[i].data, {location: location});

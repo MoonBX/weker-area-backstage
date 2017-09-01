@@ -286,7 +286,7 @@ angular.module('deviceMdl', [])
   .controller('alertCtl', alertCtl)
   .controller('dDetailCtl', dDetailCtl);
 
-function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $rootScope) {
+function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $rootScope, toastr) {
   var vm = this;
   vm.openModal = openModal;
   vm.pageNo = parseInt($location.search().id);
@@ -452,6 +452,11 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
           vm.isFirstPage = false;
         }
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
+      }else{
+        toastr.info(res.message);
       }
     })
   }
@@ -512,7 +517,7 @@ function entranceCtl(){
   var vm = this;
 }
 
-function householdCtl($modal,$location,$state, doorSrv,mainSrv){
+function householdCtl($modal,$location,$state, doorSrv,mainSrv, $rootScope, toastr){
   var vm = this;
   vm.openModal = openModal;
   vm.pageNo = parseInt($location.search().id);
@@ -603,6 +608,11 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
   }
 
   function getSearch(obj, cb) {
+    if(obj.status == 0||obj.status == 1){
+      console.log('a');
+      obj.effectiveType = null;
+    }
+    console.log(obj);
     mainSrv.getSearch(obj, cb);
     $location.search('id', 1);
   }
@@ -669,12 +679,17 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
           vm.isFirstPage = false;
         }
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
+      }else{
+        toarst.info(res.message);
       }
     })
   }
 }
 
-function commonCtl($modal,$location,$state, doorSrv,mainSrv){
+function commonCtl($modal,$location,$state, doorSrv,mainSrv, $rootScope, toastr){
   var vm = this;
   vm.openModal = openModal;
   vm.pageNo = parseInt($location.search().id);
@@ -803,6 +818,11 @@ function commonCtl($modal,$location,$state, doorSrv,mainSrv){
           vm.isFirstPage = false;
         }
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
+      }else{
+        toastr.info(res.message);
       }
     })
   }
@@ -858,7 +878,7 @@ function cDetailCtl(items, $modalInstance){
 angular.module('homeMdl', [])
   .controller('homeCtl', homeCtl);
 
-function homeCtl(homeSrv){
+function homeCtl(homeSrv,$rootScope, toastr){
   var vm = this;
 
   vm.getAreaDevice = getAreaDevice;
@@ -878,9 +898,13 @@ function homeCtl(homeSrv){
         console.log(parseFloat(res.data.onlineRatio));
         vm.areaDeviceList = res.data;
         vm.areaDeviceList.onlineRatio = parseFloat(res.data.onlineRatio)
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
       }else{
         alert('获取失败')
       }
+
     })
   }
 
@@ -925,7 +949,7 @@ function logCtl(){
   var vm = this;
 }
 
-function openCtl($modal, $location,$state, logSrv, mainSrv){
+function openCtl($modal, $location,$state, logSrv, mainSrv, $rootScope, toastr){
   var vm = this;
   vm.openModal = openModal;
   vm.unlockList = [];
@@ -1087,6 +1111,11 @@ function openCtl($modal, $location,$state, logSrv, mainSrv){
           vm.isFirstPage = false;
         }
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
+      }else{
+        toastr.info(res.message);
       }
 
 
@@ -1094,7 +1123,7 @@ function openCtl($modal, $location,$state, logSrv, mainSrv){
   }
 }
 
-function removeCtl($location,$state, logSrv,mainSrv){
+function removeCtl($location,$state, logSrv,mainSrv, $rootScope, toastr){
   var vm = this;
   vm.pageNo = parseInt($location.search().id);
   vm.removeList = [];
@@ -1179,6 +1208,11 @@ function removeCtl($location,$state, logSrv,mainSrv){
           vm.isFirstPage = false;
         }
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
+      }else{
+        toastr.info(res.message);
       }
 
     })
@@ -1205,7 +1239,7 @@ angular.module('mainMdl', [])
 function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoadingBar, mainSrv, toastr){
   var mainVm = this;
 
-  console.log(localStorage);
+  console.log(localStorage.wekerAreaToken);
 
   mainVm.asideArr = [
     {title: '首页', icon: 'fa-home', sref: 'home', path: 'index', isActive: true},
@@ -1253,8 +1287,16 @@ function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoa
     if(path == 'login'){
       mainVm.isLogin = false;
     }else{
-      mainVm.isLogin = true;
+      if(!localStorage.wekerAreaToken){
+        mainVm.isLogin = false;
+        //$location.path('login');
+        window.location.href = '/#/login';
+        toastr.info('请先登录')
+      }else{
+        mainVm.isLogin = true;
+      }
     }
+
     for(var i=0;i<arr.length;i++){
       mainVm.asideArr[i].isActive = false;
       if(path === arr[i].path){
@@ -1368,11 +1410,17 @@ function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoa
     $timeout(function(){
       cfpLoadingBar.complete();
     }, 1000)
+
   });
 
   //$locationChangeSuccess: 监听路由变化事件
   $scope.$on("$locationChangeSuccess", function () {
     checkUrl();
+  });
+
+  $rootScope.$on("tokenExpired", function(){
+    window.location.href = '/#/login';
+
   });
 
   function openModal(template, controller){
@@ -1415,7 +1463,7 @@ angular.module('villageMdl', [])
   .controller('appearCtl', appearCtl)
   .controller('roomCtl', roomCtl);
 
-function villageCtl($modal, $rootScope, $location, $state, villageSrv, mainSrv) {
+function villageCtl($modal, $rootScope, $location, $state, villageSrv, mainSrv, toastr) {
   var vm = this;
 
   vm.openModal = openModal;
@@ -1431,8 +1479,9 @@ function villageCtl($modal, $rootScope, $location, $state, villageSrv, mainSrv) 
   function getArea() {
     villageSrv.getArea().then(function (res) {
       console.log(res);
-      vm.arrayList = res.data;
-
+      if(res.success) {
+        vm.arrayList = res.data;
+      }
     })
   }
 
@@ -1492,32 +1541,35 @@ function villageCtl($modal, $rootScope, $location, $state, villageSrv, mainSrv) 
     villageSrv.getCommunity(pageNo, 9, obj).then(function (res) {
       console.log('获取小区列表: ', res);
       vm.pages = [];
-      vm.communityList = res.data.list;
-      vm.pagesNum = Math.ceil(res.data.total / 9);
-      vm.pagesTotal = res.data.total;
-      var pagesSplit = 9;
+      if(res.success){
+        vm.communityList = res.data.list;
+        vm.pagesNum = Math.ceil(res.data.total / 9);
+        vm.pagesTotal = res.data.total;
+        var pagesSplit = 9;
 
-      console.log(vm.communityList)
-      for(var i=0; i<vm.communityList.length; i++){
-        if(vm.communityList[i].userName){
-          vm.communityList[i].userNameArr = vm.communityList[i].userName.split('/');
+        for(var i=0; i<vm.communityList.length; i++){
+          if(vm.communityList[i].userName){
+            vm.communityList[i].userNameArr = vm.communityList[i].userName.split('/');
+          }
         }
-        console.log(vm.communityList[i].userNameArr)
-      }
 
-      console.log(vm.communityList)
-
-      if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
-        vm.isFirstPage = true;
-        vm.isLastPage = true;
-      } else if (vm.pageNo == 1) {
-        vm.isFirstPage = true;
-        vm.isLastPage = false;
-      } else if (vm.pageNo == vm.pagesNum) {
-        vm.isLastPage = true;
-        vm.isFirstPage = false;
+        if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
+          vm.isFirstPage = true;
+          vm.isLastPage = true;
+        } else if (vm.pageNo == 1) {
+          vm.isFirstPage = true;
+          vm.isLastPage = false;
+        } else if (vm.pageNo == vm.pagesNum) {
+          vm.isLastPage = true;
+          vm.isFirstPage = false;
+        }
+        mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
+      }else{
+        toastr.info(res.message);
       }
-      mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
     })
   }
 
@@ -1535,7 +1587,6 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
 
   if (items) {
     console.log(items);
-    // vm.model = items;
     vm.isUpdate = true;
     vm.title = '修改小区';
     vm.model.userName = items.account;
@@ -1550,17 +1601,35 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
       estateTel: items.estateTel,
       operationTel: items.operationTel,
       consumerTel: items.consumerTel,
-      password: '',
+      password: '●●●●●●',
       communityName: items.communityName
     };
     vm.createVillage = updateVillage;
+    vm.passBlur = passBlurUpdate;
+    getArea();
   } else {
     vm.title = '添加小区';
     vm.model.password = '123456';
     vm.createVillage = createVillage;
+    vm.passBlur = passBlurCreate;
+
+    getArea();
   }
 
-  getArea();
+
+
+  vm.passFocus = passFocus;
+  function passFocus(){
+    vm.model.password = '';
+  }
+
+  function passBlurCreate(){
+    vm.model.password = '123456';
+  }
+
+  function passBlurUpdate(){
+    vm.model.password = '●●●●●●';
+  }
 
   vm.cancel = cancel;
   function cancel() {
@@ -1570,9 +1639,12 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
   function getArea() {
     villageSrv.getArea().then(function (res) {
       console.log(res);
-      vm.arrayList = res.data;
-      vm.model.areaPartitionId = vm.arrayList[0].id;
-      console.log(vm.model.areaPartitionId)
+      if(res.success){
+        vm.arrayList = res.data;
+        if(!items){
+          vm.model.areaPartitionId = vm.arrayList[0].id;
+        }
+      }
     })
   }
 
@@ -2764,8 +2836,8 @@ angular.module('httpApi', [])
 
 httpSrv.$inject = ['$q', '$http'];
 function httpSrv() {
-  var server = "http://114.55.143.170:8085";
-   //var server = "http://192.168.23.241:8085";
+  //var server = "http://114.55.143.170:8085";
+   var server = "http://192.168.23.241:8085";
   // var server = "http://116.62.39.38:8085";
   var list = {
     getHttpRoot: function(){

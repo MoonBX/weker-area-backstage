@@ -173,6 +173,7 @@
 
   <div class="row"
        style="position: relative;"
+       ng-if="!createVm.isUpdate"
        ng-class="{true: 'm-b-lg', false: 'm-b-md'}[!createVillageForm.password.$valid&& (createVillageForm.password.$dirty || createVillageForm.submitted)]">
     <label class="w-label-control" style="width: 60px;">小区密码:</label>
     <div class="pull-left m-r-lg">
@@ -192,6 +193,31 @@
         小区密码不能为空
       </span>
       <span class="form-error" ng-show="createVillageForm.password.$error.pattern">
+        小区密码长度在3~18位之间，只能包含字母、数字和下划线
+      </span>
+    </div>
+  </div>
+
+  <div class="row m-b-md"
+       style="position: relative;"
+       ng-if="createVm.isUpdate">
+    <label class="w-label-control" style="width: 60px;">小区密码:</label>
+    <div class="pull-left m-r-lg">
+      <input type="text"
+             class="w-xl p-h-xs m-r-xs w-form-control"
+             ng-model="createVm.model.password"
+             name="password"
+             ng-focus="createVm.passFocus()"
+             ng-blur="createVm.passBlur()"
+             ng-maxlength="18"
+             ng-minlength="3"
+      >
+    </div>
+    <div style="position: absolute;bottom: -20px;left: 72px;font-size: 12px;"
+         ng-if="createVillageForm.password.$dirty||createVillageForm.submitted">
+      <span class="form-error"
+            ng-show="createVillageForm.password.$error.maxlength||
+            createVillageForm.password.$error.minlength">
         小区密码长度在3~18位之间，只能包含字母、数字和下划线
       </span>
     </div>
