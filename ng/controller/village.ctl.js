@@ -7,7 +7,7 @@ angular.module('villageMdl', [])
   .controller('appearCtl', appearCtl)
   .controller('roomCtl', roomCtl);
 
-function villageCtl($modal, $rootScope, $location, $state, villageSrv, mainSrv) {
+function villageCtl($modal, $rootScope, $location, $state, villageSrv, mainSrv, toastr) {
   var vm = this;
 
   vm.openModal = openModal;
@@ -23,8 +23,9 @@ function villageCtl($modal, $rootScope, $location, $state, villageSrv, mainSrv) 
   function getArea() {
     villageSrv.getArea().then(function (res) {
       console.log(res);
-      vm.arrayList = res.data;
-
+      if(res.success) {
+        vm.arrayList = res.data;
+      }
     })
   }
 
@@ -84,32 +85,35 @@ function villageCtl($modal, $rootScope, $location, $state, villageSrv, mainSrv) 
     villageSrv.getCommunity(pageNo, 9, obj).then(function (res) {
       console.log('获取小区列表: ', res);
       vm.pages = [];
-      vm.communityList = res.data.list;
-      vm.pagesNum = Math.ceil(res.data.total / 9);
-      vm.pagesTotal = res.data.total;
-      var pagesSplit = 9;
+      if(res.success){
+        vm.communityList = res.data.list;
+        vm.pagesNum = Math.ceil(res.data.total / 9);
+        vm.pagesTotal = res.data.total;
+        var pagesSplit = 9;
 
-      console.log(vm.communityList)
-      for(var i=0; i<vm.communityList.length; i++){
-        if(vm.communityList[i].userName){
-          vm.communityList[i].userNameArr = vm.communityList[i].userName.split('/');
+        for(var i=0; i<vm.communityList.length; i++){
+          if(vm.communityList[i].userName){
+            vm.communityList[i].userNameArr = vm.communityList[i].userName.split('/');
+          }
         }
-        console.log(vm.communityList[i].userNameArr)
-      }
 
-      console.log(vm.communityList)
-
-      if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
-        vm.isFirstPage = true;
-        vm.isLastPage = true;
-      } else if (vm.pageNo == 1) {
-        vm.isFirstPage = true;
-        vm.isLastPage = false;
-      } else if (vm.pageNo == vm.pagesNum) {
-        vm.isLastPage = true;
-        vm.isFirstPage = false;
+        if (vm.pageNo == 1 && vm.pageNo == vm.pagesNum) {
+          vm.isFirstPage = true;
+          vm.isLastPage = true;
+        } else if (vm.pageNo == 1) {
+          vm.isFirstPage = true;
+          vm.isLastPage = false;
+        } else if (vm.pageNo == vm.pagesNum) {
+          vm.isLastPage = true;
+          vm.isFirstPage = false;
+        }
+        mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
+      }else{
+        toastr.info(res.message);
       }
-      mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
     })
   }
 
@@ -127,7 +131,6 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
 
   if (items) {
     console.log(items);
-    // vm.model = items;
     vm.isUpdate = true;
     vm.title = '修改小区';
     vm.model.userName = items.account;
@@ -142,17 +145,35 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
       estateTel: items.estateTel,
       operationTel: items.operationTel,
       consumerTel: items.consumerTel,
-      password: '',
+      password: '●●●●●●',
       communityName: items.communityName
     };
     vm.createVillage = updateVillage;
+    vm.passBlur = passBlurUpdate;
+    getArea();
   } else {
     vm.title = '添加小区';
     vm.model.password = '123456';
     vm.createVillage = createVillage;
+    vm.passBlur = passBlurCreate;
+
+    getArea();
   }
 
-  getArea();
+
+
+  vm.passFocus = passFocus;
+  function passFocus(){
+    vm.model.password = '';
+  }
+
+  function passBlurCreate(){
+    vm.model.password = '123456';
+  }
+
+  function passBlurUpdate(){
+    vm.model.password = '●●●●●●';
+  }
 
   vm.cancel = cancel;
   function cancel() {
@@ -162,9 +183,12 @@ function createCtl($rootScope, $scope, villageSrv, $modalInstance, items, toastr
   function getArea() {
     villageSrv.getArea().then(function (res) {
       console.log(res);
-      vm.arrayList = res.data;
-      vm.model.areaPartitionId = vm.arrayList[0].id;
-      console.log(vm.model.areaPartitionId)
+      if(res.success){
+        vm.arrayList = res.data;
+        if(!items){
+          vm.model.areaPartitionId = vm.arrayList[0].id;
+        }
+      }
     })
   }
 

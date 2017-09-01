@@ -33,7 +33,7 @@
       <span ng-if="hDetailVm.model.effectiveType == 0" class="value">永久</span>
       <span ng-if="hDetailVm.model.effectiveType != 0 &&
                    hDetailVm.model.effectiveType != null" class="value">
-        {{hDetailVm.model.effectiveStartTime}} 至 {{hDetailVm.model.effectiveEndTime}}
+        {{hDetailVm.model.effectiveStartTime | date: 'yyyy-MM-dd'}} 至 {{hDetailVm.model.effectiveEndTime | date: 'yyyy-MM-dd'}}
       </span>
       <span ng-if="hDetailVm.model.effectiveType == null" class="value">无门禁</span>
     </div>

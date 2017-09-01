@@ -180,6 +180,8 @@
              class="w-xl p-h-xs m-r-xs w-form-control"
              ng-model="createVm.model.password"
              name="password"
+             ng-focus="createVm.passFocus()"
+             ng-blur="createVm.passBlur()"
              ng-pattern="/^\w{2,17}$/"
              required
       >

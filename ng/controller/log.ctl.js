@@ -11,7 +11,7 @@ function logCtl(){
   var vm = this;
 }
 
-function openCtl($modal, $location,$state, logSrv, mainSrv){
+function openCtl($modal, $location,$state, logSrv, mainSrv, $rootScope, toastr){
   var vm = this;
   vm.openModal = openModal;
   vm.unlockList = [];
@@ -173,6 +173,11 @@ function openCtl($modal, $location,$state, logSrv, mainSrv){
           vm.isFirstPage = false;
         }
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
+      }else{
+        toastr.info(res.message);
       }
 
 
@@ -180,7 +185,7 @@ function openCtl($modal, $location,$state, logSrv, mainSrv){
   }
 }
 
-function removeCtl($location,$state, logSrv,mainSrv){
+function removeCtl($location,$state, logSrv,mainSrv, $rootScope, toastr){
   var vm = this;
   vm.pageNo = parseInt($location.search().id);
   vm.removeList = [];
@@ -265,6 +270,11 @@ function removeCtl($location,$state, logSrv,mainSrv){
           vm.isFirstPage = false;
         }
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
+      }else{
+        toastr.info(res.message);
       }
 
     })

@@ -4,7 +4,7 @@
 angular.module('homeMdl', [])
   .controller('homeCtl', homeCtl);
 
-function homeCtl(homeSrv){
+function homeCtl(homeSrv,$rootScope, toastr){
   var vm = this;
 
   vm.getAreaDevice = getAreaDevice;
@@ -24,9 +24,13 @@ function homeCtl(homeSrv){
         console.log(parseFloat(res.data.onlineRatio));
         vm.areaDeviceList = res.data;
         vm.areaDeviceList.onlineRatio = parseFloat(res.data.onlineRatio)
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
       }else{
         alert('获取失败')
       }
+
     })
   }
 

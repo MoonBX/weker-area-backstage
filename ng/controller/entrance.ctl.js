@@ -12,7 +12,7 @@ function entranceCtl(){
   var vm = this;
 }
 
-function householdCtl($modal,$location,$state, doorSrv,mainSrv){
+function householdCtl($modal,$location,$state, doorSrv,mainSrv, $rootScope, toastr){
   var vm = this;
   vm.openModal = openModal;
   vm.pageNo = parseInt($location.search().id);
@@ -103,6 +103,11 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
   }
 
   function getSearch(obj, cb) {
+    if(obj.status == 0||obj.status == 1){
+      console.log('a');
+      obj.effectiveType = null;
+    }
+    console.log(obj);
     mainSrv.getSearch(obj, cb);
     $location.search('id', 1);
   }
@@ -169,12 +174,17 @@ function householdCtl($modal,$location,$state, doorSrv,mainSrv){
           vm.isFirstPage = false;
         }
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
+      }else{
+        toarst.info(res.message);
       }
     })
   }
 }
 
-function commonCtl($modal,$location,$state, doorSrv,mainSrv){
+function commonCtl($modal,$location,$state, doorSrv,mainSrv, $rootScope, toastr){
   var vm = this;
   vm.openModal = openModal;
   vm.pageNo = parseInt($location.search().id);
@@ -303,6 +313,11 @@ function commonCtl($modal,$location,$state, doorSrv,mainSrv){
           vm.isFirstPage = false;
         }
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
+      }else{
+        toastr.info(res.message);
       }
     })
   }

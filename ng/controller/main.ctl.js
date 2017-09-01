@@ -7,7 +7,7 @@ angular.module('mainMdl', [])
 function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoadingBar, mainSrv, toastr){
   var mainVm = this;
 
-  console.log(localStorage);
+  console.log(localStorage.wekerAreaToken);
 
   mainVm.asideArr = [
     {title: '首页', icon: 'fa-home', sref: 'home', path: 'index', isActive: true},
@@ -55,8 +55,16 @@ function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoa
     if(path == 'login'){
       mainVm.isLogin = false;
     }else{
-      mainVm.isLogin = true;
+      if(!localStorage.wekerAreaToken){
+        mainVm.isLogin = false;
+        //$location.path('login');
+        window.location.href = '/#/login';
+        toastr.info('请先登录')
+      }else{
+        mainVm.isLogin = true;
+      }
     }
+
     for(var i=0;i<arr.length;i++){
       mainVm.asideArr[i].isActive = false;
       if(path === arr[i].path){
@@ -170,11 +178,17 @@ function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoa
     $timeout(function(){
       cfpLoadingBar.complete();
     }, 1000)
+
   });
 
   //$locationChangeSuccess: 监听路由变化事件
   $scope.$on("$locationChangeSuccess", function () {
     checkUrl();
+  });
+
+  $rootScope.$on("tokenExpired", function(){
+    window.location.href = '/#/login';
+
   });
 
   function openModal(template, controller){

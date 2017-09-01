@@ -6,7 +6,7 @@ angular.module('deviceMdl', [])
   .controller('alertCtl', alertCtl)
   .controller('dDetailCtl', dDetailCtl);
 
-function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $rootScope) {
+function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $rootScope, toastr) {
   var vm = this;
   vm.openModal = openModal;
   vm.pageNo = parseInt($location.search().id);
@@ -172,6 +172,11 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
           vm.isFirstPage = false;
         }
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
+      }else if(res.code == "401"){
+        $rootScope.$broadcast('tokenExpired');
+        toastr.info('登录信息失效, 请重新登录');
+      }else{
+        toastr.info(res.message);
       }
     })
   }
