@@ -156,6 +156,7 @@
              class="w-xl p-h-xs m-r-xs w-form-control"
              ng-model="createVm.model.userName"
              name="userName"
+             ng-maxlength="11"
              required
       >
     </div>
@@ -163,6 +164,9 @@
          ng-if="createVillageForm.userName.$dirty||createVillageForm.submitted">
       <span class="form-error" ng-show="createVillageForm.userName.$error.required">
         小区账号不能为空
+      </span>
+      <span class="form-error" ng-show="createVillageForm.userName.$error.maxlength">
+        小区账号长度不能超过11位
       </span>
     </div>
   </div>
@@ -186,7 +190,7 @@
         小区密码不能为空
       </span>
       <span class="form-error" ng-show="createVillageForm.password.$error.pattern">
-        小区密码长度在3~18之间，只能包含字母、数字和下划线
+        小区密码长度在3~18位之间，只能包含字母、数字和下划线
       </span>
     </div>
   </div>
