@@ -1,3 +1,125 @@
+/*
+   abn-tree.css
+
+   style for the angular-bootstrap-nav-tree
+   for both Bootstrap 2 and Bootstrap 3
+
+*/
+
+
+
+/* ------------------------------------------
+AngularJS Animations...
+
+The first selector is for Angular 1.1.5
+The second selector is for Angular 1.2.0
+
+*/
+.abn-tree-animate-enter,
+li.abn-tree-row.ng-enter {
+  transition: 200ms linear all;
+  position: relative;
+  display: block;
+  opacity: 0;
+  max-height:0px;
+}
+.abn-tree-animate-enter.abn-tree-animate-enter-active,
+li.abn-tree-row.ng-enter-active{
+  opacity: 1;
+  max-height:30px;
+}
+
+.abn-tree-animate-leave,
+li.abn-tree-row.ng-leave {
+  transition: 200ms linear all;
+  position: relative;
+  display: block;
+  height:30px;
+  max-height: 30px;
+  opacity: 1;
+}
+.abn-tree-animate-leave.abn-tree-animate-leave-active,
+li.abn-tree-row.ng-leave-active {
+  height: 0px;
+  max-height:0px;
+  opacity: 0;
+}
+
+
+/*
+------------------------------------------
+Angular 1.2.0 Animation
+*/
+
+
+.abn-tree-animate.ng-enter{
+
+}
+.abn-tree-animate.ng-enter{
+
+}
+
+
+
+
+/*
+   end animation stuff
+-----------------------------------------
+   begin normal css stuff
+*/
+ul.abn-tree li.abn-tree-row {
+  padding: 0px;
+  margin:0px;
+}
+
+ul.abn-tree li.abn-tree-row a {
+  padding: 3px 10px;
+}
+
+ul.abn-tree i.indented {
+  padding: 2px;
+}
+
+.abn-tree {
+  cursor: pointer;
+}
+ul.nav.abn-tree .level-1 .indented {
+  position: relative;
+  left: 0px;
+}
+ul.nav.abn-tree .level-2 .indented {
+  position: relative;
+  left: 20px;
+}
+ul.nav.abn-tree .level-3 .indented {
+  position: relative;
+  left: 40px;
+}
+ul.nav.abn-tree .level-4 .indented {
+  position: relative;
+  left: 60px;
+}
+ul.nav.abn-tree .level-5 .indented {
+  position: relative;
+  left: 80px;
+}
+ul.nav.abn-tree .level-6 .indented {
+  position: relative;
+  left: 100px;
+}
+ul.nav.nav-list.abn-tree .level-7 .indented {
+  position: relative;
+  left: 120px;
+}
+ul.nav.nav-list.abn-tree .level-8 .indented {
+  position: relative;
+  left: 140px;
+}
+ul.nav.nav-list.abn-tree .level-9 .indented {
+  position: relative;
+  left: 160px;
+}
+
 body{
   font-family:"PT Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
   /*font-family: "Microsoft YaHei","PT Sans","Helvetica Neue",Helvetica,Arial,sans-serif;*/
@@ -567,14 +689,15 @@ nav ul.nav li a {
 }
 .h-detail-form .other-info .value{
   color: #666666;
-  margin-right: 55px;
+  width: 140px;
+  display: inline-block
 }
 .c-detail-form{
   padding: 20px;
 }
 .c-detail-form .left{
   padding-right: 16px;
-  width: 120px;
+  width: 100px;
   float: left;
 }
 .c-detail-form .right{
@@ -598,8 +721,7 @@ nav ul.nav li a {
 }
 .c-detail-form .right ul.list li span.title{
   display: inline-block;
-  width: 42px;
-  text-align: right;
+  width: 60px;
   margin-right: 10px;
 }
 

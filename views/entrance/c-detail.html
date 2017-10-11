@@ -9,32 +9,21 @@
 <form class="w-content-main c-detail-form clearfix"
       name="commonDetailForm"
       novalidate>
-  <div class="wrap-box clearfix">
+  <div class="wrap-box m-b-md clearfix" ng-repeat="item in cDetailVm.detailList.partitions">
     <div class="left">
-      梦想小镇天使村
+      {{item.name}}
     </div>
     <div class="right">
       <ul class="list">
         <li>
-          <span class="title">围墙机</span>
-          <span>南大门、北大门、西大门</span>
+          <span class="title">围墙机:</span>
+          <span class="m-r-sm" ng-repeat="item_f in item.fenceLocations">{{item_f.location}}</span>
         </li>
-        <li>
-          <span class="title">1幢</span>
-          <span>1单元、2单元</span>
-        </li>
-        <li>
-          <span class="title">2幢</span>
-          <span>1单元</span>
-        </li>
-        <li>
-          <span class="title">3幢</span>
-          <span>1单元、2单元</span>
+        <li ng-repeat="item_b in item.blockDevices">
+          <span class="title">{{item_b.name}}:</span>
+          <span class="m-r-sm" ng-repeat="item_u in item.blockDevices[$index].units">{{item_u.name}}</span>
         </li>
       </ul>
     </div>
   </div>
 </form>
-<style>
-
-</style>

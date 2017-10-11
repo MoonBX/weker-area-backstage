@@ -24,6 +24,7 @@ function openCtl($modal, $location,$state, logSrv, mainSrv, $rootScope, toastr){
       templateUrl: './views/log/' + template + '.html',
       controller: controller,
       size: 'sm',
+      backdrop: 'static',
       resolve: {
         items: function () {
           if (item) {
@@ -41,7 +42,6 @@ function openCtl($modal, $location,$state, logSrv, mainSrv, $rootScope, toastr){
     } else {
       var obj = JSON.parse(sessionStorage.filterList);
       vm.selectList = obj;
-      console.log(vm.selectList);
       getPartitions(obj.communityId);
       getBlocks(obj.partitionId);
       getUnits(obj.blockId);
@@ -54,40 +54,32 @@ function openCtl($modal, $location,$state, logSrv, mainSrv, $rootScope, toastr){
   getCommunity();
   function getCommunity(){
     mainSrv.getCommunity().then(function(res){
-      console.log(res);
       vm.block.communities = res.data;
     })
   }
   vm.getPartitions = getPartitions;
   function getPartitions(communityId){
-    console.log(communityId);
     mainSrv.getPartitions(communityId).then(function(res){
-      console.log(res);
       vm.block.partitions = res.data;
     })
   }
 
   vm.getBlocks = getBlocks;
   function getBlocks(partitionId){
-    console.log(partitionId);
     mainSrv.getBlocks(partitionId).then(function(res){
-      console.log(res);
       vm.block.blocks = res.data;
     })
   }
 
   vm.getUnits = getUnits;
   function getUnits(blockId){
-    console.log(blockId);
     mainSrv.getUnits(blockId).then(function(res){
-      console.log(res);
       vm.block.units = res.data;
     })
   }
   vm.getRooms = getRooms;
   function getRooms(unitId){
     mainSrv.getRoomNo(unitId).then(function(res){
-      console.log(res);
       vm.block.rooms = res.data;
     })
   }
@@ -97,12 +89,14 @@ function openCtl($modal, $location,$state, logSrv, mainSrv, $rootScope, toastr){
   function clearSession() {
     sessionStorage.removeItem('filterList');
     vm.selectList = {};
-    getUnlock(1);
-    $location.search('id', 1);
+    vm.block.partitions = {};
+    vm.block.blocks = {};
+    vm.block.units = {};
+    //getUnlock(1);
+    //$location.search('id', 1);
   }
 
   function getSearch(obj, cb) {
-    console.log(obj);
     if(obj.st == obj.et){
       obj.et = obj.et+24*60*60*1000-1
     }
@@ -124,8 +118,13 @@ function openCtl($modal, $location,$state, logSrv, mainSrv, $rootScope, toastr){
 
   vm.getUnlock = getUnlock;
   function getUnlock(pageNo, obj){
+    if(obj){
+      obj.areaId = localStorage.wekerAreaId;
+    }else{
+      obj = {areaId: localStorage.wekerAreaId};
+    }
     logSrv.getUnlock(pageNo, 9, obj).then(function(res){
-      console.log(res);
+      console.log('获取开门日志列表', res);
 
       vm.pages = [];
       if(res.success) {
@@ -175,12 +174,8 @@ function openCtl($modal, $location,$state, logSrv, mainSrv, $rootScope, toastr){
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
       }else if(res.code == "401"){
         $rootScope.$broadcast('tokenExpired');
-        toastr.info('登录信息失效, 请重新登录');
-      }else{
-        toastr.info(res.message);
+        //toastr.info('登录信息失效, 请重新登录');
       }
-
-
     })
   }
 }
@@ -210,7 +205,6 @@ function removeCtl($location,$state, logSrv,mainSrv, $rootScope, toastr){
     } else {
       var obj = JSON.parse(sessionStorage.filterList);
       vm.selectList = obj;
-      console.log(vm.selectList);
       getAlarm(vm.pageNo, vm.selectList);
       $location.search('id', vm.pageNo);
     }
@@ -221,23 +215,30 @@ function removeCtl($location,$state, logSrv,mainSrv, $rootScope, toastr){
   function clearSession() {
     sessionStorage.removeItem('filterList');
     vm.selectList = {};
-    getAlarm(1);
-    $location.search('id', 1);
+    vm.block.partitions = {};
+    vm.block.blocks = {};
+    vm.block.units = {};
+    //getAlarm(1);
+    //$location.search('id', 1);
   }
 
   function getSearch(obj, cb) {
     if(obj.startTime == obj.endTime){
       obj.endTime = obj.endTime+24*60*60*1000-1
     }
-    console.log(obj);
     mainSrv.getSearch(obj, cb);
     $location.search('id', 1);
   }
 
   vm.getAlarm = getAlarm;
   function getAlarm(pageNo, obj){
+    if(obj){
+      obj.areaId = localStorage.wekerAreaId;
+    }else{
+      obj = {areaId: localStorage.wekerAreaId};
+    }
     logSrv.getAlarm(pageNo, 9, obj).then(function(res){
-      console.log(res);
+      console.log('获取防拆日志列表', res);
 
       vm.pages = [];
 
@@ -272,9 +273,7 @@ function removeCtl($location,$state, logSrv,mainSrv, $rootScope, toastr){
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
       }else if(res.code == "401"){
         $rootScope.$broadcast('tokenExpired');
-        toastr.info('登录信息失效, 请重新登录');
-      }else{
-        toastr.info(res.message);
+        //toastr.info('登录信息失效, 请重新登录');
       }
 
     })
@@ -288,7 +287,5 @@ function oDetailCtl(items, $modalInstance){
   function cancel() {
     $modalInstance.dismiss('cancel');
   }
-
-  console.log(items);
   vm.model = items;
 }

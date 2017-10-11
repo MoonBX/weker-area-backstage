@@ -37,6 +37,7 @@ angular.module('app', [
 
 angular.module('app')
   .run(initConfig)
+  .animation('.fad',fad)
   .config(config);
 
 function initConfig(uiSelect2Config){
@@ -51,6 +52,28 @@ function config(toastrConfig){
       info: 'toast-dark',
       success: 'toast-success',
       warning: 'toast-warning'
-    }
+    },
+    timeOut: 500
   });
+}
+
+function fad() {
+  return {
+    enter: function(element, done) {
+      element.css({
+        opacity: 0
+      });
+      element.animate({
+        opacity: 1
+      }, 0, done);
+    },
+    leave: function (element, done) {
+      element.css({
+        opacity: 1
+      });
+      element.animate({
+        opacity: 0
+      }, 1, done);
+    }
+  };
 }

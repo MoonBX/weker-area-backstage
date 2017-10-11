@@ -10,7 +10,6 @@ function villageSrv($q, $http, httpSrv){
 
   var villageList = {
     getCommunity: function(pageNo, limit, obj){
-      console.log(localStorage.wekerAreaToken);
       var defer = $q.defer();
       $http({
         method: 'GET',
@@ -22,11 +21,9 @@ function villageSrv($q, $http, httpSrv){
         }
       })
         .success(function(data){
-          console.log(data);
           defer.resolve(data);
         })
         .error(function(error){
-          console.log(error);
           defer.reject(error);
         });
       return defer.promise;
@@ -499,7 +496,6 @@ function villageSrv($q, $http, httpSrv){
       return defer.promise;
     },
     createDeviceTask: function(obj){
-      console.log(obj);
       var defer = $q.defer();
       $http({
         method: 'POST',

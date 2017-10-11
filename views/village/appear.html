@@ -16,38 +16,32 @@
         派发人员:
       </label>
     </div>
-    <div class="middle flex-column m-r-lg">
+    <div class="middle flex-column m-r-lg m-b-lg">
       <div class="machine-item m-b-sm"
            ng-repeat="item in appearVm.taskMemberExistList">
         <input type="text" ng-model="item.userName"
+               disabled
                class="w-form-control w-md m-r-sm pull-left">
-        <label class="w-label-control m-r-lg pull-left">
-          <a href="javascript:;"
+        <!--<label class="w-label-control m-r-lg pull-left">-->
+          <button class="btn btn-danger btn-sm"
              ng-click="appearVm.deleteExistTaskMember(item.workTaskId, $index)">
             删除
-          </a>
-        </label>
+          </button>
+        <!--</label>-->
       </div>
       <div class="machine-item">
         <input type="text" ng-model="appearVm.taskMemberName"
                class="w-form-control w-md m-r-sm pull-left">
+        <button class="btn btn-primary btn-sm"
+                ng-disabled="appearVm.disabled_add"
+                ng-click="appearVm.addTaskTempMember()">
+          确定增加
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="wrap-box clearfix flex-row m-b-md">
-    <label class="w-label-control m-r-md"
-           style="width: 60px;">
-    </label>
-    <label class="w-label-control m-r-lg">
-      <a href="javascript:;"
-         ng-click="appearVm.addTaskTempMember()">
-        增加派发人员
-      </a>
-    </label>
-  </div>
-
-  <div class="wrap-box clearfix flex-row m-b-md">
+  <div class="wrap-box clearfix flex-row m-b-sm">
     <div>
       <label class="w-label-control m-r-md"
              style="width: 60px;">
@@ -78,113 +72,105 @@
     <div>
       <label class="w-label-control m-r-md" style="width: 60px;">围墙机:</label>
     </div>
-    <div class="middle flex-column m-r-lg">
+    <div class="middle flex-column m-r-lg m-b-sm">
       <div class="machine-item m-b-sm"
            ng-repeat="item in appearVm.wallMachineExistList">
         <input type="text"
                class="w-form-control w-md m-r-sm pull-left"
                disabled
                ng-model="item.location">
-        <label class="w-label-control m-r-lg pull-left">
-          <a href="javascript:;"
-             ng-click="appearVm.deleteExistWallMachine(item.id, $index)">
-            删除
-          </a>
-        </label>
+        <button class="btn btn-danger btn-sm"
+                ng-click="appearVm.deleteExistWallMachine(item.id, $index)">
+          删除
+        </button>
       </div>
       <div class="machine-item">
         <input type="text"
                class="w-form-control w-md m-r-sm pull-left"
                ng-change=""
                ng-model="appearVm.wallMachineName">
+        <button class="btn btn-primary btn-sm"
+                ng-disabled="appearVm.disabled_add_wall"
+                ng-click="appearVm.addWallMachine()">
+          确定增加
+        </button>
       </div>
     </div>
   </div>
-  <div class="wrap-box clearfix flex-row m-b-xs"
-       ng-if="appearVm.machineToggle">
-    <label class="w-label-control m-r-md"
-           style="width: 60px;">
-    </label>
-    <label class="w-label-control m-r-lg">
-      <a href="javascript:;"
-         ng-click="appearVm.addWallMachine()">
-        增加围墙机
-      </a>
-    </label>
-  </div>
 
-  <div class="wrap-box clearfix flex-row m-b-lg"
+  <div class="wrap-box clearfix m-b-lg"
        ng-if="appearVm.machineToggle">
-    <label class="w-label-control m-r-md" style="width: 60px;">
+    <label class="w-label-control m-r-md pull-left" style="width: 60px;">
       单元机:
     </label>
 
-    <div style="width: 560px;max-height: 500px;overflow: scroll">
-
-      <table class="table table-striped wk-table m-r-sm pull-left unitTable"
-             style="width: 400px;" id="unitTable">
-        <thead>
-        <th>
-          <input type="checkbox" ng-click="appearVm.selectAll()" ng-checked="appearVm.checkAllToggle">
-        </th>
-        <th>单元信息</th>
-        <th>1F</th>
-        <th>2F</th>
-        <th>3F</th>
-        </thead>
-        <tr ng-repeat="item in appearVm.unitListGroup">
-          <td>
-            <input type="checkbox" ng-checked="appearVm.checkAllToggle"
-                   ng-click="appearVm.selectCurrent(item)">
-          </td>
-          <td>{{item.unitName}}</td>
-          <td>{{item.data[0].location}}</td>
-          <td ng-if="item.data[1].location == '2F' ||
+    <div style="width: 410px;max-height: 500px;overflow-y: scroll" class="m-r-sm pull-left">
+        <table class="table table-striped wk-table m-r-sm pull-left unitTable"
+               style="width: 400px;" id="unitTable">
+          <thead>
+          <th>
+            <input type="checkbox" ng-click="appearVm.selectAll()" ng-checked="appearVm.checkAllToggle">
+          </th>
+          <th>单元信息</th>
+          <th>1F</th>
+          <th>B1F</th>
+          <th>B2F</th>
+          </thead>
+          <tr ng-repeat="item in appearVm.unitListGroup">
+            <td>
+              <input type="checkbox" ng-checked="appearVm.checkAllToggle"
+                     ng-click="appearVm.selectCurrent(item)">
+            </td>
+            <td>{{item.unitName}}</td>
+            <td>{{item.data[0].location}}</td>
+            <td ng-if="item.data[1].location == '2F' ||
                      item.data[2].location == '2F'">
-            2F
-          </td>
-          <td ng-if="item.data[1].location != '2F'&&
+              B1F
+            </td>
+            <td ng-if="item.data[1].location != '2F'&&
                      item.data[2].location != '2F'">
-            X
-          </td>
-          <td ng-if="item.data[1].location == '3F' ||
+              X
+            </td>
+            <td ng-if="item.data[1].location == '3F' ||
                      item.data[2].location == '3F'">
-            3F
-          </td>
-          <td ng-if="item.data[1].location != '3F' &&
+              B2F
+            </td>
+            <td ng-if="item.data[1].location != '3F' &&
                      item.data[2].location != '3F'">
-            X
-          </td>
-        </tr>
-      </table>
-
-      <div>
-        <label class="w-label-control m-r-sm">
-          <button class="btn btn-primary btn-sm"
-                  ng-click="appearVm.try_adding_unit('2F')">
-            增加2F
-          </button>
-        </label>
-        <label class="w-label-control m-r-sm">
-          <button class="btn btn-primary btn-sm"
-                  ng-click="appearVm.try_adding_unit('3F')">
-            增加3F
-          </button>
-        </label>
-        <label class="w-label-control m-r-sm">
-          <button class="btn btn-primary btn-sm"
-                  ng-click="appearVm.try_delete_unit('2F')">
-            删除2F
-          </button>
-        </label>
-        <label class="w-label-control m-r-sm">
-          <button class="btn btn-primary btn-sm"
-                  ng-click="appearVm.try_delete_unit('3F')">
-            删除3F
-          </button>
-        </label>
-      </div>
-
+              X
+            </td>
+          </tr>
+        </table>
+    </div>
+    <div style="float: left;width: 100px;">
+      <label class="w-label-control m-r-sm">
+        <button class="btn btn-primary btn-sm"
+                ng-disabled="appearVm.disabled_add_unit"
+                ng-click="appearVm.try_adding_unit('2F')">
+          增加B1F
+        </button>
+      </label>
+      <label class="w-label-control m-r-sm">
+        <button class="btn btn-primary btn-sm"
+                ng-disabled="appearVm.disabled_add_unit"
+                ng-click="appearVm.try_adding_unit('3F')">
+          增加B2F
+        </button>
+      </label>
+      <label class="w-label-control m-r-sm">
+        <button class="btn btn-danger btn-sm"
+                ng-disabled="appearVm.disabled_delete_unit"
+                ng-click="appearVm.try_delete_unit('2F')">
+          删除B1F
+        </button>
+      </label>
+      <label class="w-label-control m-r-sm">
+        <button class="btn btn-danger btn-sm"
+                ng-disabled="appearVm.disabled_delete_unit"
+                ng-click="appearVm.try_delete_unit('3F')">
+          删除B2F
+        </button>
+      </label>
     </div>
 
   </div>

@@ -6523,7 +6523,7 @@ Copyright (c) 2014 Daniel Eden
 .btn-primary[disabled]:active,
 .btn-primary.disabled.active,
 .btn-primary[disabled].active {
-  background-color: #4cb2db;
+  /*background-color: #4cb2db;*/
   border-color: #357ebd
 }
 .btn-primary .badge {

@@ -19,6 +19,7 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
       templateUrl: './views/device/' + template + '.html',
       controller: controller,
       size: 'sm',
+      backdrop: 'static',
       resolve: {
         items: function () {
           if (item) {
@@ -36,11 +37,9 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
     } else {
       var obj = JSON.parse(sessionStorage.filterList);
       vm.selectList = obj;
-      console.log(vm.selectList);
       getPartitions(obj.communityId);
       getBlocks(obj.partitionId);
       getUnits(obj.blockId);
-      getRooms(obj.unitId);
       getDevice(vm.pageNo, vm.selectList);
       $location.search('id', vm.pageNo);
     }
@@ -49,34 +48,27 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
   getCommunity();
   function getCommunity() {
     mainSrv.getCommunity().then(function (res) {
-      console.log(res);
       vm.block.communities = res.data;
     })
   }
 
   vm.getPartitions = getPartitions;
   function getPartitions(communityId) {
-    console.log(communityId);
     mainSrv.getPartitions(communityId).then(function (res) {
-      console.log(res);
       vm.block.partitions = res.data;
     })
   }
 
   vm.getBlocks = getBlocks;
   function getBlocks(partitionId) {
-    console.log(partitionId);
     mainSrv.getBlocks(partitionId).then(function (res) {
-      console.log(res);
       vm.block.blocks = res.data;
     })
   }
 
   vm.getUnits = getUnits;
   function getUnits(blockId) {
-    console.log(blockId);
     mainSrv.getUnits(blockId).then(function (res) {
-      console.log(res);
       vm.block.units = res.data;
     })
   }
@@ -85,7 +77,6 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
 
   function getArea() {
     villageSrv.getArea().then(function (res) {
-      console.log(res);
       vm.arrayList = res.data;
     })
   }
@@ -95,12 +86,14 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
   function clearSession() {
     sessionStorage.removeItem('filterList');
     vm.selectList = {};
-    getDevice(1);
-    $location.search('id', 1);
+    vm.block.partitions = {};
+    vm.block.blocks = {};
+    vm.block.units = {};
+    //getDevice(1);
+    //$location.search('id', 1);
   }
 
   function getSearch(obj, cb) {
-    console.log(obj)
     mainSrv.getSearch(obj, cb);
     $location.search('id', 1);
   }
@@ -119,9 +112,13 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
 
   vm.getDevice = getDevice;
   function getDevice(pageNo, obj) {
+    if(obj){
+      obj.areaId = localStorage.wekerAreaId;
+    }else{
+      obj = {areaId: localStorage.wekerAreaId};
+    }
     deviceSrv.getDevice(pageNo, 9, obj).then(function (res) {
-      console.log(res);
-
+      console.log('获取设备列表:', res);
       vm.pages = [];
       if (res.success) {
         for (var i = 0; i < res.data.list.length; i++) {
@@ -174,9 +171,7 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
         mainSrv.pagination(vm.pagesNum, pagesSplit, vm.pages, vm.pageNo);
       }else if(res.code == "401"){
         $rootScope.$broadcast('tokenExpired');
-        toastr.info('登录信息失效, 请重新登录');
-      }else{
-        toastr.info(res.message);
+        //toastr.info('登录信息失效, 请重新登录');
       }
     })
   }
@@ -189,7 +184,6 @@ function deviceCtl($modal, $location, $state, deviceSrv, mainSrv, villageSrv, $r
 function alertCtl(items, $modalInstance, $timeout, toastr, $rootScope, deviceSrv) {
   var vm = this;
   vm.sn = items;
-  console.log(items);
 
   vm.unbindDevice = unbindDevice;
   function unbindDevice() {
@@ -201,7 +195,7 @@ function alertCtl(items, $modalInstance, $timeout, toastr, $rootScope, deviceSrv
           cancel()
         }, 500)
       } else {
-        toastr.info(res.message);
+        toarst.info(res.message);
       }
     })
   }
@@ -215,7 +209,6 @@ function alertCtl(items, $modalInstance, $timeout, toastr, $rootScope, deviceSrv
 
 function dDetailCtl(items, $modalInstance) {
   var vm = this;
-  console.log(items);
   vm.model = items;
 
   vm.cancel = cancel;

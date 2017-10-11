@@ -8,7 +8,7 @@
     </div>
 
     <div class="item m-b-sm">
-      <label class="w-label-control">住户姓名:</label>
+      <label class="w-label-control">人员姓名:</label>
       <input type="text"
              class="form-control w-sm pull-left m-r-md"
              ng-model="commonVm.selectList.userName">
@@ -84,7 +84,7 @@
       </td>
       <td>
         <a href="javascript:;"
-           ng-click="commonVm.openModal('c-detail','cDetailCtl as cDetailVm')">
+           ng-click="commonVm.openModal('c-detail','cDetailCtl as cDetailVm', item)">
           详情
         </a>
       </td>

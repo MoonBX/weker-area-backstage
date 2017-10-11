@@ -7,8 +7,6 @@ angular.module('mainMdl', [])
 function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoadingBar, mainSrv, toastr){
   var mainVm = this;
 
-  console.log(localStorage.wekerAreaToken);
-
   mainVm.asideArr = [
     {title: '首页', icon: 'fa-home', sref: 'home', path: 'index', isActive: true},
     {title: '小区管理', icon: 'fa-building', sref: 'village', pageNo: 1, path: 'village', isActive: false},
@@ -59,7 +57,7 @@ function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoa
         mainVm.isLogin = false;
         //$location.path('login');
         window.location.href = '/#/login';
-        toastr.info('请先登录')
+        //toastr.info('请先登录')
       }else{
         mainVm.isLogin = true;
       }
@@ -84,14 +82,12 @@ function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoa
     if(localStorage.wekerAreaToken){
       localStorage.removeItem('wekerAreaToken');
     }
-    console.log(obj);
     mainSrv.login(obj).then(function(data){
-      console.log(data);
       if(data.success){
-        console.log()
         cfpLoadingBar.start();
         localStorage.wekerAreaToken = data.data.token;
         localStorage.wekerAreaname = data.data.areaName;
+        localStorage.wekerAreaId = data.data.areaId;
         mainVm.wekerUsername = localStorage.wekerAreaname;
         $timeout(function(){
           window.location.href = '/#/index';
@@ -102,8 +98,6 @@ function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoa
         mainVm.isLoginError = true;
       }
 
-    }, function(error){
-      console.log(error)
     })
   }
 
@@ -111,9 +105,8 @@ function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoa
     mainSrv.logout().then(function(data){
       localStorage.removeItem('wekerAreaToken');
       localStorage.removeItem('wekerUsername');
+      localStorage.removeItem('wekerAreaId');
       window.location.href = '/#/login';
-    }, function(error){
-      console.log(error)
     })
   }
 
@@ -129,8 +122,6 @@ function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoa
         }else{
           mainVm.pwdIsError = true;
         }
-      }, function(error){
-        console.log(error)
       })
     }else{
       $scope.updateForm.submitted = true;
@@ -140,9 +131,14 @@ function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoa
   function switchNavItem(index){
     mainVm.currentNav = mainVm.asideArr[index];
     for(var i=0;i<mainVm.asideArr.length;i++){
-      mainVm.asideArr[i].isActive = false;
-      if(index == i)
-        mainVm.currentNav.isActive = true;
+      if(index == i){
+        mainVm.currentNav.isActive = !mainVm.currentNav.isActive;
+      }else{
+        mainVm.asideArr[i].isActive = false;
+      }
+    }
+    if(sessionStorage.filterList){
+      sessionStorage.removeItem('filterList');
     }
     if(!mainVm.currentNav.item){
       cfpLoadingBar.start();
@@ -188,7 +184,7 @@ function mainCtl($scope, $rootScope, $location, $state, $timeout, $modal, cfpLoa
 
   $rootScope.$on("tokenExpired", function(){
     window.location.href = '/#/login';
-
+    //toastr.info('登录信息失效, 请重新登录');
   });
 
   function openModal(template, controller){

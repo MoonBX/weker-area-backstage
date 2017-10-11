@@ -19,14 +19,11 @@ function homeCtl(homeSrv,$rootScope, toastr){
 
   function getAreaDevice(){
     homeSrv.getAreaDevice().then(function(res){
-      console.log(res);
       if(res.success){
-        console.log(parseFloat(res.data.onlineRatio));
         vm.areaDeviceList = res.data;
         vm.areaDeviceList.onlineRatio = parseFloat(res.data.onlineRatio)
       }else if(res.code == "401"){
         $rootScope.$broadcast('tokenExpired');
-        toastr.info('登录信息失效, 请重新登录');
       }else{
         alert('获取失败')
       }
@@ -36,7 +33,6 @@ function homeCtl(homeSrv,$rootScope, toastr){
 
   function getAreaPartition(){
     homeSrv.getAreaPartitionDevice().then(function(res){
-      console.log(res);
       if(res.success){
         vm.data = res.data;
         vm.data.onlineRatio_fl = parseFloat(res.data.onlineRatio)
@@ -58,7 +54,6 @@ function homeCtl(homeSrv,$rootScope, toastr){
       }
       arrTemp[index].push(list[i]);
     }
-    console.log(arrTemp);
     return arrTemp;
   }
 }

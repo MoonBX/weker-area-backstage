@@ -18,6 +18,7 @@
              ng-disabled="!roomVm.treeAddToggle"
              style="width: 70%;">
       <button class="btn btn-primary btn-sm"
+              ng-disabled="roomVm.disabled_add"
               ng-click="roomVm.try_adding_a_branch(dataAdd)"
               style="display: inline-block;margin-top: -1px;width: 25%;">
         增加
@@ -65,7 +66,9 @@
   </div>
   <div class="right p-md">
     <div class="row m-b-md">
-      <label class="w-label-control" style="font-weight: 900;">增加方式: &nbsp;&nbsp;&nbsp;批量增加房号</label>
+      <label class="w-label-control" style="font-weight: 900;">
+        增加方式: &nbsp;&nbsp;&nbsp;批量增加房号
+      </label>
     </div>
 
     <div style="position: relative;">
@@ -141,10 +144,11 @@
       </div>
     </div>
 
-    <div class="row m-b-lg text-center" style="position: absolute;bottom: 20px;width: 80%">
+    <div class="row text-center room-button" style="position: relative; width: 100%;margin-top: 180px">
       <button class="btn btn-sm btn-primary p-h-lg m-r-md"
+              ng-disabled="roomVm.disabled_add_roomNo"
               ng-click="roomVm.try_get_some_roomNo(roomVm.list)">
-        提&nbsp;交
+        新&nbsp;增
       </button>
       <button class="btn btn-sm btn-stroke btn-primary p-h-lg"
               ng-click="roomVm.cancel()">

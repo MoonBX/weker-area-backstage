@@ -1,7 +1,7 @@
 <div class="g-table-banner p-v-lg p-h-md b-b">
   <div class="tb-flex">
     <div class="item m-b-sm">
-      <label class="w-label-control">住户房号: </label>
+      <label class="w-label-control">位置信息: </label>
       <my-cascade-four partition-id="openVm.selectList.partitionId"
                        block-id="openVm.selectList.blockId"
                        unit-id="openVm.selectList.unitId"
@@ -94,12 +94,12 @@
     <th width="9%">小区名称</th>
     <th width="9%">单元信息</th>
     <th width="9%">设备类型</th>
-    <th width="7%">姓名</th>
+    <th width="5%">姓名</th>
     <th width="9%">手机号码</th>
     <th width="7%">卡号</th>
-    <th width="9%">呼叫时间</th>
+    <th width="10%">呼叫时间</th>
     <th width="9%">通话时长</th>
-    <th width="9%">开门时间</th>
+    <th width="10%">开门时间</th>
     <th width="9%">日志类型</th>
     <th width="7%">缩略图</th>
     <th width="7%">操作</th>
@@ -111,9 +111,9 @@
       <td>{{item.name || '-'}}</td>
       <td>{{item.mobile || '-'}}</td>
       <td>{{item.cardNo || '-'}}</td>
-      <td>{{item.gmtCreated | date: "yyyy-MM-dd hh:mm:ss" || '-'}}</td>
+      <td>{{item.gmtCreated | date: "yyyy-MM-dd HH:mm:ss" || '-'}}</td>
       <td>{{item.duration || '-'}}</td>
-      <td>{{item.unlockTime | date: "yyyy-MM-dd hh:mm:ss" || '-'}}</td>
+      <td>{{item.unlockTime | date: "yyyy-MM-dd HH:mm:ss" || '-'}}</td>
       <td>{{item.type_cn || '-'}}</td>
       <td>
         <div>
